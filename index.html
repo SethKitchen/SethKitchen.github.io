@@ -59,7 +59,7 @@
 									<textarea name="thumb" id="textbox2" placeholder="Insert thumbnail URL" rows="1"></textarea>
 									<h3>Alternative Text</h3>
 									<textarea name="alternative" id="textbox3" placeholder="Alternative Text." rows="1"></textarea>
-								<!--<h3>Created By<br /></h3>
+								    <!--<h3>Created By<br /></h3>
 									<textarea name="created" id="textbox4" placeholder="# ID:" rows="1"></textarea>
 									<h3>Login Token<br /></h3>
 									<textarea name="login" id="textbox5" placeholder="# ID:" rows="1"></textarea> -->
@@ -76,16 +76,7 @@
         								var text=document.getElementById("textbox3").value;
         								var appData=document.getElementById("textbox6");
         								xmlHttp=new XMLHttpRequest();
-          								xmlHttp.open( "GET", encodeURIComponent("http://api.globalhack4.test.lockerdome.com/app_create_content?
-          									{
-          									\"app_id\":"+id+",
-          									\"app_secret\":\""+secret+"\",
-          									\"name\":\""+name+"\",
-          									\"thumb_url\":\""+thumb+"\",
-          									\"text\":\""+text+"\",
-          									\"app_data\": {
-          										\"data\":\""+appData+"\"
-          									}}"), false );
+          								xmlHttp.open( "GET", encodeURIComponent("http://api.globalhack4.test.lockerdome.com/app_create_content?{\"app_id\":"+id+",\"app_secret\":\""+secret+"\",\"name\":\""+name+"\",\"thumb_url\":\""+thumb+"\",\"text\":\""+text+"\",\"app_data\": {\"data\":\""+appData+"\"}}"), false );
         								document.getElementById("textbox")="here";
              							xmlHttp.send( null );
           								var result decodeURI(xmlHttp.responseText);
