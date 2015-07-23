@@ -1,4 +1,5 @@
 <?php
+
 if(!isset($_POST['submit']))
 {
 	//This page should not be accessed directly. Need to submit the form.
@@ -46,3 +47,5 @@ if($copy)
 	$headers ="From: $email_from \r\n";
 	mail($visitor_email,$email_subject,$email_body,$headers);
 }
+
+?>
