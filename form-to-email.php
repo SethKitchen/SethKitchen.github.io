@@ -5,6 +5,7 @@ if(!isset($_POST['submit']))
 	//This page should not be accessed directly. Need to submit the form.
 	echo "error; you need to submit the form";
 }
+echo "hello";
 $name=$_POST['demo-name'];
 $visitor_email=$_POST['demo-email'];
 $category=$POST['demo-category'];
