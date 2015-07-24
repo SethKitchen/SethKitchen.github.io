@@ -8,7 +8,7 @@ if(!isset($_POST['submit']))
 echo "hello";
 $name=$_POST['demo-name'];
 $visitor_email=$_POST['demo-email'];
-$category=$POST['demo-category'];
+//$category=$POST['demo-category'];
 $message=$_POST['demo-message'];
 $copy=$_POST['demo-copy'];
 $human=$_POST['demo-human'];
@@ -29,7 +29,7 @@ if(empty($name) || empty($visitor_email) || empty($message))
 $email_from='sjkyv5@mst.edu';
 $email_subject="New Form Submission";
 $email_body="You have received a new message from user $name.\n".
-			"Category: $category".
+			"Category: idk".
 			"email address: $visitor_email\n".
 			"Here is the message:\n $message".
 $to = 'sjkyv5@mst.edu';
@@ -41,7 +41,7 @@ if($copy=='Yes')
 	$email_from='sjkyv5@mst.edu';
 	$email_subject="New Form Submission";
 	$email_body="You have received a new message from user $name.\n".
-				"Category: $category".
+				"Category: idk".
 				"email address: $visitor_email\n".
 				"Here is the message:\n $message".
 	$to = 'sjkyv5@mst.edu';
