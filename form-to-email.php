@@ -11,10 +11,10 @@ $visitor_email=$_POST['demo-email'];
 $category=$POST['demo-category'];
 $message=$_POST['demo-message'];
 $copy=$_POST['demo-copy'];
-$notRobot=$_POST['demo-human'];
+$human=$_POST['demo-human'];
 
 //Validate
-if(!$notRobot)
+if($human!='Yes')
 {
 	echo "You must declare you are human!";
 	exit;
@@ -36,7 +36,7 @@ $to = 'sjkyv5@mst.edu';
 $headers ="From: $email_from \r\n";
 mail($to,$email_subject,$email_body,$headers);
 
-if($copy)
+if($copy='Yes')
 {
 	$email_from='sjkyv5@mst.edu';
 	$email_subject="New Form Submission";
