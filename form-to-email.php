@@ -36,7 +36,7 @@ $to = 'sjkyv5@mst.edu';
 $headers ="From: $email_from \r\n";
 mail($to,$email_subject,$email_body,$headers);
 
-if($copy='Yes')
+if($copy=='Yes')
 {
 	$email_from='sjkyv5@mst.edu';
 	$email_subject="New Form Submission";
