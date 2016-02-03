@@ -86,10 +86,9 @@
   											Email: <input type="text" name="email"><br>
   											<p>Type:
   											<select id="slct">
-  												<option value="1">Employee</option>
-  												<option value="2">Employer</option>
+  												<option value="1">Employer</option>
+  												<option value="2">Employee</option>
 											</select></p><br>
-											<div id="container"></div>
   											<input type="submit" value="Submit">
 										</form>
 							</div>
@@ -128,11 +127,11 @@
 
         			$('#slct').change(function () {
             			var value = $(this).val(); var toAppend = '';
-            		if (value == 2) {
-                		toAppend = "Please Describe the workplace you'd like. We will email you back. <input type="text" name="custom">"; $("#container").html(toAppend); return;
-            		}
             		if (value == 1) {
-		                //toAppend = "<input type='textbox' >&nbsp;<input type='textbox' >"; $("#container").html(toAppend); return;
+                		toAppend = "<input type='textbox' >"; $("#container").html(toAppend); return;
+            		}
+            		if (value == 2) {
+		                toAppend = "<input type='textbox' >&nbsp;<input type='textbox' >"; $("#container").html(toAppend); return;
 		            }
 		        });
 
