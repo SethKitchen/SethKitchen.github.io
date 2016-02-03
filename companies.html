@@ -125,15 +125,21 @@
 			<script src="assets/js/main.js"></script>
 			<script type="text/javascript">
     				$(document).ready(function () {
-
-        			$('#slct').change(function () {
-            			var value = $(this).val(); var toAppend = '';
-            		if (value == 2) {
-                		toAppend = "<p>Please Describe the workplace you'd like. We will email you back.</p><br> <input type="text" name="custom">"; $("#container").html(toAppend); return;
-            		}
-            		if (value == 1) {
-		                toAppend = ""; $("#container").html(toAppend); return;
-		            }
+    					try
+    					{
+		        			$('#slct').change(function () {
+		            			var value = $(this).val(); var toAppend = '';
+		            		if (value == 2) {
+		                		toAppend = "<p>Please Describe the workplace you'd like. We will email you back.</p><br> <input type="text" name="custom">"; $("#container").html(toAppend); return;
+		            		}
+		            		if (value == 1) {
+				                toAppend = ""; $("#container").html(toAppend); return;
+				            }
+		        		}
+		        		catch(err)
+		        		{
+		        			alert(err);
+		        		}
 		        });
 
 		    });
