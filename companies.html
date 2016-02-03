@@ -85,10 +85,11 @@
   											Last name: <input type="text" name="lname"><br>
   											Email: <input type="text" name="email"><br>
   											<p>Type:
-  											<select>
-  												<option value="teacher">Employer</option>
-  												<option value="student">Employee</option>
+  											<select id="slct">
+  												<option value="1">Employer</option>
+  												<option value="2">Employee</option>
 											</select></p><br>
+											<div id="container"></div>
   											<input type="submit" value="Submit">
 										</form>
 							</div>
@@ -122,6 +123,20 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+			<script type="text/javascript">
+    				$(document).ready(function () {
 
+        			$('#slct').change(function () {
+            			var value = $(this).val(); var toAppend = '';
+            		if (value == 1) {
+                		toAppend = "<input type='textbox' >"; $("#container").html(toAppend); return;
+            		}
+            		if (value == 2) {
+		                //toAppend = "<input type='textbox' >&nbsp;<input type='textbox' >"; $("#container").html(toAppend); return;
+		            }
+		        });
+
+		    });
+     		</script>
 	</body>
 </html>
