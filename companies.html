@@ -129,10 +129,10 @@
         			$('#slct').change(function () {
             			var value = $(this).val(); var toAppend = '';
             		if (value == 2) {
-                		toAppend = "Please Describe the workplace you'd like. We will email you back. <input type="text" name="custom">"; $("#container").html(toAppend); return;
+                		toAppend = "<p>Please Describe the workplace you'd like. We will email you back.</p><br> <input type="text" name="custom">"; $("#container").html(toAppend); return;
             		}
             		if (value == 1) {
-		                container.innerHTML = ""; return;
+		                toAppend = ""; $("#container").html(toAppend); return;
 		            }
 		        });
 
