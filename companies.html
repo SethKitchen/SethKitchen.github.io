@@ -85,10 +85,13 @@
   											Last name: <input type="text" name="lname"><br>
   											Email: <input type="text" name="email"><br>
   											<p>Type:
-  											<select id="slct">
-  												<option value="1">Employer</option>
-  												<option value="2">Employee</option>
+  											<select id="slct" onchange="showdv(this,'Employee','Employer');">
+  												<option value="Employee">Employee</option>
+												<option value="Employer">Employer</option>
 											</select></p><br>
+											<div id="box" style="display:none;">			
+												<input Type="text" id="boxx"  maxlength="20" >
+											</div>
   											<input type="submit" value="Submit">
 										</form>
 							</div>
@@ -123,19 +126,20 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script type="text/javascript">
-    				$(document).ready(function () {
-
-        			$('#slct').change(function () {
-            			var value = $(this).val(); var toAppend = '';
-            		if (value == 1) {
-                		toAppend = "<input type='textbox' >"; $("#container").html(toAppend); return;
-            		}
-            		if (value == 2) {
-		                //toAppend = "<input type='textbox' >&nbsp;<input type='textbox' >"; $("#container").html(toAppend); return;
-		            }
-		        });
-
-		    });
+				function showdv(obj,id1,id2)
+				{
+					txt=obj.options[obj.selectedIndex].text; 
+					document.getElementById("box").style.display='none';
+				if(txt.match(id1))
+				{
+					document.getElementById("box").style.display='block';
+					document.getElementById("boxx").value=txt
+				}
+				if(txt.match(id2))
+				{
+					document.getElementById("box").style.display='block';
+					document.getElementById("boxx").value=txt
+				}
      		</script>
 	</body>
 </html>
