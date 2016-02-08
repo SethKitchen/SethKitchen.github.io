@@ -7,20 +7,21 @@
 -->
 <html>
 	<head>
-		<title>Math Kitchen</title>
+		<title>VirtuSchools</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
-	<body class="landing">
+	<body>
 		<div id="page-wrapper">
 
 			<!-- Header -->
 				<header id="header">
-					<h1 id="logo"><a href="index.html">Math Kitchen</a></h1>
+					<h1 id="logo"><a href="index.html">VirtuSchools</a></h1>
 					<nav id="nav">
 						<ul>
 							<li><a href="index.html">Home</a></li>
@@ -28,32 +29,125 @@
 								<a href="#">Register</a>
 								<ul>
 									<li>
-										<a href="left-sidebar.html">Schools</a>
+										<a href="education.html">Schools</a>
 										<ul>
-											<li><a href="left-sidebar.html">Teacher</a></li>
-											<li><a href="left-sidebar.html">Student</a></li>
+											<li><a href="education.html">Teacher</a></li>
+											<li><a href="education.html">Student</a></li>
 										</ul>
 									</li>
 									<li>
-										<a href="#">Companies</a>
+										<a href="companies.html">Companies</a>
 										<ul>
-											<li><a href="right-sidebar.html">Employer</a></li>
-											<li><a href="right-sidebar.html">Employee</a></li>
+											<li><a href="companies.html">Employer</a></li>
+											<li><a href="companies.html">Employee</a></li>
 										</ul>
 									</li>
 								</ul>
 							</li>
 							<li><a href="Login.html">Login</a></li>
-							<li><a href="#" class="button special">Sign Up</a></li>
+							<li><a href="Register.html" class="button special">Sign Up</a></li>
 						</ul>
 					</nav>
 				</header>
 
-				<!-- One -->
-				<section id="one" class="spotlight style1 bottom">
-					<input id="clickMe" type="button" value="clickme" onclick="onLoginButtonClicked();" />
-				</section>
+			<!-- Main -->
+				<div id="main" class="wrapper style1">
+					<div class="container">
+						<header class="major">
+							<h2>Login</h2>
+							<p>Please login with the username and password you used when registering to the site.</p>
+						</header>
+						<div class="row 150%">
+							<div class="4u 12u$(medium)">
+
+								<!-- Sidebar -->
+									<section id="sidebar">
+										<section>
+											<h3>Your account</h3>
+											<p>After signing in, you'll be able to track your progress, contact your group leader, and chat with peers.</p>
+										</section>
+									</section>
+
+							</div>
+							<div class="8u$ 12u$(medium) important(medium)">
+
+								<!-- Content -->
+									<section id="content">
+										<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
+										    <script>
+										      var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
+										    
+										      function login()
+										      {
+										        var email_login = document.getElementById("email_login").value;
+										        var password_login = document.getElementById("password_login").value;
+										    
+										        ref.authWithPassword({
+										          "email": ""+email_login,
+										          "password": ""+password_login
+										        }, function(error, authData) {
+										          if(error){
+										            alert("Login Failed!", error);
+										          }else{
+										            alert("Successfully logged in.", authData);
+										            // similar behavior as an HTTP redirect
+										            window.location.replace("UpdateProfile.html");
+										          }
+										        });
+
+										        // Create a callback which logs the current auth state
+										        function authDataCallback(authData) {
+										          if (authData) {
+										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+										          } else {
+										            console.log("User is logged out");
+										          }
+										        }
+										        // Register the callback to be fired every time auth state changes
+										        ref.onAuth(authDataCallback)
+										      }
+										    </script>
+										    
+										    <h2><u>Returning User?</u></h2>
+										    
+										    <div class = "transbox">
+										    <input type="text" id="email_login" placeholder="Email"><br><br>
+										    <input type="password" id="password_login" placeholder="Password"><br><br>
+										    </div>
+										    
+										    <input type="submit" onclick="login();" value="Login">
+											<input type="submit" onclick="window.location='UpdateProfile.html'" value="Update Profile"><br><br>
+										    
+										    <hr style="border: dashed 3px;" />
+										    <style>
+										      div.transbox
+										      {
+										        opacity: 0.65;
+										      }
+										    </style>
+										</section>
+							</div>
+						</div>
+					</div>
+				</div>
+								
+					<!-- Footer -->
+				<footer id="footer">
+					<ul class="icons">
+						<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; VirtuSchools. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</footer>
+
 		</div>
+
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
@@ -63,6 +157,6 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-			<script type="text/javascript" src="assets/js/login.js"></script>
+
 	</body>
 </html>
