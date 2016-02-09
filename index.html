@@ -218,6 +218,21 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script type="text/javascript" src="assets/js/login.js"></script>
-
+			<script>
+				var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
+				// Create a callback which logs the current auth state
+				function authDataCallback(authData) {
+					if (authData) {
+						document.getElementById("signupProfileBtn").href="UpdateProfile.html";
+						document.getElementById("signupProfileBtn").innerHTML="My Profile";
+					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+					} else {
+					    console.log("User is logged out");
+				    }
+				}
+				    // Register the callback to be fired every time auth state changes
+				    ref.onAuth(authDataCallback)
+			    }
+		   </script>
 	</body>
 </html>
