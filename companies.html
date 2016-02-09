@@ -131,21 +131,6 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-			<script type="text/javascript">
-    				$(document).ready(function () {
-
-        			$('#slct').change(function () {
-            			var value = $(this).val(); var toAppend = '';
-            		if (value == 1) {
-                		toAppend = "<input type='textbox' >"; $("#container").html(toAppend); return;
-            		}
-            		if (value == 2) {
-		                //toAppend = "<input type='textbox' >&nbsp;<input type='textbox' >"; $("#container").html(toAppend); return;
-		            }
-		        });
-
-		    });
-     		</script>
      		<script>
 				var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
 				// Create a callback which logs the current auth state
