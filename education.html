@@ -50,8 +50,7 @@
 									</li>
 								</ul>
 							</li>
-							<li><a href="Login.html">Login</a></li>
-							<li><a style="display: none;" type="submit" id="logOutBtn" onclick="logOut();" value="Log Out"/></li>
+							<li><a id="loginLogoutBtn" href="Login.html">Login</a></li>
 							<li><a href="Register.html" id="signupProfileBtn" class="button special">Sign Up</a></li>
 						</ul>
 					</nav>
@@ -137,12 +136,16 @@
 					if (authData) {
 						document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 						document.getElementById("signupProfileBtn").innerHTML="My Profile";
-						document.getElementById("logOutBtn").style="display: block;";
+						document.getElementById("loginLogoutBtn").href="#";
+						document.getElementById("loginLogoutBtn").onclick="logOut();";
+						document.getElementById("loginLogoutBtn").innerHTML="Log Out";
 					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 					} else {
 						document.getElementById("signupProfileBtn").href="Register.html";
 						document.getElementById("signupProfileBtn").innerHTML="Sign Up";
-						document.getElementById("logOutBtn").style="display: none;";
+						document.getElementById("loginLogoutBtn").href="Login.html";
+						document.getElementById("loginLogoutBtn").onclick="";
+						document.getElementById("loginLogoutBtn").innerHTML="Login";
 					    console.log("User is logged out");
 				    }
 				}
@@ -151,7 +154,6 @@
 				{
 					ref.unauth();
 				}
-
 				// Register the callback to be fired every time auth state changes
 				ref.onAuth(authDataCallback)
 				ref.on('child_added', authDataCallback);
