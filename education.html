@@ -51,6 +51,7 @@
 								</ul>
 							</li>
 							<li><a href="Login.html">Login</a></li>
+							<li><input style="display: none;" type="submit" id="logOutBtn" onclick="logOut();" value="Log Out"/></li>
 							<li><a href="Register.html" id="signupProfileBtn" class="button special">Sign Up</a></li>
 						</ul>
 					</nav>
@@ -136,16 +137,24 @@
 					if (authData) {
 						document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 						document.getElementById("signupProfileBtn").innerHTML="My Profile";
+						document.getElementById("logOutBtn").style="display: block;";
 					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 					} else {
 						document.getElementById("signupProfileBtn").href="Register.html";
 						document.getElementById("signupProfileBtn").innerHTML="Sign Up";
+						document.getElementById("logOutBtn").style="display: none;";
 					    console.log("User is logged out");
 				    }
 				}
-				    // Register the callback to be fired every time auth state changes
-				    ref.onAuth(authDataCallback)
-				    ref.on('child_added', authDataCallback);
+
+				function logOut()
+				{
+					ref.unauth();
+				}
+
+				// Register the callback to be fired every time auth state changes
+				ref.onAuth(authDataCallback)
+				ref.on('child_added', authDataCallback);
 		   </script>
 	</body>
 </html>
