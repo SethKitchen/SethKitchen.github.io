@@ -137,12 +137,14 @@
 						document.getElementById("signupProfileBtn").innerHTML="My Profile";
 					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 					} else {
+						document.getElementById("signupProfileBtn").href="Register.html";
+						document.getElementById("signupProfileBtn").innerHTML="Sign Up";
 					    console.log("User is logged out");
 				    }
 				}
 				    // Register the callback to be fired every time auth state changes
 				    ref.onAuth(authDataCallback)
-				    ref.on("value", authDataCallback);
+				    ref.on('child_added', authDataCallback);
 			    }
 		   </script>
 	</body>
