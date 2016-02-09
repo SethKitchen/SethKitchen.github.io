@@ -142,6 +142,7 @@
 				}
 				    // Register the callback to be fired every time auth state changes
 				    ref.onAuth(authDataCallback)
+				    ref.on("value", authDataCallback);
 			    }
 		   </script>
 	</body>

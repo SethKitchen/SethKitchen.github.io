@@ -105,6 +105,8 @@
 										        function authDataCallback(authData) {
 										          if (authData) {
 										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
+													document.getElementById("signupProfileBtn").innerHTML="My Profile";
 										          } else {
 										            console.log("User is logged out");
 										          }
