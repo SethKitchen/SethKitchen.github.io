@@ -140,16 +140,23 @@
 					if (authData) {
 						document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 						document.getElementById("signupProfileBtn").innerHTML="My Profile";
+						document.getElementById("loginLogoutBtn").href="#";
+						document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
+						document.getElementById("loginLogoutBtn").innerHTML="Log Out";
 					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 					} else {
 						document.getElementById("signupProfileBtn").href="Register.html";
 						document.getElementById("signupProfileBtn").innerHTML="Sign Up";
+						document.getElementById("loginLogoutBtn").href="Login.html";
+						document.getElementById("loginLogoutBtn").onclick=function(){ window.location="Login.html"};
+						document.getElementById("loginLogoutBtn").innerHTML="Login";
 					    console.log("User is logged out");
 				    }
 				}
-				    // Register the callback to be fired every time auth state changes
-				    ref.onAuth(authDataCallback)
-				    ref.on('child_added', authDataCallback);
+
+				// Register the callback to be fired every time auth state changes
+				ref.onAuth(authDataCallback)
+				ref.on('child_added', authDataCallback);
 		   </script>
 	</body>
 </html>
