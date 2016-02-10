@@ -60,8 +60,8 @@
 				<div id="main" class="wrapper style1">
 					<div class="container">
 						<header class="major">
-							<h2>Login</h2>
-							<p>Please login with the username and password you used when registering to the site.</p>
+							<h2>Update your Profile:</h2>
+							<p>Enter your personal information, course number, and course password.</p>
 						</header>
 						<div class="row 150%">
 							<div class="4u 12u$(medium)">
@@ -69,8 +69,12 @@
 								<!-- Sidebar -->
 									<section id="sidebar">
 										<section>
-											<h3>Your account</h3>
-											<p>After signing in, you'll be able to track your progress, contact your group leader, and chat with peers.</p>
+											<h3>Personal Information</h3>
+											<p>Used by the AI to talk to you and personalize your experience.</p>
+										</section>
+										<section>
+											<h3>Course and Course Id</h3>
+											<p>The Course is the subject that will be covered. The Course Id will be created by the Instructor. The Instructor should enter a unique Course Id below and save it. They should give this Id (via email or in-person) to their students before they update below.
 										</section>
 									</section>
 
@@ -92,18 +96,18 @@
 											      	{
 												        var firstname = document.getElementById("fname").value;
 												        var lastname = document.getElementById("lname").value;
-												        var mentormentee=document.getElementById("type").value;
-												        var keyword=document.getElementById("keywords").value;
-												        var strengths=document.getElementById("strengths").value;
-												        var weaknesses=document.getElementById("weaknesses").value;
+												        var userType=document.getElementById("type").value;
+												        var maleFemale=document.getElementById("type2").value;
+												        var courseId=document.getElementById("courseId").value;
+												        var course=document.getElementById("course").value;
 												        var usersRef = ref.child("users");
 												        usersRef.child(user).set({
 												          first_name: firstname,
 												          last_name: lastname,
-												          mentor_mentee: mentormentee,
-												          key_words:keyword,
-												          my_strengths:strengths,
-												          my_weaknesses:weaknesses
+												          user_type: userType,
+												          course_type:course,
+												          course_id:courseId,
+												          male_female:maleFemale
 												        });
 												        alert("Successfully updated profile.")
 											        }
@@ -136,18 +140,24 @@
 										    <input type="text" id="fname" placeholder="First Name"><br><br>
 										    <input type="text" id="lname" placeholder="Last Name"><br><br>
 										    <select id="type">
-										      <option value="Mentor">I am looking to be a mentor.</option>
-										      <option value="Mentee">I am looking to be a mentee.</option>
-										      <option value="Both"> I am looking to be both a mentor/mentee.</option>
+										      <option value="Teacher">I am a teacher.</option>
+										      <option value="Student">I am a student.</option>
+										      <option value="Employer">I am an Employer.</option>
+										      <option value="Employee">I am an Employee.</option>
 										    </select><br><br>
-										    <input type="text" id="keywords" placeholder="Keywords I am looking for"><br><br>
-										    <input type="text" id="strengths" placeholder="My strengths: "><br><br>
-										    <input type="text" id="weaknesses" placeholder="My weaknesses: "><br><br>
+										    <select id="course">
+										      <option value="Male">Algebra (High School/College)</option>
+										    </select><br><br>
+										    <select id="type2">
+										      <option value="Male">I want my avatar to be a boy.</option>
+										      <option value="Female">I want my avatar to be a girl.</option>
+										    </select><br><br>
+
+										    <input type="text" id="courseId" placeholder="Course Id"><br><br>
 										    </div>
 										    
 										    <input type="submit" onclick="update();" value="Update Profile"><br><br>
-											<input type="submit" onclick="window.location='FindMatchesByStrengths.html'" value="Find Matches by Strengths"><br><br>
-										    <input type="submit" onclick="window.location='FindMatchesByWeaknesses.html'" value="Find Matches by Weaknesses"><br><br>
+
 										    <hr style="border: dashed 3px;" />
 										    
 										    <style>
