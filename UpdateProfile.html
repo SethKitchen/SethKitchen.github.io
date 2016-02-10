@@ -122,6 +122,7 @@
 										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
 										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 													document.getElementById("signupProfileBtn").innerHTML="My Profile";
+													user=authData.uid;
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
 													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
