@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<!--
+	Landed by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Has been changed to meet this sites requirements specifically text, and images.
+-->
+<html>
+	<head>
+		<title>VirtuSchools</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1 id="logo"><a href="index.html">VirtuSchools</a></h1>
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="#">About</a>
+								<ul>
+									<li>
+										<a href="education.html">Schools</a>
+										<ul>
+											<li><a href="education.html">Teacher</a></li>
+											<li><a href="education.html">Student</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="companies.html">Companies</a>
+										<ul>
+											<li><a href="companies.html">Employer</a></li>
+											<li><a href="companies.html">Employee</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#">How It Works</a>
+									</li>
+									<li>
+										<a href="#">2D Alternatives</a>
+									</li>
+								</ul>
+							</li>
+							<li><a id="loginLogoutBtn" href="Login.html">Login</a></li>
+							<li><a href="Register.html" id="signupProfileBtn" class="button special">Sign Up</a></li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<div id="main" class="wrapper style1">
+					<div class="container">
+						<header class="major">
+							<h2>Login</h2>
+							<p>Please login with the username and password you used when registering to the site.</p>
+						</header>
+						<div class="row 150%">
+							<div class="4u 12u$(medium)">
+
+								<!-- Sidebar -->
+									<section id="sidebar">
+										<section>
+											<h3>Your account</h3>
+											<p>After signing in, you'll be able to track your progress, contact your group leader, and chat with peers.</p>
+										</section>
+									</section>
+
+							</div>
+							<div class="8u$ 12u$(medium) important(medium)">
+
+								<!-- Content -->
+									<section id="content">
+										<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
+										     <script>
+											    var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
+											    var user=null;
+											    // Register the callback to be fired every time auth state changes
+											    ref.onAuth(authDataCallback)
+
+											    function update()
+											    {
+											        try
+											      	{
+												        var firstname = document.getElementById("fname").value;
+												        var lastname = document.getElementById("lname").value;
+												        var mentormentee=document.getElementById("type").value;
+												        var keyword=document.getElementById("keywords").value;
+												        var strengths=document.getElementById("strengths").value;
+												        var weaknesses=document.getElementById("weaknesses").value;
+												        var usersRef = ref.child("users");
+												        usersRef.child(user).set({
+												          first_name: firstname,
+												          last_name: lastname,
+												          mentor_mentee: mentormentee,
+												          key_words:keyword,
+												          my_strengths:strengths,
+												          my_weaknesses:weaknesses
+												        });
+												        alert("Successfully updated profile.")
+											        }
+											        catch(exception)
+											        {
+											          alert(exception);
+											    	}
+											    }
+												// Create a callback which logs the current auth state
+										     	function authDataCallback(authData) {
+										          if (authData) {
+										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
+										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
+													document.getElementById("signupProfileBtn").innerHTML="My Profile";
+										          } else {
+										          	document.getElementById("signupProfileBtn").href="Register.html";
+													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
+										            console.log("User is logged out");
+										          }
+										        }
+										        // Register the callback to be fired every time auth state changes
+										        ref.onAuth(authDataCallback)
+										    </script>
+										        
+										    <h2 id = "header">Update Profile</h2>
+
+										    <hr style="border: dashed 3px;" />
+										        
+										    <div class = "transbox">
+										    <input type="text" id="fname" placeholder="First Name"><br><br>
+										    <input type="text" id="lname" placeholder="Last Name"><br><br>
+										    <select id="type">
+										      <option value="Mentor">I am looking to be a mentor.</option>
+										      <option value="Mentee">I am looking to be a mentee.</option>
+										      <option value="Both"> I am looking to be both a mentor/mentee.</option>
+										    </select><br><br>
+										    <input type="text" id="keywords" placeholder="Keywords I am looking for"><br><br>
+										    <input type="text" id="strengths" placeholder="My strengths: "><br><br>
+										    <input type="text" id="weaknesses" placeholder="My weaknesses: "><br><br>
+										    </div>
+										    
+										    <input type="submit" style="width:100;height:25;background-color:lightblue;color:blue" onclick="update();" value="Update Profile"><br><br>
+											<input type="submit" style="width:300;height:25;background-color:lightblue;color:blue" onclick="window.location='FindMatchesByKeyword.html'" value="Find Matches by Keywords"><br><br>
+											<input type="submit" style="width:300;height:25;background-color:lightblue;color:blue" onclick="window.location='FindMatchesByStrengths.html'" value="Find Matches by Strengths"><br><br>
+										    <input type="submit" style="width:300;height:25;background-color:lightblue;color:blue" onclick="window.location='FindMatchesByWeaknesses.html'" value="Find Matches by Weaknesses"><br><br>
+										    <hr style="border: dashed 3px;" />
+										    
+										    <style>
+										      div.transbox
+										      {
+										        opacity: 0.65;
+										      }
+										    </style>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+								
+					<!-- Footer -->
+				<footer id="footer">
+					<ul class="icons">
+						<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; VirtuSchools. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</footer>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
