@@ -125,6 +125,19 @@
 													document.getElementById("loginLogoutBtn").href="#";
 													document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
 													document.getElementById("loginLogoutBtn").innerHTML="Log Out";
+													userRef = ref.child("users").child(user);
+            										userRef.once("value", function (snap) {
+            											var userValue = snap.val();
+											            if (!user) {
+											                return;
+											            }
+											            document.getElementById("currentfname").innerHTML=userValue.first_name;
+											            document.getElementById("currentlname").innerHTML=userValue.last_name;
+											            document.getElementById("currenttype").innerHTML=userValue.user_type;
+											            document.getElementById("currentcourse").innerHTML=userValue.course_type;
+											            document.getElementById("currentcourseid").innerHTML=userValue.course_id;
+											            document.getElementById("currentgender").innerHTML=userValue.male_female;
+											        });
 													user=authData.uid;
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
@@ -132,6 +145,12 @@
 													document.getElementById("loginLogoutBtn").href="Login.html";
 													document.getElementById("loginLogoutBtn").onclick=function(){ window.location="Login.html"};
 													document.getElementById("loginLogoutBtn").innerHTML="Login";
+													document.getElementById("currentfname").innerHTML="";
+											        document.getElementById("currentlname").innerHTML="";
+											        document.getElementById("currenttype").innerHTML="";
+											        document.getElementById("currentcourse").innerHTML="";
+											        document.getElementById("currentcourseid").innerHTML="";
+											        document.getElementById("currentgender").innerHTML="";
 										            console.log("User is logged out");
 										          }
 										        }
@@ -143,11 +162,11 @@
 										    <h2>Current Information</h2>
 										    <p>First Name: <p id="currentfname"></p></p>
 										    <p>Last Name: <p id="currentlname"></p></p> 
-										    <p>Type: <p id="currenttype"></p></p> 
-										    <p>Course: <p id="currencourse"></p></p> 
+										    <p>User Type: <p id="currenttype"></p></p> 
+										    <p>Course: <p id="currentcourse"></p></p> 
 										    <p>Course Id: <p id="currentcourseid"></p></p>
 										    <p>Avatar: <p id="currentgender"></p></p>
-										          
+
 										    <h2>Update Profile</h2>
 
 										    <hr style="border: dashed 3px;" />
