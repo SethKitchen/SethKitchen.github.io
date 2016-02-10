@@ -137,7 +137,7 @@
 						document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 						document.getElementById("signupProfileBtn").innerHTML="My Profile";
 						document.getElementById("loginLogoutBtn").href="#";
-						document.getElementById("loginLogoutBtn").onclick="logOut();";
+						document.getElementById("loginLogoutBtn").onclick="return logOut();";
 						document.getElementById("loginLogoutBtn").innerHTML="Log Out";
 					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 					} else {
