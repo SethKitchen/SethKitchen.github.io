@@ -109,7 +109,7 @@
 										     	function authDataCallback(authData) {
 										          if (authData) {
 										          	user=authData.uid;
-										          	var userCourse=null;
+										          	var userCourseId=null;
 										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
 										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 													document.getElementById("signupProfileBtn").innerHTML="My Profile";
@@ -122,7 +122,18 @@
 											            if (!user) {
 											                return;
 											            }
-											            userCourse=userValue.course_id;
+											            userCourseId=userValue.course_id;
+											        });
+											        var studentsRef=ref.child("courseIds").child(userCourseId).child("students");
+											        ref.once("value",function(snapshot)
+											        {
+											        	snapshot.forEach(function(childSnapshot))
+											        	{
+											        		var key=childSnapshot.key();
+											        		Console.log("key="+key);
+											        		var childData=childSnapshot.val();
+											        		Console.log("childData="+childData);
+											        	}
 											        });
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
