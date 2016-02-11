@@ -125,7 +125,7 @@
 											            userCourseId=userValue.course_id;
 											            console.log(userCourseId);
 											        });
-											        var studentsRef=ref.child("courseIds"); //.child(userCourseId).child("students");
+											        var studentsRef=ref.child("courseIds").child(userCourseId);//.child("students");
 											        console.log(studentsRef);
 											        /*
 											        studentsRef.once("value",function(snapshot)
