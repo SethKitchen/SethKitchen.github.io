@@ -136,6 +136,8 @@
 												        		if(childid==user)
 												        		{
 												        			console.log(childSnapshot.key());
+												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
+												        			console.log(homeworkRefs);
 												        			console.log("yeah we found "+childname);
 												        		}
 												        	});
