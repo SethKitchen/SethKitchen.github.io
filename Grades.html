@@ -126,7 +126,6 @@
 											            userCourseId=userValue.course_id;
 											            console.log(userCourseId);
 											            var studentsRef=ref.child("courseIds").child(userCourseId).child("students");
-											        	console.log(studentsRef);
 											        
 												        studentsRef.once("value",function(snapshot)
 												        {
@@ -136,7 +135,7 @@
 												        		var childname=childSnapshot.val().first_name;
 												        		if(childid==user)
 												        		{
-												        			console.log(snapshot.key());
+												        			console.log(childSnapshot.key());
 												        			console.log("yeah we found "+childname);
 												        		}
 												        	});
