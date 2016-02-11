@@ -114,7 +114,7 @@
 													        {
 													        	if(snapshot.val()==null)
 													        	{
-													        		coursesRef.child(courseId).set({
+													        		coursesRef.child(courseId).push({
 															        teacher: firstname+" "+lastname,
 															        course_type:course
 															        });
@@ -144,9 +144,8 @@
 														        }
 														        else
 														        {
-														        	coursesRef.child(courseId).set({
+														        	coursesRef.child(courseId).push({
 															        student: firstname+" "+lastname,
-															        course_type:course
 															        });
 
 														        	usersRef.child(user).set({
