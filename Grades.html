@@ -131,10 +131,11 @@
 												        {
 												        	snapshot.forEach(function(childSnapshot)
 												        	{
-												        		var key=childSnapshot.key();
-												        		console.log("key="+key);
 												        		var childData=childSnapshot.val().u_id;
-												        		console.log("childData="+childData);
+												        		if(childData==user)
+												        		{
+												        			console.log("yeah we found"+childData.first_name);
+												        		}
 												        	});
 												        });
 											        });
