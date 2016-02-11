@@ -110,6 +110,7 @@
 										          if (authData) {
 										          	user=authData.uid;
 										          	var userCourseId=null;
+										          	var homeworkRef=null;
 										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
 										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 													document.getElementById("signupProfileBtn").innerHTML="My Profile";
@@ -129,10 +130,10 @@
 											        
 												        studentsRef.once("value",function(snapshot)
 												        {
+												        	console.log(snapshot.val());
 												        	snapshot.forEach(function(childSnapshot)
 												        	{
 												        		var childid=childSnapshot.val().u_id;
-												        		var childname=childSnapshot.val().first_name;
 												        		if(childid==user)
 												        		{
 												        			console.log("yeah we found "+childname);
