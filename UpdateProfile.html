@@ -134,16 +134,31 @@
 													        	}
 													        })
 												        }
-												        else
+												        else if(userType=="Student")
 												        {
-												        	usersRef.child(user).set({
-															first_name: firstname,
-															last_name: lastname,
-															user_type: userType,
-															course_type:course,
-															course_id:courseId,
-															male_female:maleFemale
-															});
+												        	coursesRef.child(courseId).once('value', function(snapshot)
+													        {
+													        	if(snapshot.val()==null)
+													        	{
+														        	alert("CourseId Not Found. Ask your teacher for an updated Id.")
+														        }
+														        else
+														        {
+														        	coursesRef.child(courseId).set({
+															        student: firstname+" "+lastname,
+															        course_type:course
+															        });
+
+														        	usersRef.child(user).set({
+																	first_name: firstname,
+																	last_name: lastname,
+																	user_type: userType,
+																	course_type:course,
+																	course_id:courseId,
+																	male_female:maleFemale
+																	});
+														        }
+														    });
 												        }
 											        }
 											        catch(exception)
