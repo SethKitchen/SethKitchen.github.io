@@ -135,9 +135,14 @@
 												        		var childname=childSnapshot.val().first_name;
 												        		if(childid==user)
 												        		{
-												        			console.log(childSnapshot.key());
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
-												        			console.log(homeworkRefs);
+												        			homeworkRefs.once("value",function(snapshot2)
+												        			{
+												        				snapshot2.forEach(function(childSnapshot2)
+												        				{
+												        					console.log(childSnapshot2.val());
+												        				});
+												        			})
 												        			console.log("yeah we found "+childname);
 												        		}
 												        	});
@@ -155,7 +160,7 @@
 										        }
 										        // Register the callback to be fired every time auth state changes
 										        ref.onAuth(authDataCallback)
-										        ref.on('child_added', ref.getAuth());
+										       // ref.on('child_added', ref.getAuth());
 										    </script>
 										    
 										    <h2>Current Grades</h2>
