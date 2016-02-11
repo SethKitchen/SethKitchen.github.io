@@ -124,20 +124,21 @@
 											            }
 											            userCourseId=userValue.course_id;
 											            console.log(userCourseId);
+											            var studentsRef=ref.child("courseIds").child(userCourseId).child("students");
+											        	console.log(studentsRef);
+											        
+												        studentsRef.once("value",function(snapshot)
+												        {
+												        	snapshot.forEach(function(childSnapshot)
+												        	{
+												        		var key=childSnapshot.key();
+												        		Console.log("key="+key);
+												        		var childData=childSnapshot.val();
+												        		Console.log("childData="+childData);
+												        	});
+												        });
 											        });
-											        var studentsRef=ref.child("courseIds").child(userCourseId);//.child("students");
-											        console.log(studentsRef);
-											        /*
-											        studentsRef.once("value",function(snapshot)
-											        {
-											        	snapshot.forEach(function(childSnapshot)
-											        	{
-											        		var key=childSnapshot.key();
-											        		Console.log("key="+key);
-											        		var childData=childSnapshot.val();
-											        		Console.log("childData="+childData);
-											        	});
-											        });*/
+											       
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
 													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
