@@ -66,8 +66,8 @@
 				<div id="main" class="wrapper style1">
 					<div class="container">
 						<header class="major">
-							<h2>Update your Profile:</h2>
-							<p>Enter your personal information, course number, and course password.</p>
+							<h2>Grades:</h2>
+							<p>Points and percentages given for homeworks, labs, and tests.</p>
 						</header>
 						<div class="row 150%">
 							<div class="4u 12u$(medium)">
@@ -75,12 +75,20 @@
 								<!-- Sidebar -->
 									<section id="sidebar">
 										<section>
-											<h3>Personal Information</h3>
-											<p>Used by the AI to talk to you and personalize your experience.</p>
+											<h3>Student</h3>
+											<p>Your grades for your registered class are listed below.</p>
 										</section>
 										<section>
-											<h3>Course and Course Id</h3>
-											<p>The Course is the subject that will be covered. The Course Id will be created by the Instructor. The Instructor should enter a unique Course Id below and save it. They should give this Id (via email or in-person) to their students before they update below.
+											<h3>Teacher</h3>
+											<p>Your students' grades are listed below.</p>
+										</section>
+										<section>
+											<h3>Employee</h3>
+											<p>Your completions are listed below.</p>
+										</section>
+										<section>
+											<h3>Employer</h3>
+											<p>Your employee's completions are listed below </p>
 										</section>
 									</section>
 
@@ -96,65 +104,12 @@
 											    // Register the callback to be fired every time auth state changes
 											    ref.onAuth(authDataCallback)
 
-											    function update()
-											    {
-											        try
-											      	{
-												        var firstname = document.getElementById("fname").value;
-												        var lastname = document.getElementById("lname").value;
-												        var userType=document.getElementById("type").value;
-												        var maleFemale=document.getElementById("type2").value;
-												        var courseId=document.getElementById("courseId").value;
-												        var course=document.getElementById("course").value;
-												        var usersRef = ref.child("users");
-												        var coursesRef = ref.child("courseIds");
-												        if(userType=="Teacher")
-												        {
-													        coursesRef.child(courseId).once('value', function(snapshot)
-													        {
-													        	if(snapshot.val()==null)
-													        	{
-													        		coursesRef.child(courseId).set({
-															        teacher: firstname+" "+lastname,
-															        course_type:course
-															        });
-													        		usersRef.child(user).set({
-															        first_name: firstname,
-															        last_name: lastname,
-															        user_type: userType,
-															        course_type:course,
-															        course_id:courseId,
-															        male_female:maleFemale
-															        });
-													        	    alert("Successfully updated profile.")
-													        	}
-													        	else
-													        	{
-													        		alert("CourseId Already Taken. Please Try another.")
-													        	}
-													        })
-												        }
-												        else
-												        {
-												        	usersRef.child(user).set({
-															first_name: firstname,
-															last_name: lastname,
-															user_type: userType,
-															course_type:course,
-															course_id:courseId,
-															male_female:maleFemale
-															});
-												        }
-											        }
-											        catch(exception)
-											        {
-											          alert(exception);
-											    	}
-											    }
+											 
 												// Create a callback which logs the current auth state
 										     	function authDataCallback(authData) {
 										          if (authData) {
 										          	user=authData.uid;
+										          	var userCourse=null;
 										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
 										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 													document.getElementById("signupProfileBtn").innerHTML="My Profile";
@@ -167,12 +122,7 @@
 											            if (!user) {
 											                return;
 											            }
-											            document.getElementById("currentfname").innerHTML=userValue.first_name;
-											            document.getElementById("currentlname").innerHTML=userValue.last_name;
-											            document.getElementById("currenttype").innerHTML=userValue.user_type;
-											            document.getElementById("currentcourse").innerHTML=userValue.course_type;
-											            document.getElementById("currentcourseid").innerHTML=userValue.course_id;
-											            document.getElementById("currentgender").innerHTML=userValue.male_female;
+											            userCourse=userValue.course_id;
 											        });
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
@@ -180,12 +130,6 @@
 													document.getElementById("loginLogoutBtn").href="Login.html";
 													document.getElementById("loginLogoutBtn").onclick=function(){ window.location="Login.html"};
 													document.getElementById("loginLogoutBtn").innerHTML="Login";
-													document.getElementById("currentfname").innerHTML="";
-											        document.getElementById("currentlname").innerHTML="";
-											        document.getElementById("currenttype").innerHTML="";
-											        document.getElementById("currentcourse").innerHTML="";
-											        document.getElementById("currentcourseid").innerHTML="";
-											        document.getElementById("currentgender").innerHTML="";
 										            console.log("User is logged out");
 										          }
 										        }
@@ -194,43 +138,11 @@
 										        ref.on('child_added', ref.getAuth());
 										    </script>
 										    
-										    <h2>Current Information</h2>
-										    <strong>First Name:</strong> <span id="currentfname"></span><br>
-										    <strong>Last Name:</strong> <span id="currentlname"></span><br>
-										    <strong>User Type:</strong> <span id="currenttype"></span><br>
-										    <strong>Course:</strong> <span id="currentcourse"> </span><br>
-										    <strong>Course Id:</strong> <span id="currentcourseid"></span><br>
-										    <strong>Avatar:</strong> <span id="currentgender"></span><br>
-
-										    <hr style="border: dashed 3px;" />
-
-										    <h2>Update Profile</h2>
-
-										    <hr style="border: dashed 3px;" />
-										        
-										    <div class = "transbox">
-										    <input type="text" id="fname" placeholder="First Name"><br><br>
-										    <input type="text" id="lname" placeholder="Last Name"><br><br>
-										    <select id="type">
-										      <option value="Teacher">I am a teacher.</option>
-										      <option value="Student">I am a student.</option>
-										      <option value="Employer">I am an Employer.</option>
-										      <option value="Employee">I am an Employee.</option>
-										    </select><br><br>
-										    <select id="course">
-										      <option value="Algebra">Algebra (High School/College)</option>
-										    </select><br><br>
-										    <select id="type2">
-										      <option value="Male">I want my avatar to be a boy.</option>
-										      <option value="Female">I want my avatar to be a girl.</option>
-										    </select><br><br>
-
-										    <input type="text" id="courseId" placeholder="Course Id"><br><br>
+										    <h2>Current Grades</h2>
+										    <div id="gradesSection">
 										    </div>
-										    
-										    <input type="submit" onclick="update();" value="Update Profile"><br><br>
 
-										    <hr style="border: dashed 3px;" />
+										    <hr style="border: dashed 3px;" />					  
 										    
 										    <style>
 										      div.transbox
