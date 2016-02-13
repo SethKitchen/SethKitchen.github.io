@@ -147,14 +147,18 @@
 												        			{
 												        				snapshot2.forEach(function(childSnapshot2)
 												        				{
+												        					var para = document.createElement("p");
 																			var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t"+childSnapshot2.val().date);
-																			$('#gradesSection').append(node);
+																			para.appendChild(node);
+																			$('#gradesSection').append(para);
 												        					totalEarnedPoints+=childSnapshot2.val().points_earned;
 												        					totalPossiblePoints+=childSnapshot2.val().points_possible;
 												        				});
 
+												        				var para = document.createElement("p");
 																		var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t"+year+"/"+month+"/"+day);
-																		$('#gradesSection').append(node);
+																			para.appendChild(node);
+																		$('#gradesSection').append(para);
 												        			})
 												        			console.log("yeah we found "+childname);
 												        		}
@@ -188,6 +192,11 @@
 										        opacity: 0.65;
 										      }
 										    </style>
+										    <style>
+											    p {
+												    white-space: pre;
+												} 
+											</style>
 								</section>
 							</div>
 						</div>
