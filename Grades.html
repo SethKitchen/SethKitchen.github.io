@@ -128,81 +128,77 @@
 											            userCourseId=userValue.course_id;
 											            userType=userValue.user_type;
 											            var studentsRef=ref.child("courseIds").child(userCourseId).child("students");
-											        
-												        studentsRef.once("value",function(snapshot)
-												        {
-												        	snapshot.forEach(function(childSnapshot)
-												        	{
-												        		var childid=childSnapshot.val().u_id;
-												        		var childname=childSnapshot.val().first_name+" "+childSnapshot.val().last_name;
-												        		var dateObj = new Date();
-																var month = dateObj.getUTCMonth() + 1; //months from 1-12
-																var day = dateObj.getUTCDate();
-																var year = dateObj.getUTCFullYear();
-												        		var totalEarnedPoints=0;
-												        		var totalPossiblePoints=0;
-												        		var totalGrade=0;
-												        		if(userType=="Student")
-												        		{
-													        		if(childid==user)
+											        	
+											        	if(!hasAddedGrades)
+											        	{
+													        studentsRef.once("value",function(snapshot)
+													        {
+													        	snapshot.forEach(function(childSnapshot)
+													        	{
+													        		var childid=childSnapshot.val().u_id;
+													        		var childname=childSnapshot.val().first_name+" "+childSnapshot.val().last_name;
+													        		var dateObj = new Date();
+																	var month = dateObj.getUTCMonth() + 1; //months from 1-12
+																	var day = dateObj.getUTCDate();
+																	var year = dateObj.getUTCFullYear();
+													        		var totalEarnedPoints=0;
+													        		var totalPossiblePoints=0;
+													        		var totalGrade=0;
+													        		if(userType=="Student")
 													        		{
-													        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
-													        			homeworkRefs.once("value",function(snapshot2)
-													        			{
-													        				if(!hasAddedGrades)
-													        				{
-														        				snapshot2.forEach(function(childSnapshot2)
-														        				{
-														        					var para = document.createElement("p");
+														        		if(childid==user)
+														        		{
+														        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
+														        			homeworkRefs.once("value",function(snapshot2)
+														        			{
+														           				snapshot2.forEach(function(childSnapshot2)
+															      				{
+															       					var para = document.createElement("p");
 																					var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t\t"+childSnapshot2.val().date);
 																					para.appendChild(node);
 																					$('#gradesSection').append(para);
-														        					totalEarnedPoints+=childSnapshot2.val().points_earned;
-														        					totalPossiblePoints+=childSnapshot2.val().points_possible;
-														        				});
+															        				totalEarnedPoints+=childSnapshot2.val().points_earned;
+															        				totalPossiblePoints+=childSnapshot2.val().points_possible;
+															        			});
 
-														        				var para = document.createElement("p");
+															        			var para = document.createElement("p");
 																				var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t\t"+year+"/"+month+"/"+day);
-																					para.appendChild(node);
+																				para.appendChild(node);
 																				$('#gradesSection').append(para);
-																			}
-													        			})
+																			})
+														        		}
 													        		}
-												        		}
-												        		else if(userType=="Teacher")
-												        		{
-												        			
-																	homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
-													        		homeworkRefs.once("value",function(snapshot2)
+													        		else if(userType=="Teacher")
 													        		{
-													        			if(!hasAddedGrades)
-													        			{
-													        				var para = document.createElement("p");
+													        			
+																		homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
+														        		homeworkRefs.once("value",function(snapshot2)
+														        		{
+														         			var para = document.createElement("p");
 																			var node = document.createTextNode(childname);
 																			para.appendChild(node);
 																			$('#gradesSection').append(para);
-														        			snapshot2.forEach(function(childSnapshot2)
-														        			{
-														        				var para = document.createElement("p");
+															        		snapshot2.forEach(function(childSnapshot2)
+															        		{
+															        			var para = document.createElement("p");
 																				var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t\t"+childSnapshot2.val().date);
 																				para.appendChild(node);
 																				$('#gradesSection').append(para);
-														        				totalEarnedPoints+=childSnapshot2.val().points_earned;
-														        				totalPossiblePoints+=childSnapshot2.val().points_possible;
-														        			});
-													        				var para = document.createElement("p");
+															        			totalEarnedPoints+=childSnapshot2.val().points_earned;
+															        			totalPossiblePoints+=childSnapshot2.val().points_possible;
+															        		});
+														        			var para = document.createElement("p");
 																			var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t\t"+year+"/"+month+"/"+day);
 																			para.appendChild(node);
 																			$('#gradesSection').append(para);
 																			var para = document.createElement("hr");
 																			$('#gradesSection').append(para);
 																		}
-												        			})
-												        		}
-												        	});
-															hasAddedGrades=true;
-												        });
-											        });
+													        		})
+													        	});
+																hasAddedGrades=true;
+													        });
+														}
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
 													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
