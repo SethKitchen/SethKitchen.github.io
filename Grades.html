@@ -111,6 +111,7 @@
 										          if (authData) {
 										          	user=authData.uid;
 										          	var userCourseId=null;
+										          	var userType=null;
 										          	var homeworkRefs=null;
 										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
 										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
@@ -125,6 +126,7 @@
 											                return;
 											            }
 											            userCourseId=userValue.course_id;
+											            userType=userValue.user_type;
 											            var studentsRef=ref.child("courseIds").child(userCourseId).child("students");
 											        
 												        studentsRef.once("value",function(snapshot)
@@ -132,7 +134,7 @@
 												        	snapshot.forEach(function(childSnapshot)
 												        	{
 												        		var childid=childSnapshot.val().u_id;
-												        		var childname=childSnapshot.val().first_name;
+												        		var childname=childSnapshot.val().first_name+" "+childSnapshot.val().last_name;
 												        		var dateObj = new Date();
 																var month = dateObj.getUTCMonth() + 1; //months from 1-12
 																var day = dateObj.getUTCDate();
@@ -142,31 +144,62 @@
 												        		var totalGrade=0;
 
 												        		console.log(gradesSection.innerHTML);
-
-												        		if(childid==user)
+												        		if(user_type=="Student")
 												        		{
-												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
-												        			homeworkRefs.once("value",function(snapshot2)
-												        			{
-												        				if(gradesSection.innerHTML==="")
-												        				{
-													        				snapshot2.forEach(function(childSnapshot2)
+													        		if(childid==user)
+													        		{
+													        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
+													        			homeworkRefs.once("value",function(snapshot2)
+													        			{
+													        				if(gradesSection.innerHTML==="")
 													        				{
-													        					var para = document.createElement("p");
+														        				snapshot2.forEach(function(childSnapshot2)
+														        				{
+														        					var para = document.createElement("p");
+																					var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t\t"+childSnapshot2.val().date);
+																					para.appendChild(node);
+																					$('#gradesSection').append(para);
+														        					totalEarnedPoints+=childSnapshot2.val().points_earned;
+														        					totalPossiblePoints+=childSnapshot2.val().points_possible;
+														        				});
+
+														        				var para = document.createElement("p");
+																				var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t\t"+year+"/"+month+"/"+day);
+																					para.appendChild(node);
+																				$('#gradesSection').append(para);
+																			}
+													        			})
+													        			console.log("yeah we found "+childname);
+													        		}
+												        		}
+												        		else if(user_type=="Teacher")
+												        		{
+												        			var para = document.createElement("p");
+																	var node = document.createTextNode(childname);
+																	para.appendChild(node);
+																	$('#gradesSection').append(para);
+																	homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
+													        		homeworkRefs.once("value",function(snapshot2)
+													        		{
+													        			if(gradesSection.innerHTML==="")
+													        			{
+														        			snapshot2.forEach(function(childSnapshot2)
+														        			{
+														        				var para = document.createElement("p");
 																				var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t\t"+childSnapshot2.val().date);
 																				para.appendChild(node);
 																				$('#gradesSection').append(para);
-													        					totalEarnedPoints+=childSnapshot2.val().points_earned;
-													        					totalPossiblePoints+=childSnapshot2.val().points_possible;
-													        				});
-
+														        				totalEarnedPoints+=childSnapshot2.val().points_earned;
+														        				totalPossiblePoints+=childSnapshot2.val().points_possible;
+														        			});
 													        				var para = document.createElement("p");
 																			var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t\t"+year+"/"+month+"/"+day);
-																				para.appendChild(node);
+																			para.appendChild(node);
 																			$('#gradesSection').append(para);
 																		}
 												        			})
-												        			console.log("yeah we found "+childname);
+																	var para = document.createElement("hr");
+																	$('#gradesSection').append(para);
 												        		}
 												        	});
 												        });
