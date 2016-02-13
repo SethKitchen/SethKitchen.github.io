@@ -99,6 +99,7 @@
 									<section id="content">
 										<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
 										     <script>
+										     	var hasAddedGrades=false;
 											    var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
 											    var user=null;
 											    // Register the callback to be fired every time auth state changes
@@ -117,6 +118,8 @@
 													document.getElementById("loginLogoutBtn").href="#";
 													document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
 													document.getElementById("loginLogoutBtn").innerHTML="Log Out";
+													if(!hasAddedGrades)
+													{
 													userRef = ref.child("users").child(user);
             										userRef.once("value", function (snap) {
             											var userValue = snap.val();
@@ -165,7 +168,7 @@
 												        	});
 												        });
 											        });
-											       
+											       }
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
 													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
