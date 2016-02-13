@@ -132,25 +132,33 @@
 												        	{
 												        		var childid=childSnapshot.val().u_id;
 												        		var childname=childSnapshot.val().first_name;
+												        		var d = new Date();
+												        		var totalEarnedPoints=0;
+												        		var totalPossiblePoints=0;
+
 												        		if(childid==user)
 												        		{
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 												        			homeworkRefs.child("Test1").set({
 												        				grade:100,
 												        				points_possible:10,
-												        				points_earned:10
+												        				points_earned:10,
+												        				date: (d.getMonth()+1)+"/"+d.getDate()+"/"d.getFullYear();
 												        			});
 												        			homeworkRefs.child("Test2").set({
 												        				grade:50,
 												        				points_possible:5,
-												        				points_earned:10
+												        				points_earned:10,
+												        				date: (d.getMonth()+1)+"/"+d.getDate()+"/"d.getFullYear();
 												        			});
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
-												        				console.log(snapshot2.val());
 												        				snapshot2.forEach(function(childSnapshot2)
 												        				{
-												        					console.log(childSnapshot2.val());
+												        					totalEarnedPoints+=childSnapshot2.val().points_earned;
+												        					totalPossiblePoints+=childSnapshot2.val().points_possible;
+												        					console.log(totalEarnedPoints);
+												        					console.log(totalPossiblePoints);
 												        				});
 												        			})
 												        			console.log("yeah we found "+childname);
