@@ -124,7 +124,6 @@
 											                return;
 											            }
 											            userCourseId=userValue.course_id;
-											            console.log(userCourseId);
 											            var studentsRef=ref.child("courseIds").child(userCourseId).child("students");
 											        
 												        studentsRef.once("value",function(snapshot)
@@ -138,6 +137,7 @@
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
+												        				console.log(snapshot2.val());
 												        				snapshot2.forEach(function(childSnapshot2)
 												        				{
 												        					console.log(childSnapshot2.val());
