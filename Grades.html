@@ -136,9 +136,9 @@
 												        		{
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 												        			homeworkRefs.child("Test1").set({
-												        				grade=100;
-												        				points_possible=10;
-												        				points_earned=10;
+												        				grade:100,
+												        				points_possible:10,
+												        				points_earned:10
 												        			});
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
