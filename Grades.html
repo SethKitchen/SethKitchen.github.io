@@ -149,7 +149,7 @@
 													        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 													        			homeworkRefs.once("value",function(snapshot2)
 													        			{
-													        				if(gradesSection.innerHTML==="")
+													        				if(!hasAddedGrades)
 													        				{
 														        				snapshot2.forEach(function(childSnapshot2)
 														        				{
@@ -167,7 +167,6 @@
 																				$('#gradesSection').append(para);
 																			}
 													        			})
-													        			console.log("yeah we found "+childname);
 													        		}
 												        		}
 												        		else if(userType=="Teacher")
@@ -176,7 +175,7 @@
 																	homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 													        		homeworkRefs.once("value",function(snapshot2)
 													        		{
-													        			if(gradesSection.innerHTML==="")
+													        			if(!hasAddedGrades)
 													        			{
 													        				var para = document.createElement("p");
 																			var node = document.createTextNode(childname);
@@ -201,6 +200,7 @@
 												        			})
 												        		}
 												        	});
+															hasAddedGrades=true;
 												        });
 											        });
 										          } else {
