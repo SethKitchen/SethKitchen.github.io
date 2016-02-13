@@ -133,6 +133,7 @@
 												        		var childid=childSnapshot.val().u_id;
 												        		var childname=childSnapshot.val().first_name;
 												        		var d = new Date();
+												        		var dataDate=(d.getMonth()+1)+"/"+d.getDate()+"/"d.getFullYear();
 												        		var totalEarnedPoints=0;
 												        		var totalPossiblePoints=0;
 
@@ -143,7 +144,7 @@
 												        				grade:100,
 												        				points_possible:10,
 												        				points_earned:10,
-												        				date: (d.getMonth()+1)+"/"+d.getDate()+"/"d.getFullYear()
+												        				date: dataDate
 												        			});
 												        			homeworkRefs.child("Test2").set({
 												        				grade:50,
