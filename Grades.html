@@ -143,30 +143,22 @@
 												        		if(childid==user)
 												        		{
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
-												        			homeworkRefs.child("Test1").set({
-												        				grade:100,
-												        				points_possible:10,
-												        				points_earned:10,
-												        				date: year + "/" + month + "/" + day
-												        			});
-												        			homeworkRefs.child("Test2").set({
-												        				grade:50,
-												        				points_possible:10,
-												        				points_earned:5,
-												        				date: year + "/" + month + "/" + day
-												        			});
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
 												        				snapshot2.forEach(function(childSnapshot2)
 												        				{
 												        					var para = document.createElement("p");
-																			var node = document.createTextNode(childSnapshot2.key()+":"+childSnapshot2.val().points_earned+"/"+childSnapshot2.val().points_possible+"="+childSnapshot2.val().grade+"%");
+																			var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t"+childSnapshot2.val().date);
 																			para.appendChild(node);
 																			$('#gradesSection').append(para);
 												        					totalEarnedPoints+=childSnapshot2.val().points_earned;
 												        					totalPossiblePoints+=childSnapshot2.val().points_possible;
 												        				});
 
+												        				var para = document.createElement("p");
+																		var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t"+childSnapshot2.val().date);
+																			para.appendChild(node);
+																		$('#gradesSection').append(para);
 												        			})
 												        			console.log("yeah we found "+childname);
 												        		}
