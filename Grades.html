@@ -143,7 +143,7 @@
 
 												        		console.log(gradesSection.innerHTML);
 
-												        		if(childid==user && $('#gradesSection').is(':empty'))
+												        		if(childid==user && gradesSection.innerHTML==="")
 												        		{
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 												        			homeworkRefs.once("value",function(snapshot2)
