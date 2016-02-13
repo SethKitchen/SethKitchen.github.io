@@ -172,15 +172,16 @@
 												        		}
 												        		else if(userType=="Teacher")
 												        		{
-												        			var para = document.createElement("p");
-																	var node = document.createTextNode(childname);
-																	para.appendChild(node);
-																	$('#gradesSection').append(para);
+												        			
 																	homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 													        		homeworkRefs.once("value",function(snapshot2)
 													        		{
-													        			if(true)
+													        			if(gradesSection.innerHTML==="")
 													        			{
+													        				var para = document.createElement("p");
+																			var node = document.createTextNode(childname);
+																			para.appendChild(node);
+																			$('#gradesSection').append(para);
 														        			snapshot2.forEach(function(childSnapshot2)
 														        			{
 														        				var para = document.createElement("p");
