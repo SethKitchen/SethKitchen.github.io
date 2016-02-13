@@ -140,6 +140,11 @@
 												        				points_possible:10,
 												        				points_earned:10
 												        			});
+												        			homeworkRefs.child("Test2").set({
+												        				grade:50,
+												        				points_possible:5,
+												        				points_earned:10
+												        			});
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
 												        				console.log(snapshot2.val());
