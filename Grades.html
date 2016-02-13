@@ -118,8 +118,7 @@
 													document.getElementById("loginLogoutBtn").href="#";
 													document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
 													document.getElementById("loginLogoutBtn").innerHTML="Log Out";
-													if(!hasAddedGrades)
-													{
+													console.log("HERE1");
 													userRef = ref.child("users").child(user);
             										userRef.once("value", function (snap) {
             											var userValue = snap.val();
@@ -131,8 +130,10 @@
 											        
 												        studentsRef.once("value",function(snapshot)
 												        {
+												        	console.log("HERE2");
 												        	snapshot.forEach(function(childSnapshot)
 												        	{
+												        		console.log("HERE3");
 												        		var childid=childSnapshot.val().u_id;
 												        		var childname=childSnapshot.val().first_name;
 												        		var dateObj = new Date();
@@ -148,8 +149,10 @@
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
+												        				console.log("HERE4");
 												        				snapshot2.forEach(function(childSnapshot2)
 												        				{
+												        					console.log("HERE5");
 												        					var para = document.createElement("p");
 																			var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t\t"+childSnapshot2.val().date);
 																			para.appendChild(node);
@@ -157,7 +160,7 @@
 												        					totalEarnedPoints+=childSnapshot2.val().points_earned;
 												        					totalPossiblePoints+=childSnapshot2.val().points_possible;
 												        				});
-
+												        				console.log("Here6");
 												        				var para = document.createElement("p");
 																		var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t\t"+year+"/"+month+"/"+day);
 																			para.appendChild(node);
@@ -168,7 +171,6 @@
 												        	});
 												        });
 											        });
-											       }
 										          } else {
 										          	document.getElementById("signupProfileBtn").href="Register.html";
 													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
