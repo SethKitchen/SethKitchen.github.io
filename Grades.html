@@ -142,8 +142,6 @@
 												        		var totalEarnedPoints=0;
 												        		var totalPossiblePoints=0;
 												        		var totalGrade=0;
-
-												        		console.log(gradesSection.innerHTML);
 												        		if(userType=="Student")
 												        		{
 													        		if(childid==user)
@@ -181,7 +179,7 @@
 																	homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 													        		homeworkRefs.once("value",function(snapshot2)
 													        		{
-													        			if(gradesSection.innerHTML==="")
+													        			if(true)
 													        			{
 														        			snapshot2.forEach(function(childSnapshot2)
 														        			{
