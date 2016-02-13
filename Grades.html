@@ -147,18 +147,14 @@
 												        			{
 												        				snapshot2.forEach(function(childSnapshot2)
 												        				{
-												        					var para = document.createElement("p");
-																			var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"                  "+childSnapshot2.val().date);
-																			para.appendChild(node);
-																			$('#gradesSection').append(para);
+																			var node = document.createTextNode(childSnapshot2.key()+" : "+childSnapshot2.val().points_earned+" / "+childSnapshot2.val().points_possible+" = "+childSnapshot2.val().grade+" % "+"\t\t"+childSnapshot2.val().date);
+																			$('#gradesSection').append(node);
 												        					totalEarnedPoints+=childSnapshot2.val().points_earned;
 												        					totalPossiblePoints+=childSnapshot2.val().points_possible;
 												        				});
 
-												        				var para = document.createElement("p");
-																		var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"                  "+year+"/"+month+"/"+day);
-																			para.appendChild(node);
-																		$('#gradesSection').append(para);
+																		var node = document.createTextNode("Total : "+totalEarnedPoints+" / "+totalPossiblePoints+" = "+(totalEarnedPoints/totalPossiblePoints)+" % "+"\t\t"+year+"/"+month+"/"+day);
+																		$('#gradesSection').append(node);
 												        			})
 												        			console.log("yeah we found "+childname);
 												        		}
