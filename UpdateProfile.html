@@ -110,10 +110,10 @@
 												        var coursesRef = ref.child("courseIds");
 												        if(userType=="Teacher")
 												        {
-													        coursesRef.child(courseId).once('value', function(snapshot)
-													        {
-													        	if(snapshot.val()==null)
-													        	{
+													        //coursesRef.child(courseId).once('value', function(snapshot)
+													        //{
+													        //	if(snapshot.val()==null)
+													        //	{
 													        		coursesRef.child(courseId).child("teacher").set({
 															        u_id: user
 															        });
@@ -130,11 +130,11 @@
 															        male_female:maleFemale
 															        });
 													        	    alert("Successfully updated profile.")
-													        	}
-													        	else
-													        	{
-													        		alert("CourseId Already Taken. Please Try another.")
-													        	}
+													        //	}
+													       // 	else
+													       // 	{
+													       // 		alert("CourseId Already Taken. Please Try another.")
+													       // 	}
 													        })
 												        }
 												        else if(userType=="Student")
