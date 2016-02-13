@@ -132,8 +132,10 @@
 												        	{
 												        		var childid=childSnapshot.val().u_id;
 												        		var childname=childSnapshot.val().first_name;
-												        		var d = new Date();
-												        		var dataDate=(d.getMonth()+1)+"/"+d.getDate()+"/"d.getFullYear();
+												        		var dateObj = new Date();
+																var month = dateObj.getUTCMonth() + 1; //months from 1-12
+																var day = dateObj.getUTCDate();
+																var year = dateObj.getUTCFullYear();
 												        		var totalEarnedPoints=0;
 												        		var totalPossiblePoints=0;
 
@@ -144,13 +146,13 @@
 												        				grade:100,
 												        				points_possible:10,
 												        				points_earned:10,
-												        				date: dataDate
+												        				date: year + "/" + month + "/" + day
 												        			});
 												        			homeworkRefs.child("Test2").set({
 												        				grade:50,
 												        				points_possible:5,
 												        				points_earned:10,
-												        				date: (d.getMonth()+1)+"/"+d.getDate()+"/"d.getFullYear()
+												        				date: year + "/" + month + "/" + day
 												        			});
 												        			homeworkRefs.once("value",function(snapshot2)
 												        			{
