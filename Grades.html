@@ -141,7 +141,7 @@
 												        		var totalPossiblePoints=0;
 												        		var totalGrade=0;
 
-												        		if(childid==user && gradesSection.innerHTML==null)
+												        		if(childid==user && gradesSection.innerHTML=="")
 												        		{
 												        			homeworkRefs=studentsRef.child(childSnapshot.key()).child("homeworks");
 												        			homeworkRefs.once("value",function(snapshot2)
