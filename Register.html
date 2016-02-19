@@ -80,11 +80,11 @@
 									<section id="content">
 										<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
 										    <script>
+
 										      var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
 										      var usersRef = ref.child("users");
 										      var url = "https://www.google.com/recaptcha/api/siteverify";
 											  var method = "POST";
-											  var secret = "6LcGuxgTAAAAAG7ifsZ-JhSLpYGKTS9EGcdIt5rI";
 											  var async = true;
 										      var request = new XMLHttpRequest();
 
@@ -121,7 +121,9 @@
 											        var password_create = document.getElementById("password_create").value;
 											    	var password_confirm = document.getElementById("password_confirm").value;
 											    	// Actually sends the request to the server.
-													request.send(secret, data);
+											    	var toSend = {secret: "6LcGuxgTAAAAAG7ifsZ-JhSLpYGKTS9EGcdIt5rI",
+											  					  response: data};
+													request.send(toSend);
 
 											    	if(password_create==password_confirm)
 											    	{
