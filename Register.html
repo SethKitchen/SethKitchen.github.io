@@ -114,40 +114,47 @@
 
 										      function createaccount()
 										      {
-										        var data= grecaptcha.getResponse(document.getElementById("captcha"));
-										        var email_create = document.getElementById("email_create").value;
-										        var password_create = document.getElementById("password_create").value;
-										    	var password_confirm = document.getElementById("password_confirm").value;
-										    	// Actually sends the request to the server.
-												request.send(secret, data);
+										      	try
+										      	{
+											        var data= grecaptcha.getResponse(document.getElementById("captcha"));
+											        var email_create = document.getElementById("email_create").value;
+											        var password_create = document.getElementById("password_create").value;
+											    	var password_confirm = document.getElementById("password_confirm").value;
+											    	// Actually sends the request to the server.
+													request.send(secret, data);
 
-										    	if(password_create==password_confirm)
-										    	{
-											        ref.createUser({
-											          email: email_create,
-											          password: password_create
-											        }, function(error, userData){
-											          if(error){
-											            switch(error.code){
-											              case "EMAIL_TAKEN":
-											                alert("The new user account cannot be created because the email is already in use.");
-											              break;
-											              case "INVALID_EMAIL":
-											                alert("The specified email is not a valid email.");
-											                break;
-											              default:
-											                alert("Error creating user:", error);
-											            }
-											          }else{
-											            alert("Successfully created user account.");
-											          }
-											        });
-											      }
-										  		}
-										  		else
-										  		{
-										  			alert("Password did not match confirmation password");
-										  		}
+											    	if(password_create==password_confirm)
+											    	{
+												        ref.createUser({
+												          email: email_create,
+												          password: password_create
+												        }, function(error, userData){
+												          if(error){
+												            switch(error.code){
+												              case "EMAIL_TAKEN":
+												                alert("The new user account cannot be created because the email is already in use.");
+												              break;
+												              case "INVALID_EMAIL":
+												                alert("The specified email is not a valid email.");
+												                break;
+												              default:
+												                alert("Error creating user:", error);
+												            }
+												          }else{
+												            alert("Successfully created user account.");
+												          }
+												        });
+											  		}
+											  		else
+											  		{
+											  			alert("Password did not match confirmation password");
+											  		}
+											  	}
+											  	catch (exception)
+											  	{
+											  		alert(exception);
+											  	}
+										  	}
 										    
 										    </script>
 
