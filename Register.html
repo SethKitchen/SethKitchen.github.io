@@ -13,6 +13,7 @@
 		<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src='https://www.google.com/recaptcha/api.js'></script>
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
@@ -81,33 +82,72 @@
 										    <script>
 										      var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
 										      var usersRef = ref.child("users");
+										      var url = "https://www.google.com/recaptcha/api/siteverify";
+											  var method = "POST";
+											  var secret = "6LdbuxgTAAAAAM3JBqMa5YiEgKfL39gpBEKEc--Y";
+											  var async = true;
+										      var request = new XMLHttpRequest();
+
+												// Before we send anything, we first have to say what we will do when the
+												// server responds. This seems backwards (say how we'll respond before we send
+												// the request? huh?), but that's how Javascript works.
+												// This function attached to the XMLHttpRequest "onload" property specifies how
+												// the HTTP response will be handled. 
+												request.onload = function () {
+
+												   // Because of javascript's fabulous closure concept, the XMLHttpRequest "request"
+												   // object declared above is available in this function even though this function
+												   // executes long after the request is sent and long after this function is
+												   // instantiated. This fact is CRUCIAL to the workings of XHR in ordinary
+												   // applications.
+
+												   // You can get all kinds of information about the HTTP response.
+												   var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
+												   var data = request.responseText; // Returned data, e.g., an HTML document.
+												   alert(data);
+												}
+
+												request.open(method, url, async);
+
+												request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
 
 										      function createaccount()
 										      {
-										       
+										        var data= grecaptcha.getResponse(document.getElementById("captcha"));
 										        var email_create = document.getElementById("email_create").value;
 										        var password_create = document.getElementById("password_create").value;
-										    
-										        ref.createUser({
-										          email: email_create,
-										          password: password_create
-										        }, function(error, userData){
-										          if(error){
-										            switch(error.code){
-										              case "EMAIL_TAKEN":
-										                alert("The new user account cannot be created because the email is already in use.");
-										              break;
-										              case "INVALID_EMAIL":
-										                alert("The specified email is not a valid email.");
-										                break;
-										              default:
-										                alert("Error creating user:", error);
-										            }
-										          }else{
-										            alert("Successfully created user account.");
-										          }
-										        });
-										      }
+										    	var password_confirm = document.getElementById("password_confirm").value;
+										    	// Actually sends the request to the server.
+												request.send(secret, data);
+
+										    	if(password_create==password_confirm)
+										    	{
+											        ref.createUser({
+											          email: email_create,
+											          password: password_create
+											        }, function(error, userData){
+											          if(error){
+											            switch(error.code){
+											              case "EMAIL_TAKEN":
+											                alert("The new user account cannot be created because the email is already in use.");
+											              break;
+											              case "INVALID_EMAIL":
+											                alert("The specified email is not a valid email.");
+											                break;
+											              default:
+											                alert("Error creating user:", error);
+											            }
+											          }else{
+											            alert("Successfully created user account.");
+											          }
+											        });
+											      }
+										  		}
+										  		else
+										  		{
+										  			alert("Password did not match confirmation password");
+										  		}
 										    
 										    </script>
 
@@ -121,6 +161,11 @@
 										    <input type="text" id="email_create" placeholder="Email"><br><br>
 										    
 										    <input type="password" id="password_create" placeholder="Password"><br><br>
+										    
+										    <input type="password" id="password_confirm" placeholder="Confirm Password"><br><br>
+
+										    <div class="g-recaptcha" id="captcha" data-sitekey="6LdbuxgTAAAAAEmg9yAN20F4SZmvlEzLKKVIYpMU"></div>
+
 										    </div>
 
 										    <input type="submit" onclick="createaccount();" value="Create Account">
