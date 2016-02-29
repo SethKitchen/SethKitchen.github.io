@@ -82,42 +82,30 @@
 								<!-- Content -->
 									<section id="content">
 										    <script>
-										      var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
-										    
-										      function login()
-										      {
-										        var email_login = document.getElementById("email_login").value;
-										        var password_login = document.getElementById("password_login").value;
-										    
-										        ref.authWithPassword({
-										          "email": ""+email_login,
-										          "password": ""+password_login
-										        }, function(error, authData) {
-										          if(error){
-										            alert("Login Failed!", error);
-										          }else{
-										            alert("Successfully logged in.", authData);
-										            // similar behavior as an HTTP redirect
-										            window.location.replace("UpdateProfile.html");
-										          }
-										        });
-										    }
+												var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
+												// Create a callback which logs the current auth state
+												function authDataCallback(authData) {
+													if (authData) {
+														document.getElementById("signupProfileBtn").href="UpdateProfile.html";
+														document.getElementById("signupProfileBtn").innerHTML="My Profile";
+														document.getElementById("loginLogoutBtn").href="#";
+														document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
+														document.getElementById("loginLogoutBtn").innerHTML="Log Out";
+													    console.log("User " + authData.uid + " is logged in with " + authData.provider);
+													} else {
+														document.getElementById("signupProfileBtn").href="Register.html";
+														document.getElementById("signupProfileBtn").innerHTML="Sign Up";
+														document.getElementById("loginLogoutBtn").href="Login.html";
+														document.getElementById("loginLogoutBtn").onclick=function(){ window.location="Login.html"};
+														document.getElementById("loginLogoutBtn").innerHTML="Login";
+													    console.log("User is logged out");
+												    }
+												}
 
-										        // Create a callback which logs the current auth state
-										        function authDataCallback(authData) {
-										          if (authData) {
-										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
-										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
-													document.getElementById("signupProfileBtn").innerHTML="My Profile";
-										          } else {
-										          	document.getElementById("signupProfileBtn").href="Register.html";
-													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
-										            console.log("User is logged out");
-										          }
-										        }
-										        // Register the callback to be fired every time auth state changes
-										        ref.onAuth(authDataCallback)
-										    </script>
+												// Register the callback to be fired every time auth state changes
+												ref.onAuth(authDataCallback)
+												ref.on('child_added', ref.getAuth());
+										   </script>
 										    
 										    <div class="template-wrap clear">
       											<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
