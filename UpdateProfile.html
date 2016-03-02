@@ -112,7 +112,7 @@
 												        {
 													        coursesRef.child(courseId).once('value', function(snapshot)
 													        {
-													        	if(snapshot.val()==null || document.getElementById("courseId").value==document.getElementById("currentcourseid").value)
+													        	if(snapshot.val()==null || document.getElementById("courseId").value==document.getElementById("currentcourseid").innerHTML)
 													        	{
 													        		coursesRef.child(courseId).child("teacher").set({
 															        u_id: user
