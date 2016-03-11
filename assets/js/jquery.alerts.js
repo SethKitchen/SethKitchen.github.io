@@ -72,7 +72,7 @@
 			
 			$("BODY").append(
 			  '<div id="popup_container">' +
-			    '<h1 id="popup_title" style="background-color: #272833;" ></h1>' +
+			    '<h1 id="popup_title" style="color: white; background-color: #272833;" ></h1>' +
 			    '<div id="popup_content">' +
 			      '<div id="popup_message"></div>' +
 				'</div>' +
