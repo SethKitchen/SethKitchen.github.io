@@ -11,6 +11,13 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+		<script src="assets/js/jquery.js" type="text/javascript"></script>
+		<script src="assets/js/jquery.ui.draggable.js" type="text/javascript"></script>
+
+		<!-- Core files -->
+		<script src="assets/js/jquery.alerts.js" type="text/javascript"></script>
+		<link href="assets/css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
@@ -92,14 +99,20 @@
 										          "password": ""+password_login
 										        }, function(error, authData) {
 										          if(error){
-										            alert("Login Failed!", error);
+										            alertUser("Login Failed!", error);
 										          }else{
-										            alert("Successfully logged in.", authData);
+										            alertUser("Successfully logged in.", authData);
 										            // similar behavior as an HTTP redirect
 										            window.location.replace("UpdateProfile.html");
 										          }
 										        });
 										    }
+
+										       function alertUser(msg)
+											   {
+											  	 jAlert(msg,'Login', true);
+											   }
+
 
 										        // Create a callback which logs the current auth state
 										        function authDataCallback(authData) {
@@ -125,8 +138,6 @@
 										    </div>
 										    
 										    <input type="submit" onclick="login();" value="Login">
-											<input type="submit" onclick="window.location='UpdateProfile.html'" value="Update Profile"><br><br>
-										    
 										    <hr style="border: dashed 3px;" />
 										    <style>
 										      div.transbox
