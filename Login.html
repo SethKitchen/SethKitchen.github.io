@@ -103,7 +103,7 @@
 										          }else{
 										            alertUser("Successfully logged in.", authData);
 										            // similar behavior as an HTTP redirect
-										            window.location.replace("UpdateProfile.html");
+										            setTimeout(continueExecution, 3000)
 										          }
 										        });
 										    }
@@ -112,6 +112,11 @@
 											   {
 											  	 jAlert(msg,'Login', true);
 											   }
+
+											   function continueExecution()
+										  	   {
+										  		  window.location.replace("UpdateProfile.html");
+										  	   }
 
 
 										        // Create a callback which logs the current auth state
