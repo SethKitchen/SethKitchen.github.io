@@ -179,7 +179,7 @@
 										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 													document.getElementById("signupProfileBtn").innerHTML="My Profile";
 													document.getElementById("loginLogoutBtn").href="#";
-													document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
+													document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); window.location.replace("Login.html"); };
 													document.getElementById("loginLogoutBtn").innerHTML="Log Out";
 													userRef = ref.child("users").child(user);
             										userRef.once("value", function (snap) {

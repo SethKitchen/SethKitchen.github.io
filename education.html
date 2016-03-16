@@ -132,7 +132,7 @@
 						document.getElementById("signupProfileBtn").href="UpdateProfile.html";
 						document.getElementById("signupProfileBtn").innerHTML="My Profile";
 						document.getElementById("loginLogoutBtn").href="#";
-						document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); };
+						document.getElementById("loginLogoutBtn").onclick=function() { ref.unauth(); window.location.replace("Login.html");};
 						document.getElementById("loginLogoutBtn").innerHTML="Log Out";
 					    console.log("User " + authData.uid + " is logged in with " + authData.provider);
 					} else {
