@@ -108,6 +108,7 @@
 												        var course=document.getElementById("course").value;
 												        var usersRef = ref.child("users");
 												        var coursesRef = ref.child("courseIds");
+
 												        if(userType=="Teacher")
 												        {
 													        coursesRef.child(courseId).once('value', function(snapshot)
@@ -115,10 +116,12 @@
 													        	if(snapshot.val()==null || document.getElementById("courseId").value==document.getElementById("currentcourseid").innerHTML)
 													        	{
 													        		coursesRef.child(courseId).child("teacher").set({
-															        u_id: user
+															        u_id: user,
+															        createdByUserId: user
 															        });
 															        coursesRef.child(courseId).child("misc").set({
 															        course_type: course,
+															        createdByUserId: user
 															        });
 
 													        		usersRef.child(user).set({
@@ -127,7 +130,8 @@
 															        user_type: userType,
 															        course_type:course,
 															        course_id:courseId,
-															        male_female:maleFemale
+															        male_female:maleFemale,
+															        createdByUserId: user
 															        });
 													        	    alert("Successfully updated profile.")
 													        	}
@@ -150,7 +154,8 @@
 														        	coursesRef.child(courseId).child("students").push({
 															          u_id: user,
 															          first_name:firstname,
-															          last_name:lastname
+															          last_name:lastname,
+															          createdByUserId: user
 															        });
 
 														        	usersRef.child(user).set({
@@ -159,7 +164,8 @@
 																	user_type: userType,
 																	course_type:course,
 																	course_id:courseId,
-																	male_female:maleFemale
+																	male_female:maleFemale,
+																	createdByUserId: user
 																	});
 																	alert("Successfully updated profile.");
 														        }
