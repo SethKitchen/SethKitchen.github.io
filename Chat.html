@@ -55,7 +55,7 @@
         var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/chat");
         var chat = new FirechatUI(ref, document.getElementById("firechat-wrapper"));
 
-        ref.onAuth(authDataCallback)
+        
 
         // Create a callback which logs the current auth state
         function authDataCallback(authData) {
@@ -76,6 +76,8 @@
         console.log(ex);
         //window.location.replace("Login.html");
       }
+
+      ref.onAuth(authDataCallback)
     </script>
   </body>
 </html>
