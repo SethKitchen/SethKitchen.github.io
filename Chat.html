@@ -56,7 +56,7 @@
         var chat = new FirechatUI(ref, document.getElementById("firechat-wrapper"));
 
         ref.onAuth(authDataCallback)
-        
+
         // Create a callback which logs the current auth state
         function authDataCallback(authData) {
           
@@ -67,7 +67,7 @@
           else
           {
             console.log("Not Logged in->Redirecting");
-            window.location.replace("Login.html");
+            //window.location.replace("Login.html");
           }
         }      
       }
