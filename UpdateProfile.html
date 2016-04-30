@@ -108,7 +108,7 @@
 												        var course=document.getElementById("course").value;
 												        var usersRef = ref.child("users");
 												        var coursesRef = ref.child("courseIds");
-
+												       	
 												        if(userType=="Teacher")
 												        {
 													        coursesRef.child(courseId).once('value', function(snapshot)
@@ -190,7 +190,7 @@
 													userRef = ref.child("users").child(user);
             										userRef.once("value", function (snap) {
             											var userValue = snap.val();
-											            if (!user) {
+											            if (!user || userValue==null) {
 											                return;
 											            }
 											            document.getElementById("currentfname").innerHTML=userValue.first_name;
@@ -223,7 +223,7 @@
 										        }
 										        // Register the callback to be fired every time auth state changes
 										        ref.onAuth(authDataCallback)
-										        ref.on('child_added', ref.getAuth());
+										        //ref.on('child_added', ref.getAuth());
 										    </script>
 										    
 										    <h2>Current Information</h2>

@@ -33,36 +33,34 @@
     </style>
   </head>
 
-  <!--
-    Example: Anonymous Authentication
-
-    This example uses Firebase Simple Login to create "anonymous" user sessions in Firebase,
-    meaning that user credentials are not required, though a user has a valid Firebase
-    authentication token and security rules still apply.
-
-    Requirements: in order to use this example with your own Firebase, you'll need to do the following:
-      1. Apply the security rules at https://github.com/firebase/firechat/blob/master/rules.json
-      2. Enable the "Anonymous" authentication provider in Forge
-      3. Update the URL below to reference your Firebase
-      4. Update the room id for auto-entry with a public room you have created
-   -->
   <body>
     <div id="firechat-wrapper"></div>
 
     <script type="text/javascript">
       try
       {
-        var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/chat");
-        var chat = new FirechatUI(ref, document.getElementById("firechat-wrapper"));
-
-        
+        var refChat = new Firebase("https://flickering-fire-5865.firebaseio.com/chat");
+        var chat = new FirechatUI(refChat, document.getElementById("firechat-wrapper"));
+        var ref=new Firebase("https://flickering-fire-5865.firebaseio.com/");
+        var firstName="";
+        var lastName="";
 
         // Create a callback which logs the current auth state
         function authDataCallback(authData) {
           
           if (authData) {
-            console.log(authData.uid);
-            chat.setUser(authData.uid, "Anonymous" + authData.uid.substr(10, 8));
+            userRef = ref.child("users").child(authData.uid);
+            userRef.once("value", function (snap) {
+              var userValue = snap.val();
+              if (userValue==null) {
+                return;
+              }
+              firstName=userValue.first_name;
+              lastName=userValue.last_name;
+              var nameCombo=firstName+ " "+lastName;
+              chat.setUser(authData.uid, nameCombo);
+            });
+            
           }
           else
           {
