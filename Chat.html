@@ -2,80 +2,128 @@
 <html>
   <head>
     <meta charset="utf-8" />
-
-     <!-- jQuery -->
-    <script src="assets/js/jquery.min.js"></script>
-
-    <!-- Firebase -->
-    <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
-
-    <!-- Firechat -->
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.css" />
-    <script src="https://cdn.firebase.com/libs/firechat/2.0.1/firechat.min.js"></script>
-
-    <!-- Custom CSS -->
-    <style>
-      #firechat-wrapper {
-        height: 475px;
-        max-width: 325px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: #fff;
-        margin: 50px auto;
-        text-align: center;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        -webkit-box-shadow: 0 5px 25px #666;
-        -moz-box-shadow: 0 5px 25px #666;
-        box-shadow: 0 5px 25px #666;
+    <title>Chat</title>
+    <link rel="stylesheet" type="text/css" href="Latex/mathquill.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+    <style type="text/css">
+      body{
+        width:6.5in;
+        margin:0 auto;
+        font-family:"Times New Roman",serif;
+      }
+      code,#html-source{
+        font-family:"Courier New",sans-serif;
+      }
+      a#codecogslink{
+        text-decoration: none;
+      }
+      a#codecogslink:link span,a#codecogslink:visited span{
+        text-decoration: underline;
+      }
+      img#codecogs{
+        vertical-align:middle;
+        border: none;
+      }
+      span.mathquill-textbox{
+        width:100%;
+      }
+      #html-source{
+        display:none;
+      }
+      .mathquill-rendered-math .mathquill-editable {
+        min-width: 1cm;
+      }
+      .mathquill-editor {
+        width:6.5in;
       }
     </style>
   </head>
-
   <body>
-    <div id="firechat-wrapper"></div>
+    <!-- CHAT MARKUP -->
+    <div class="example-chat l-demo-container">
+      <header>Chat</header>
 
-    <script type="text/javascript">
-      try
-      {
-        var refChat = new Firebase("https://flickering-fire-5865.firebaseio.com/chat");
-        var chat = new FirechatUI(refChat, document.getElementById("firechat-wrapper"));
-        var ref=new Firebase("https://flickering-fire-5865.firebaseio.com/");
-        var firstName="";
-        var lastName="";
+      <ul id='example-messages' class="example-chat-messages"></ul>
 
-        // Create a callback which logs the current auth state
-        function authDataCallback(authData) {
-          
+    </div>
+
+
+    <p><span id="mathTextBox" class="mathquill-editor">\sqrt[3]{8}=\frac{\sqrt{16}}{2}</span></p>
+
+    
+    <script type="text/javascript" src="Latex/mathquill.js"></script>
+
+    <!-- CHAT JAVACRIPT -->
+    <script>
+      // CREATE A REFERENCE TO FIREBASE
+      var messagesRef = new Firebase('https://flickering-fire-5865.firebaseio.com/chat');
+      var ref= new Firebase('https://flickering-fire-5865.firebaseio.com/chat');
+
+      var messageList = $('#example-messages');
+
+      var firstName="";
+      var lastName="";
+
+      document.addEventListener('keypress', function(e) {
+        console.log("here1");
+        var key = e.which || e.keyCode;
+        if (key === 13) { // 13 is enter
+          //FIELD VALUES
+          console.log("here2");
+          var username = firstName+" "+lastName+": ";
+          var message = $(document.getElementById("mathTextBox")).mathquill('latex');
+
+          //SAVE DATA TO FIREBASE AND EMPTY FIELD
+          messagesRef.push({name:username, text:message});
+          $(document.getElementById("mathTextBox")).mathquill('latex')="";
+        }
+      });
+
+      // Add a callback that is triggered for each chat message.
+      messagesRef.limitToLast(10).on('child_added', function (snapshot) {
+        //GET DATA
+        var data = snapshot.val();
+        var username = data.name || "anonymous";
+        var message = data.text;
+
+        //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+        var messageElement = $("<li>");
+        var nameElement = $("<strong class='example-chat-username'></strong>")
+        nameElement.text(username);
+        messageElement.text(message).prepend(nameElement);
+
+        //ADD MESSAGE
+        messageList.append(messageElement)
+
+        //SCROLL TO BOTTOM OF MESSAGE LIST
+        messageList[0].scrollTop = messageList[0].scrollHeight;
+      });
+
+      function authDataCallback(authData) {
           if (authData) {
-            userRef = ref.child("users").child(authData.uid);
+            var user=authData.uid;
+            userRef = ref.child("users").child(user);
             userRef.once("value", function (snap) {
               var userValue = snap.val();
-              if (userValue==null) {
+              if (!user || userValue==null) {
                 return;
               }
-              firstName=userValue.first_name;
-              lastName=userValue.last_name;
-              var nameCombo=firstName+ " "+lastName;
-              chat.setUser(authData.uid, nameCombo);
-            });
-            
+                firstName=userValue.first_name;
+                lastName=userValue.last_name;
+           });
           }
           else
           {
-            console.log("Not Logged in->Redirecting");
-            //window.location.replace("Login.html");
+            window.location.replace("Login.html");
           }
-        }      
-      }
-      catch(ex)
-      {
-        console.log(ex);
-        //window.location.replace("Login.html");
       }
 
-      ref.onAuth(authDataCallback)
+        // Register the callback to be fired every time auth state changes
+        ref.onAuth(authDataCallback)
+
     </script>
+
   </body>
 </html>
