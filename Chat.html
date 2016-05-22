@@ -72,6 +72,17 @@
         var key = e.which || e.keyCode;
         if (key === 13) { // 13 is enter
           //FIELD VALUES
+          var user=authData.uid;
+            userRef = ref.child("users").child(user);
+            userRef.once("value", function (snap) {
+              var userValue = snap.val();
+              if (!user || userValue==null) {
+                return;
+              }
+                firstName=userValue.first_name;
+                lastName=userValue.last_name;
+           });
+            
           console.log("username:"+firstName+" "+lastName);
           var username = firstName+" "+lastName+": ";
           var message = $(document.getElementById("mathTextBox")).mathquill('latex');
@@ -84,6 +95,17 @@
 
       function Send()
       {
+        var user=authData.uid;
+            userRef = ref.child("users").child(user);
+            userRef.once("value", function (snap) {
+              var userValue = snap.val();
+              if (!user || userValue==null) {
+                return;
+              }
+                firstName=userValue.first_name;
+                lastName=userValue.last_name;
+           });
+
           //FIELD VALUES
           console.log("username:"+firstName+" "+lastName);
           var username = firstName+" "+lastName+": ";
