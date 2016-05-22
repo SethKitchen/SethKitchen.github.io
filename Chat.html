@@ -62,7 +62,7 @@
       var messagesRef = new Firebase('https://flickering-fire-5865.firebaseio.com/chat');
       var ref= new Firebase('https://flickering-fire-5865.firebaseio.com/');
       var userRef;
-      
+
       var messageList = $('#example-messages');
 
       var firstName="";
@@ -73,7 +73,6 @@
         var key = e.which || e.keyCode;
         if (key === 13) { // 13 is enter
           //FIELD VALUES
-            userRef = ref.child("users").child(user);
             userRef.once("value", function (snap) {
               var userValue = snap.val();
               if (!user || userValue==null) {
@@ -95,7 +94,6 @@
 
       function Send()
       {
-            userRef = ref.child("users").child(user);
             userRef.once("value", function (snap) {
               var userValue = snap.val();
               if (!user || userValue==null) {
