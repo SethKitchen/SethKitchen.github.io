@@ -42,9 +42,10 @@
   </head>
   <body>
     <!-- CHAT MARKUP -->
-    <div class="chatList">
+    <div class="example-chat l-demo-container">
       <header>Chat</header>
 
+      <ul id='example-messages' class="example-chat-messages"></ul>
 
     </div>
 
@@ -66,15 +67,17 @@
       var lastName="";
 
       document.addEventListener('keypress', function(e) {
+        console.log("here1");
         var key = e.which || e.keyCode;
         if (key === 13) { // 13 is enter
           //FIELD VALUES
+          console.log("here2");
           var username = firstName+" "+lastName+": ";
           var message = $(document.getElementById("mathTextBox")).mathquill('latex');
 
           //SAVE DATA TO FIREBASE AND EMPTY FIELD
           messagesRef.push({name:username, text:message});
-          $(document.getElementById("mathTextBox")).latex('');
+          $(document.getElementById("mathTextBox")).mathquill('latex')="";
         }
       });
 
@@ -84,20 +87,18 @@
         var data = snapshot.val();
         var username = data.name || "anonymous";
         var message = data.text;
-        var list=document.getElementsByClassName("chatList")[0];
-        var MQ = MathQuill.getInterface(2);
-        var mathFieldSpan = $('<span>'+message+'</span>');
-        var mathField = MQ.MathField(mathFieldSpan[0]);
-        mathFieldSpan.appendTo(document.getElementsByClassName("chatList")[0]);
-        mathField.reflow();
 
+        //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+        var messageElement = $("<li>");
+        var nameElement = $("<strong class='example-chat-username'></strong>")
+        nameElement.text(username);
+        messageElement.text(message).prepend(nameElement);
 
-        //document.getElementsByClassName("chatList")[0].innerHTML+="<p id='message'>Seth: <span class='mathquill-embedded-latex'><code>x^2+5</code></span></p>";
-        //var messages=document.getElementsByClassName('mathquill-embedded-latex');
-        //$('#mathquill-embedded-latex').mathquill('revert');
+        //ADD MESSAGE
+        messageList.append(messageElement)
 
         //SCROLL TO BOTTOM OF MESSAGE LIST
-        //messageList[0].scrollTop = messageList[0].scrollHeight;
+        messageList[0].scrollTop = messageList[0].scrollHeight;
       });
 
       function authDataCallback(authData) {
