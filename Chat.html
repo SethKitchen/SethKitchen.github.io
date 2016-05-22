@@ -119,7 +119,7 @@
         var data = snapshot.val();
         var username = data.name;
         var message = data.text;
-        message.mathquill();
+
         //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
         var messageElement = $("<li>");
         var nameElement = $("<strong class='example-chat-username'></strong>")
@@ -131,6 +131,7 @@
 
         //SCROLL TO BOTTOM OF MESSAGE LIST
         messageList[0].scrollTop = messageList[0].scrollHeight;
+        //messageList.mathquill();
 
       });
 
