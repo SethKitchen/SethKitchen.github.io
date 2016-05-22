@@ -85,7 +85,7 @@
       messagesRef.limitToLast(10).on('child_added', function (snapshot) {
         //GET DATA
         var data = snapshot.val();
-        var username = data.name || "anonymous";
+        var username = data.name;
         var message = data.text;
 
         //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
