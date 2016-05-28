@@ -112,7 +112,7 @@
           console.log("Sending" + message);
           //SAVE DATA TO FIREBASE AND EMPTY FIELD
           messagesRef.push({name:username, text:message});
-          $(document.getElementById("mathTextBox")).mathquill('latex')="";
+          $(document.getElementById("mathTextBox")).clear();
       }
 
       // Add a callback that is triggered for each chat message.
