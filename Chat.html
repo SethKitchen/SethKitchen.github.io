@@ -120,19 +120,23 @@
         var username = data.name;
         var message = data.text;
 
-        //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-        var messageElement = $("<p id=\"message\">"+message+"</p>");
-        
-        var nameElement = $("<p><strong>"+username+"</strong></p>");
+        var paraUser = document.createElement("p");
+        var nodeUser = document.createTextNode(username);
+        nodeUser.style.fontWeight = "bold";
+        paraUser.appendChild(nodeUser);
 
+        var paraMessage = document.createElement("p");
+        var nodeMessage = document.createTextNode(message);
+        nodeMessage.setAttribute("class", "message");
+        paraMessage.appendChild(nodeUser);
 
-        //ADD messageElement
-        $( ".chatMessages" ).append( nameElement );
-        $( ".chatMessages" ).append( messageElement );
+        var element = document.getElementById("chatMessages");
+        element.appendChild(paraUser);
+        element.appendChild(paraMessage);
 
         //SCROLL TO BOTTOM OF MESSAGE LIST
         //messageList[0].scrollTop = messageList[0].scrollHeight;
-        document.getElementById("message").mathquill();
+        document.getElementsByClassName("message").mathquill();
 
       });
 
