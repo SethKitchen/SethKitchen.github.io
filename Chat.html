@@ -5,8 +5,34 @@
     <title>Chat</title>
     <link rel="stylesheet" type="text/css" href="Latex/mathquill.css">
     <link rel="stylesheet" href="/Latex/NewMathQuill/mathquill.css"/>
-    
+    <link type="text/css" href="ScrollBars/demo.css" rel="stylesheet" media="all" />
+    <!-- styles needed by jScrollPane - include in your own sites -->
+    <link type="text/css" href="ScrollBars/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+
+    <style type="text/css" id="page-css">
+      /* Styles specific to this particular page */
+      .scroll-pane
+      {
+        width: 100%;
+        height: 200px;
+        overflow: auto;
+      }
+      .horizontal-only
+      {
+        height: auto;
+        max-height: 200px;
+      }
+    </style>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+    <script type="text/javascript" src="ScrollBars/jquery.mousewheel.js"></script>
+    <!-- the jScrollPane script -->
+    <script type="text/javascript" src="ScrollBars/jquery.jscrollpane.min.js"></script>
+    <script type="text/javascript" id="sourcecode">
+      $(function()
+      {
+        $('.scroll-pane').jScrollPane();
+      });
+    </script>
     <script src="/Latex/NewMathQuill/mathquill.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
     
@@ -45,9 +71,9 @@
   </head>
   <body>
     <!-- CHAT MARKUP -->
-    <div class="scroll-pane">
+    <div class="container">
       <header>Chat, Ask Questions, and Write Solutions Here</header>
-      <div id="chatMessages">
+      <div id="chatMessages" class="scroll-pane">
       </div>
       
     </div>
