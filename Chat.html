@@ -126,8 +126,8 @@
 
         var paraMessage = document.createElement("p");
         var nodeMessage = document.createTextNode(message);
-        paraMessage.appendChild(nodeUser);
-        //paraMessage.setAttribute("class", "message");
+        paraMessage.appendChild(nodeMessage);
+        paraMessage.class="message";
 
         var element = document.getElementById("chatMessages");
         element.appendChild(paraUser);
