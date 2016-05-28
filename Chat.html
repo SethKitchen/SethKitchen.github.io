@@ -77,7 +77,7 @@
           //FIELD VALUES
             userRef.once("value", function (snap) {
               var userValue = snap.val();
-              if (!user || userValue==null) {
+              if (userValue==null) {
                 return;
               }
                 firstName=userValue.first_name;
@@ -98,7 +98,7 @@
       {
             userRef.once("value", function (snap) {
               var userValue = snap.val();
-              if (!user || userValue==null) {
+              if (userValue==null) {
                 return;
               }
                 firstName=userValue.first_name;
