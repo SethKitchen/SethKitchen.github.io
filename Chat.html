@@ -123,12 +123,11 @@
         var paraUser = document.createElement("p");
         var nodeUser = document.createTextNode(username);
         paraUser.appendChild(nodeUser);
-        paraUser.style.fontWeight = "bold";
 
         var paraMessage = document.createElement("p");
         var nodeMessage = document.createTextNode(message);
         paraMessage.appendChild(nodeUser);
-        paraMessage.setAttribute("class", "message");
+        //paraMessage.setAttribute("class", "message");
 
         var element = document.getElementById("chatMessages");
         element.appendChild(paraUser);
