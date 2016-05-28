@@ -14,12 +14,7 @@
     <!-- the jScrollPane script -->
     <script type="text/javascript" src="assets/js/jquery.jscrollpane.min.js"></script>
     <script type="text/javascript" src="assets/js/mwheelIntent.js"></script>
-    <script type="text/javascript" id="sourcecode">
-      $(function()
-      {
-        $('.scroll-pane').jScrollPane();
-      });
-    </script>
+   
     <style type="text/css">
       body{
         width:6.5in;
@@ -88,6 +83,12 @@
       var firstName="";
       var lastName="";
 
+       $(function()
+      {
+        $('.scroll-pane').jScrollPane();
+      });
+   
+   
       document.addEventListener('keypress', function(e) {
         console.log("here1");
         var key = e.which || e.keyCode;
