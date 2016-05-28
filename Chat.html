@@ -14,7 +14,12 @@
     <!-- the jScrollPane script -->
     <script type="text/javascript" src="assets/js/jquery.jscrollpane.min.js"></script>
     <script type="text/javascript" src="assets/js/mwheelIntent.js"></script>
-   
+    <script type="text/javascript" id="sourcecode">
+      $(function()
+      {
+        $('.scroll-pane').jScrollPane();
+      });
+    </script>
     <style type="text/css">
       body{
         width:6.5in;
@@ -65,7 +70,7 @@
     </div>
 
 
-    <p><span id="mathTextBox" class="mathquill-editor">\sqrt[3]{8}=\frac{\sqrt{16}}{2}</span></p>
+    <p><span id="mathTextBox" class="mathquill-editor"></span></p>
 
     
     <script type="text/javascript" src="Latex/mathquill.js"></script>
@@ -82,11 +87,6 @@
       var messageList=document.getElementById("chatMessages");
       var firstName="";
       var lastName="";
-
-       $(function()
-      {
-        $('.scroll-pane').jScrollPane();
-      });
    
 
       document.addEventListener('keypress', function(e) {
