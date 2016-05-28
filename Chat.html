@@ -27,12 +27,6 @@
     <script type="text/javascript" src="ScrollBars/jquery.mousewheel.js"></script>
     <!-- the jScrollPane script -->
     <script type="text/javascript" src="ScrollBars/jquery.jscrollpane.min.js"></script>
-    <script type="text/javascript" id="sourcecode">
-      $(function()
-      {
-        $('.scroll-pane').jScrollPane();
-      });
-    </script>
     <script src="/Latex/NewMathQuill/mathquill.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
     
@@ -96,6 +90,11 @@
       var messageList=document.getElementById("chatMessages");
       var firstName="";
       var lastName="";
+      
+      $(function()
+      {
+        $('.scroll-pane').jScrollPane();
+      });
 
       document.addEventListener('keypress', function(e) {
         console.log("here1");
