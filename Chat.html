@@ -43,10 +43,10 @@
   <body>
     <!-- CHAT MARKUP -->
     <div class="example-chat l-demo-container">
-      <header>Chat</header>
-
-      <ul id='example-messages' class="example-chat-messages"></ul>
-
+      <header>Chat, Ask Questions, and Write Solutions Here</header>
+      <div id="chatMessages">
+      </div>
+      
     </div>
 
 
@@ -63,8 +63,8 @@
       var ref= new Firebase('https://flickering-fire-5865.firebaseio.com/');
       var userRef;
 
-      var messageList = $('#example-messages');
-
+      //var messageList = $('#example-messages');
+      var messageList=document.getElementById("chatMessages");
       var firstName="";
       var lastName="";
 
@@ -121,18 +121,19 @@
         var message = data.text;
 
         //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-        var messageElement = $("<li>");
+        var messageElement = $("<p id=\"message\"></p>");
         
         var nameElement = $("<strong class='example-chat-username'></strong>")
         nameElement.text(username);
-        messageElement.text(message).prepend(nameElement);
+        messageElement.text(message);
 
         //ADD messageElement
-        messageList.append(messageElement)
+        messageList.append(nameElement);
+        messageList.append(messageElement);
 
         //SCROLL TO BOTTOM OF MESSAGE LIST
         messageList[0].scrollTop = messageList[0].scrollHeight;
-        messageList.mathquill();
+        document.getElementById("message").mathquill();
 
       });
 
