@@ -135,8 +135,9 @@
 
         //SCROLL TO BOTTOM OF MESSAGE LIST
         //messageList[0].scrollTop = messageList[0].scrollHeight;
-        document.getElementsByClassName("message").mathquill();
-
+        for (var i = 0; i < list.length; i++) {
+            list[i].mathquill(); //second console output
+        }
       });
 
       function authDataCallback(authData) {
