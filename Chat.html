@@ -123,9 +123,8 @@
         var username = data.name;
         var message = data.text;
 
-        var paraUser = document.createElement("p");
-        var nodeUser = document.createTextNode(username);
-        paraUser.appendChild(nodeUser);
+        var paraUser = document.createElement("b");
+        paraUser.innerHTML=username;
 
         var paraMessage = document.createElement("span");
         var nodeMessage = document.createTextNode(message);
@@ -135,6 +134,9 @@
         var element = document.getElementById("chatMessages");
         element.appendChild(paraUser);
         element.appendChild(paraMessage);
+
+        var line=document.createElement("HR");
+        element.appendChild(line);
 
         //SCROLL TO BOTTOM OF MESSAGE LIST
         //messageList[0].scrollTop = messageList[0].scrollHeight;
