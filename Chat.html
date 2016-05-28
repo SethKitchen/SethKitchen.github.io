@@ -121,11 +121,10 @@
         var message = data.text;
 
         //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-        var messageElement = $("<p id=\"message\"></p>");
+        var messageElement = $("<p id=\"message\">"+message+"</p>");
         
-        var nameElement = $("<p><strong class='example-chat-username'></strong></p>");
-        nameElement.text(username);
-        messageElement.text(message);
+        var nameElement = $("<p><strong>"+username+"</strong></p>");
+
 
         //ADD messageElement
         $( ".chatMessages" ).append( nameElement );
