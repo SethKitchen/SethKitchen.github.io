@@ -123,14 +123,14 @@
         //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
         var messageElement = $("<p id=\"message\"></p>");
         
-        var nameElement = $("<p></p>");
+        var nameElement = $("<p><strong class='example-chat-username'></strong></p>");
         nameElement.text(username);
         messageElement.text(message);
 
         //ADD messageElement
-        messageList.appendChild(nameElement);
-        messageList.appendChild(messageElement);
-
+        $( ".chatMessages" ).append( nameElement );
+        $( ".chatMessages" ).append( messageElement );
+        
         //SCROLL TO BOTTOM OF MESSAGE LIST
         messageList[0].scrollTop = messageList[0].scrollHeight;
         document.getElementById("message").mathquill();
