@@ -10,14 +10,17 @@
 		<title>VirtuSchools</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
 		<script src="assets/js/jquery.js" type="text/javascript"></script>
 		<script src="assets/js/jquery.ui.draggable.js" type="text/javascript"></script>
 
 		<!-- Core files -->
+		<script src="https://www.gstatic.com/firebasejs/3.0.2/firebase.js"></script>
 		<script src="assets/js/jquery.alerts.js" type="text/javascript"></script>
 		<link href="assets/css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
-
+		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/ui/0.4.0/firebase-ui-auth.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/0.4.0/firebase-ui-auth.css" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
@@ -87,26 +90,37 @@
 								<!-- Content -->
 									<section id="content">
 										    <script>
-										      var ref = new Firebase("https://flickering-fire-5865.firebaseio.com/");
-										    
-										      function login()
-										      {
-										        var email_login = document.getElementById("email_login").value;
-										        var password_login = document.getElementById("password_login").value;
-										    
-										        ref.authWithPassword({
-										          "email": ""+email_login,
-										          "password": ""+password_login
-										        }, function(error, authData) {
-										          if(error){
-										            alertUser("Login Failed!", error);
-										          }else{
-										            alertUser("Successfully logged in.", authData);
-										            // similar behavior as an HTTP redirect
-										            setTimeout(continueExecution, 3000)
-										          }
-										        });
-										    }
+										       // Firebase config.
+											    var config = {
+											    apiKey: "AIzaSyBAMYXNQs9DHykysnHyNgh4Fw8WzgOppNw",
+											    authDomain: "flickering-fire-5865.firebaseapp.com",
+											    databaseURL: "https://flickering-fire-5865.firebaseio.com",
+											    storageBucket: "flickering-fire-5865.appspot.com",
+											  };
+
+
+											      // FirebaseUI config.
+											      var uiConfig = {
+											        'signInSuccessUrl': 'UpdateProfile.html',
+											        'signInOptions': [
+											          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+											          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+											          firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+											          firebase.auth.GithubAuthProvider.PROVIDER_ID,
+											          firebase.auth.EmailAuthProvider.PROVIDER_ID
+											        ],
+											        // Terms of service url.
+											        'tosUrl': 'virtuschools.com',
+											      };
+
+											      // Initialize the FirebaseUI Widget using Firebase.
+											      var app = firebase.initializeApp(config);
+											      var auth = app.auth();
+											      var ui = new firebaseui.auth.AuthUI(auth);
+											      // The start method will wait until the DOM is loaded.
+											      ui.start('#firebaseui-auth-container', uiConfig);
+										          //setTimeout(continueExecution, 3000)
+										          
 
 										       function alertUser(msg)
 											   {
@@ -117,41 +131,15 @@
 										  	   {
 										  		  window.location.replace("UpdateProfile.html");
 										  	   }
-
-
-										        // Create a callback which logs the current auth state
-										        function authDataCallback(authData) {
-										          if (authData) {
-										            console.log("User " + authData.uid + " is logged in with " + authData.provider);
-										            document.getElementById("signupProfileBtn").href="UpdateProfile.html";
-													document.getElementById("signupProfileBtn").innerHTML="My Profile";
-										          } else {
-										          	document.getElementById("signupProfileBtn").href="Register.html";
-													document.getElementById("signupProfileBtn").innerHTML="Sign Up";
-										            console.log("User is logged out");
-										          }
-										        }
-										        // Register the callback to be fired every time auth state changes
-										        ref.onAuth(authDataCallback)
 										    </script>
 										    
 										    <h2><u>Returning User?</u></h2>
 										    
-										    <div class = "transbox">
-										    <input type="text" id="email_login" placeholder="Email"><br><br>
-										    <input type="password" id="password_login" placeholder="Password"><br><br>
-										    </div>
-										    
-										    <input type="submit" onclick="login();" value="Login">
+										    <div id="firebaseui-auth-container"></div>
+
 										    &emsp; &emsp;
 										    <a href="ResetPassword.html">Forgot Password?</a>
 										    <hr style="border: dashed 3px;" />
-										    <style>
-										      div.transbox
-										      {
-										        opacity: 0.65;
-										      }
-										    </style>
 										</section>
 							</div>
 						</div>
