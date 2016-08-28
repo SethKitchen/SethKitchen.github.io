@@ -1,33 +1,74 @@
 <!DOCTYPE HTML>
-<!--
-	Landed by HTML5 UP
-	html5up.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-	Has been changed to meet this sites requirements specifically text, and images.
--->
 <html>
 	<head>
-		<title>VirtuSchools</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel='shortcut icon' href='images/logo2.ico' type='image/x-icon'/ >
-		<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<title>Quiz Builder</title>
+		<link rel="stylesheet" type="text/css" href="Latex/mathquill.css">
+    	<link rel="stylesheet" href="/Latex/NewMathQuill/mathquill.css"/>
+    	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+   	    <script src="/Latex/NewMathQuill/mathquill.js"></script>
 	</head>
-	<body>
+	<body onload="BuildQuizzes()">
+		<body style="background-color:lightgrey;">
+    <!-- CHAT MARKUP -->
+    <div id="scroller" style="color:black" class="scroll-pane">
+      <header>Here we build 20 quizzes of 4 questions from the same 10 questions.</header>
+      <hr />
+      <hr />
+    </div>
+      
+    <script type="text/javascript" src="Latex/mathquill.js"></script>
+
+     <button onclick="Check()">Send</button> 
+   </div>
+    <!-- CHAT JAVACRIPT -->
+    <script>
+      
+      // Initialize Firebase
+  	  var config = {
+  	    apiKey: "AIzaSyBxfNod1pdzE8LsPiWA6wWjoo_9EgHoXVo",
+  	    authDomain: "quizbuilder-1b035.firebaseapp.com",
+  	    databaseURL: "https://quizbuilder-1b035.firebaseio.com",
+  	    storageBucket: "",
+  	  };
+
+	    firebase.initializeApp(config);
+      //var auth = app.auth();
+      var database = firebase.database();
+      //var messagesRef=getMessagesRef();
+      var MQ = MathQuill.getInterface(2);
+      //var messageList = $('#example-messages');
+      var messageList=document.getElementById("QuizQuestions");
+
+
+     function Check()
+     {
+
+     }
+    
+     function BuildQuizzes()
+     {
+        GetRandomTF();
+     }
+
+    function GetRandomTF()
+    {
+      firebase.database().ref('/QuizQuestions/TrueFalse').on('value', function(snapshot)
+      {
+        var jojo=snapshot.val();
+        for(var i=0; i<jojo.length; i++)
+        {
+          console.log(jojo[i]);
+        }
+      });
+    }
+
+    function GetRandomMC()
+    {
+
+    }
+
+    </script>
+
 		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-		<script>
-		  // Initialize Firebase
-		  var config = {
-		    apiKey: "AIzaSyBxfNod1pdzE8LsPiWA6wWjoo_9EgHoXVo",
-		    authDomain: "quizbuilder-1b035.firebaseapp.com",
-		    databaseURL: "https://quizbuilder-1b035.firebaseio.com",
-		    storageBucket: "",
-		  };
-		  firebase.initializeApp(config);
-		</script>
 	</body>
 </html>
