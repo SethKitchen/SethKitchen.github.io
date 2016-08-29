@@ -2,23 +2,25 @@
 <html>
 	<head>
 		<title>Quiz Builder</title>
+    <meta charset="utf-8"/>
 		<link rel="stylesheet" type="text/css" href="Latex/mathquill.css">
-    	<link rel="stylesheet" href="/Latex/NewMathQuill/mathquill.css"/>
+    	<link rel="stylesheet" href="Latex/NewMathQuill/mathquill.css"/>
     	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
-   	    <script src="/Latex/NewMathQuill/mathquill.js"></script>
+   	    <script src="Latex/NewMathQuill/mathquill.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 	</head>
 	<body onload="BuildQuizzes()">
 		<body style="background-color:lightgrey;">
     <!-- CHAT MARKUP -->
     <div id="scroller" style="color:black" class="scroll-pane">
-      <header>Here we build 20 quizzes of 4 questions from the same 10 questions.</header>
+      <header>Here we build a quiz of 4 questions from a bank of 10 questions.</header>
       <hr />
       <hr />
     </div>
       
     <script type="text/javascript" src="Latex/mathquill.js"></script>
 
-     <button onclick="Check()">Send</button> 
+     <button onclick="Check()">Check</button> 
    </div>
     <!-- CHAT JAVACRIPT -->
     <script>
@@ -30,45 +32,312 @@
   	    databaseURL: "https://quizbuilder-1b035.firebaseio.com",
   	    storageBucket: "",
   	  };
-
-	    firebase.initializeApp(config);
-      //var auth = app.auth();
-      var database = firebase.database();
-      //var messagesRef=getMessagesRef();
-      var MQ = MathQuill.getInterface(2);
-      //var messageList = $('#example-messages');
-      var messageList=document.getElementById("QuizQuestions");
-
+      var uniqueElementCounter=0;
+      var database;
+      var MQ=MathQuill.getInterface(2);
+      var quizzesA;
+      var lastTFUsed="";
+      var bob;
+      var tfHasBeenMadeBefore=false;
+      var mcHasBeenMadeBefore=false;
 
      function Check()
      {
+        var result="";
+        var total=0;
+        if((quizzesA[0]=="True" && (document.getElementById("input"+0).value.toUpperCase()=="T" || document.getElementById("input"+0).value.toUpperCase()=="TRUE")) || (quizzesA[1]=="False" && (document.getElementById("input"+0).value.toUpperCase()=="F" || document.getElementById("input"+0).value.toUpperCase()=="FALSE"))) 
+        {
+          result+="The first true/false is correct\n";
+          total+=1;
+        }
+        else
+        {
+          result+="The first true/false is incorrect\n";
+        }
 
+        if((quizzesA[1]=="True" && (document.getElementById("input"+1).value.toUpperCase()=="T" || document.getElementById("input"+1).value.toUpperCase()=="TRUE")) || (quizzesA[1]=="False" && (document.getElementById("input"+1).value.toUpperCase()=="F" || document.getElementById("input"+1).value.toUpperCase()=="FALSE")))
+        {
+          result+="The second true/false is correct\n";
+          total+=1;
+        }
+        else
+        {
+          result+="The second true/false is incorrect\n";
+        }
+
+        if(document.getElementById("input"+2).value==quizzesA[2])
+        {
+          result+="The first multiple choice is correct\n";
+          total+=1;
+        }
+        else
+        {
+          result+="The first multiple choice is incorrect\n";
+        }
+
+        if(document.getElementById("input"+3).value==quizzesA[3])
+        {
+          result+="The second multiple choice is correct\n";
+          total+=1;
+        }
+        else
+        {
+          result+="The second multiple choice is incorrect\n";
+        }
+        result+="You got "+total+"/4 or "+(total/4*100)+"%.";
+        alert(result);
      }
     
      function BuildQuizzes()
      {
-        GetRandomTF();
+        firebase.initializeApp(config);
+        database = firebase.database();
+        var i=0;
+        quizzesA=new Array(4);
+        GetRandomTF(0);
+        GetRandomTF(1);
+        GetRandomMC(2);
+        GetRandomMC(3);
      }
 
-    function GetRandomTF()
+    function GetRandomTF(i)
     {
-      firebase.database().ref('/QuizQuestions/TrueFalse').on('value', function(snapshot)
+      try
       {
-        var jojo=snapshot.val();
-        for(var i=0; i<jojo.length; i++)
+        firebase.database().ref('/QuizQuestions/TrueFalse').on('value', function(snapshot)
         {
-          console.log(jojo[i]);
-        }
-      });
+          var jojo=snapshot.val();
+          var numberOfChildren=snapshot.numChildren();
+          var specificRand=-1;
+          var rand=Math.random();
+          specificRand=Math.trunc(rand*numberOfChildren)+1;
+          for(var x in jojo)
+          {
+            if(x.includes(specificRand))
+            {
+              AddTFToPage(jojo[x]);
+              if(x.includes("True"))
+              {
+                quizzesA[i]="True";
+              }
+              else
+              {
+                quizzesA[i]= "False";
+              }
+            }
+          }
+        });
+
+      }
+      catch(ex)
+      {
+        console.log(ex);
+      }
     }
 
-    function GetRandomMC()
+    function AddTFToPage(tf)
     {
-
+      if(tfHasBeenMadeBefore==false)
+      {
+        var tfTitle=document.createElement('p');
+        tfTitle.innerHTML="<strong>True/False</strong>";
+        document.getElementById("scroller").appendChild(tfTitle);
+        var brlol=document.createElement('br');
+        document.getElementById("scroller").appendChild(brlol);
+        tfHasBeenMadeBefore=true;
+      }
+      var problem = document.createElement('p');
+      problem.id=uniqueElementCounter;
+      var text=tf.split("~").join("\\");
+      var res = text.split("$");
+      for(var i=0; i<res.length; i++)
+      {
+        if(i%2==0)
+        {
+          problem.innerHTML+="\\text{ "+res[i]+" }";
+        }
+        else
+        {
+          problem.innerHTML+=res[i];
+        }
+      }
+      document.getElementById("scroller").appendChild(problem);
+      var input=document.createElement("input");
+      input.type="text";
+      input.id="input"+uniqueElementCounter;
+      document.getElementById("scroller").appendChild(input);
+      var br=document.createElement('br');
+      document.getElementById("scroller").appendChild(br);
+      MQ.StaticMath(problem);
+      uniqueElementCounter++;
     }
 
+    function GetRandomMC(i)
+    {
+      try
+      {
+        firebase.database().ref('/QuizQuestions/MultiChoice').on('value', function(snapshot)
+        {
+          var jojo=snapshot.val();
+          var numberOfChildren=snapshot.numChildren();
+          var specificRand=-1;
+          var rand=Math.random();
+          specificRand=Math.trunc(rand*numberOfChildren)+1;
+          for(var x in jojo)
+          {
+            if(x.includes(specificRand))
+            {
+              for(var k in jojo[x])
+              {
+                if(k.includes("Question"))
+                {
+                  AddMultiChoiceToPage(jojo[x][k], jojo[x].A, jojo[x].B, jojo[x].C, jojo[x].D);
+                  quizzesA[i]=(k.split("-")[1]);
+                }
+              }
+            }
+          }
+        });
+      }
+      catch(ex)
+      {
+        console.log(ex);
+      }
+    }
+
+    function AddMultiChoiceToPage(question, a, b, c, d)
+    {
+      if(mcHasBeenMadeBefore==false)
+      {
+        var mcTitle=document.createElement('p');
+        mcTitle.innerHTML="<strong>Multiple Choice</strong>";
+        document.getElementById("scroller").appendChild(mcTitle);
+        var brlol=document.createElement('br');
+        document.getElementById("scroller").appendChild(brlol);
+        mcHasBeenMadeBefore=true;
+      }
+      var problem = document.createElement('p');
+      problem.id=uniqueElementCounter;
+      //uniqueElementCounter++;
+      var text=question.split("~").join("\\");
+      var res = text.split("$");
+      for(var i=0; i<res.length; i++)
+      {
+        if(i%2==0)
+        {
+          problem.innerHTML+="\\text{ "+res[i]+" }";
+        }
+        else
+        {
+          problem.innerHTML+=res[i];
+        }
+      }
+      document.getElementById("scroller").appendChild(problem);
+      var input=document.createElement("input");
+      input.type="text";
+      input.id="input"+uniqueElementCounter;
+      document.getElementById("scroller").appendChild(input);
+      var br=document.createElement('br');
+      document.getElementById("scroller").appendChild(br);
+      MQ.StaticMath(problem);
+
+      var choiceA = document.createElement('p');
+      choiceA.innerHTML="A) ";
+      choiceA.id=uniqueElementCounter+"A";
+      //uniqueElementCounter++;
+      var textA=a.split("~").join("\\");
+      var resA = textA.split("$");
+      for(var i=0; i<resA.length; i++)
+      {
+        if(i%2==0)
+        {
+          choiceA.innerHTML+="\\text{ "+resA[i]+" }";
+        }
+        else
+        {
+          choiceA.innerHTML+=resA[i];
+        }
+      }
+      document.getElementById("scroller").appendChild(choiceA);
+      var brA=document.createElement('br');
+      document.getElementById("scroller").appendChild(brA);
+      MQ.StaticMath(choiceA);
+
+      var choiceB = document.createElement('p');
+      choiceB.innerHTML="B) ";
+      choiceB.id=uniqueElementCounter+"B";
+      //uniqueElementCounter++;
+      var textB=b.split("~").join("\\");
+      var resB = textB.split("$");
+      for(var i=0; i<resB.length; i++)
+      {
+        if(i%2==0)
+        {
+          choiceB.innerHTML+="\\text{ "+resB[i]+" }";
+        }
+        else
+        {
+          choiceB.innerHTML+=resB[i];
+        }
+      }
+      document.getElementById("scroller").appendChild(choiceB);
+      var brB=document.createElement('br');
+      document.getElementById("scroller").appendChild(brB);
+      MQ.StaticMath(choiceB);
+
+      var choiceC = document.createElement('p');
+      choiceC.innerHTML="C) ";
+      choiceC.id=uniqueElementCounter+"C";
+      //uniqueElementCounter++;
+      var textC=c.split("~").join("\\");
+      var resC = textC.split("$");
+      for(var i=0; i<resC.length; i++)
+      {
+        if(i%2==0)
+        {
+          choiceC.innerHTML+="\\text{ "+resC[i]+" }";
+        }
+        else
+        {
+          choiceC.innerHTML+=resC[i];
+        }
+      }
+      document.getElementById("scroller").appendChild(choiceC);
+      var brC=document.createElement('br');
+      document.getElementById("scroller").appendChild(brC);
+      MQ.StaticMath(choiceC);
+
+      var choiceD = document.createElement('p');
+      choiceD.innerHTML="D) ";
+      choiceC.id=uniqueElementCounter+"D";
+      //uniqueElementCounter++;
+      var textD=d.split("~").join("\\");
+      var resD = textD.split("$");
+      for(var i=0; i<resD.length; i++)
+      {
+        if(i%2==0)
+        {
+          choiceD.innerHTML+="\\text{ "+resD[i]+" }";
+        }
+        else
+        {
+          choiceD.innerHTML+=resD[i];
+        }
+      }
+      document.getElementById("scroller").appendChild(choiceD);
+      var brD=document.createElement('br');
+      document.getElementById("scroller").appendChild(brD);
+      MQ.StaticMath(choiceD);
+      uniqueElementCounter++;
+    }
+
+    function AddHR()
+    {
+      var x = document.createElement("HR");
+      document.getElementById("scroller").appendChild(x);
+    }
     </script>
 
-		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+		
 	</body>
 </html>
