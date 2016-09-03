@@ -25,6 +25,9 @@
     <!-- CHAT JAVACRIPT -->
     <script>
       
+      //Zah is an integer from 1-20 squared.
+
+
       // Initialize Firebase
   	  var config = {
   	    apiKey: "AIzaSyBxfNod1pdzE8LsPiWA6wWjoo_9EgHoXVo",
@@ -40,6 +43,7 @@
       var bob;
       var tfHasBeenMadeBefore=false;
       var mcHasBeenMadeBefore=false;
+      var MAX_COEFFICIENT = 20;
 
      function Check()
      {
@@ -87,7 +91,18 @@
         result+="You got "+total+"/4 or "+(total/4*100)+"%.";
         alert(result);
      }
-    
+
+     function httpGetAsync(theUrl, callback)
+     {
+          var xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = function() { 
+              if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                  callback(xmlHttp.responseText);
+          }
+          xmlHttp.open("GET", "http://api.wolframalpha.com/v2/query?input="+theUrl+"&appid=GA3RGX-Q2V8RJJTEJ", true); // true for asynchronous 
+          xmlHttp.send(null);
+     }
+
      function BuildQuizzes()
      {
         firebase.initializeApp(config);
@@ -149,6 +164,7 @@
       var problem = document.createElement('p');
       problem.id=uniqueElementCounter;
       var text=tf.split("~").join("\\");
+      text=text.split("**").join(Math.trunc(Math.random()*MAX_COEFFICIENT)+1);
       var res = text.split("$");
       for(var i=0; i<res.length; i++)
       {
@@ -220,6 +236,10 @@
       problem.id=uniqueElementCounter;
       //uniqueElementCounter++;
       var text=question.split("~").join("\\");
+      text=text.split("**").join(Math.trunc(Math.random()*MAX_COEFFICIENT)+1);
+      var zahh=Math.trunc(Math.random()*MAX_COEFFICIENT)+1;
+      var zahhSquared=zahh*zahh;
+      text=text.split("zah").join(zahhSquared);
       var res = text.split("$");
       for(var i=0; i<res.length; i++)
       {
@@ -246,7 +266,22 @@
       choiceA.id=uniqueElementCounter+"A";
       //uniqueElementCounter++;
       var textA=a.split("~").join("\\");
-      var resA = textA.split("$");
+      textA=textA.split("**").join(Math.trunc(Math.random()*MAX_COEFFICIENT)+1);
+      textA=textA.split("zah").join(zahhSquared);
+      var toWolframA=textA.split("%");
+      var textAWolframed="";
+      for(var i=0; i<toWolframA.length;i++)
+      {
+        if(i%2==0)
+        {
+          textAWolframed+=toWolframA[i];
+        }
+        else
+        {
+          console.log(httpGetAsync(toWolframA[i],null));
+        }
+      }
+      var resA = textAWolframed.split("$");
       for(var i=0; i<resA.length; i++)
       {
         if(i%2==0)
@@ -268,7 +303,22 @@
       choiceB.id=uniqueElementCounter+"B";
       //uniqueElementCounter++;
       var textB=b.split("~").join("\\");
-      var resB = textB.split("$");
+      textB=textB.split("**").join(Math.trunc(Math.random()*MAX_COEFFICIENT)+1);
+      textB=textB.split("zah").join(zahhSquared);
+      var toWolframB=textB.split("%");
+      var textBWolframed="";
+      for(var i=0; i<toWolframB.length;i++)
+      {
+        if(i%2==0)
+        {
+          textBWolframed+=toWolframB[i];
+        }
+        else
+        {
+          console.log(httpGetAsync(toWolframB[i],null));
+        }
+      }
+      var resB = textBWolframed.split("$");
       for(var i=0; i<resB.length; i++)
       {
         if(i%2==0)
@@ -290,7 +340,22 @@
       choiceC.id=uniqueElementCounter+"C";
       //uniqueElementCounter++;
       var textC=c.split("~").join("\\");
-      var resC = textC.split("$");
+      textC=textC.split("**").join(Math.trunc(Math.random()*MAX_COEFFICIENT)+1);
+      textC=textC.split("zah").join(zahhSquared);
+      var toWolframC=textC.split("%");
+      var textCWolframed="";
+      for(var i=0; i<toWolframC.length;i++)
+      {
+        if(i%2==0)
+        {
+          textCWolframed+=toWolframC[i];
+        }
+        else
+        {
+          console.log(httpGetAsync(toWolframC[i],null));
+        }
+      }
+      var resC = textCWolframed.split("$");
       for(var i=0; i<resC.length; i++)
       {
         if(i%2==0)
@@ -312,7 +377,22 @@
       choiceC.id=uniqueElementCounter+"D";
       //uniqueElementCounter++;
       var textD=d.split("~").join("\\");
-      var resD = textD.split("$");
+      textD=textD.split("**").join(Math.trunc(Math.random()*MAX_COEFFICIENT)+1);
+      textD=textD.split("zah").join(zahhSquared);
+      var toWolframD=textD.split("%");
+      var textDWolframed="";
+      for(var i=0; i<toWolframD.length;i++)
+      {
+        if(i%2==0)
+        {
+          textDWolframed+=toWolframD[i];
+        }
+        else
+        {
+          console.log(httpGetAsync(toWolframD[i],null));
+        }
+      }
+      var resD = textDWolframed.split("$");
       for(var i=0; i<resD.length; i++)
       {
         if(i%2==0)
