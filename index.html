@@ -106,7 +106,7 @@
                   xmlResponse=xmlHttp.responseText;
                   parser = new DOMParser();
                   xmlDoc = parser.parseFromString(xmlHttp.responseText,"text/xml");
-                  text=xmlDoc.getElementById('Result').childNodes[2].nodeValue;
+                  text=xmlDoc.getElementById('Result').childNodes[1].childNodes[3].childNodes[0].nodeValue;
                   console.log("resultText="+text);
                   return text;
               }
