@@ -99,7 +99,7 @@
               if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
                   callback(xmlHttp.responseText);
           }
-          xmlHttp.open("GET", "http://api.wolframalpha.com/v2/query?input="+theUrl+"&appid=GA3RGX-Q2V8RJJTEJ", true); // true for asynchronous 
+          xmlHttp.open("GET", "https://crossorigin.me/http://api.wolframalpha.com/v2/query?input="+theUrl+"&appid=GA3RGX-Q2V8RJJTEJ", true); // true for asynchronous 
           xmlHttp.send(null);
      }
 
