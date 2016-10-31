@@ -44,6 +44,10 @@
       var tfHasBeenMadeBefore=false;
       var mcHasBeenMadeBefore=false;
       var MAX_COEFFICIENT = 20;
+      var xmlResponse=null;
+      var parser=null;
+      var xmlDoc=null;
+      var text=null;
 
      function Check()
      {
@@ -99,7 +103,12 @@
               if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
               {
                   console.log(xmlHttp.responseText);
-                  callback(xmlHttp.responseText);
+                  xmlResponse=xmlHttp.responseText;
+                  parser = new DOMParser();
+                  xmlDoc = parser.parseFromString(xmlHttp.responseText,"text/xml");
+                  text=xmlDoc.getElementById('Result').childNodes[2].nodeValue;
+                  console.log("resultText="+text);
+                  return text;
               }
           }
           xmlHttp.open("GET", "https://crossorigin.me/http://api.wolframalpha.com/v2/query?input="+theUrl+"&appid=GA3RGX-Q2V8RJJTEJ", true); // true for asynchronous 
@@ -281,7 +290,7 @@
         }
         else
         {
-          console.log(httpGetAsync(toWolframA[i],null));
+          textAWolframed+=httpGetAsync(toWolframA[i],null);
         }
       }
       var resA = textAWolframed.split("$");
@@ -318,7 +327,7 @@
         }
         else
         {
-          console.log(httpGetAsync(toWolframB[i],null));
+          textBWolframed+=httpGetAsync(toWolframB[i],null);
         }
       }
       var resB = textBWolframed.split("$");
@@ -355,7 +364,7 @@
         }
         else
         {
-          console.log(httpGetAsync(toWolframC[i],null));
+          textCWolframed+=httpGetAsync(toWolframC[i],null);
         }
       }
       var resC = textCWolframed.split("$");
@@ -392,7 +401,7 @@
         }
         else
         {
-          console.log(httpGetAsync(toWolframD[i],null));
+          textDWolframed+=httpGetAsync(toWolframD[i],null);
         }
       }
       var resD = textDWolframed.split("$");
