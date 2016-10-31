@@ -102,7 +102,7 @@
           xmlHttp.onreadystatechange = function() { 
               if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
               {
-                  console.log(xmlHttp.responseText);
+                  //console.log(xmlHttp.responseText);
                   xmlResponse=xmlHttp.responseText;
                   parser = new DOMParser();
                   xmlDoc = parser.parseFromString(xmlHttp.responseText,"text/xml");
