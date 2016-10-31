@@ -97,7 +97,10 @@
           var xmlHttp = new XMLHttpRequest();
           xmlHttp.onreadystatechange = function() { 
               if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+              {
+                  console.log(xmlHttp.responseText);
                   callback(xmlHttp.responseText);
+              }
           }
           xmlHttp.open("GET", "https://crossorigin.me/http://api.wolframalpha.com/v2/query?input="+theUrl+"&appid=GA3RGX-Q2V8RJJTEJ", true); // true for asynchronous 
           xmlHttp.send(null);
