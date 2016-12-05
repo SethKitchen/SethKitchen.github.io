@@ -31,12 +31,14 @@
     <script type="text/javascript" src="Latex/mathquill.js"></script>
 
      <button onclick="Add()">Add Step</button> 
+     <button onclick="Check()">Check</button>
+
    </div>
-    <!-- CHAT JAVACRIPT -->
     <script>
         var MQ=MathQuill.getInterface(2);
         MQ.StaticMath(document.getElementById("problemStatement1"));
         MQ.StaticMath(document.getElementById("problemStatement2"));
+        var lastMessage="";
 
         function Clear()
         {
@@ -46,9 +48,165 @@
               toDeleteFrom.removeChild(toDeleteFrom.firstChild);
             }
         }
+
+        function Check()
+        {
+          var stepOne= "Let binom{x_1}{x_2}, binom{y_1}{y_2} epsilon R^{(2x1)} and let a epsilon R.";
+          var stepTwo= "T(a binom{x_1}{x_2}+ binom{y_1}{y_2})=T( binom{ax_1+y_1}{ax_2+y_2})";
+          var stepThree="=binom{5(ax_1+y_1)+2(ax_2+y_2)}{3(ax_1+y_1)-(ax_2+y_2)}";
+          var stepFour="=binom{a(5x_1+2x_2)+(5y_1+2y_2)}{3(ax_1+y_1)-(ax_1+y_2)}";
+          var stepFive="=abinom{5x_1+2x_2}{3x_1-x_2}+binom{5y_1+y_2}{3y_1-y_2}";
+          var stepSix="=aT(binom{x_1}{x_2})+T(binom{y_1}{y_2})";
+          var stepSeven="T is a linear transformation";
+          var resultString="";
+          var score=0;
+          var list=document.getElementsByClassName("message");
+          if(list.length>=1)
+          {
+            if(stepOne.split(' ').join('').toUpperCase()==MQ.StaticMath(list[0]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly formed allowed hypothesis.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your hypothesis is either not present, incorrect, or not allowed in Step 1.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have not entered any steps! Try starting with a hypothesis.";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+          if(list.length>=2)
+          {
+            if(stepTwo.split(' ').join('').toUpperCase()==MQ.StaticMath(list[1]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly formed the left hand side and applied vector arithmetic to the argument of the transformation.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your left hand side and application of vector arithmetic is either not present, incorrect, or not allowed in Step 2.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have only entered one step. Step 2 will be writing the left hand side and applying vector arithmetic to the argument of the transformation.\n";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+          if(list.length>=3)
+          {
+            if(stepThree.split(' ').join('').toUpperCase()==MQ.StaticMath(list[2]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly applied the transformation to its argument.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your application of the transformation to its argument is either not present, incorrect, or not allowed in Step 3.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have only entered two steps. Step 3 will be applying the transformation to its argument.\n";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+          if(list.length>=4)
+          {
+            if(stepFour.split(' ').join('').toUpperCase()==MQ.StaticMath(list[3]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly algebraically rearranged the expressions in the entries of the matrix.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your algebraic rearrangement of expressions in the matrix is either not present, incorrect, or not allowed in Step 4.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have only entered three steps. Step 4 will be algebraically rearranging the expressions in the matrix.\n";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+          if(list.length>=5)
+          {
+            if(stepFive.split(' ').join('').toUpperCase()==MQ.StaticMath(list[4]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly written the single vector as a linear combination of two vectors.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your writing of the single vector as a linear combination of two vectors is either not present, incorrect, or not allowed in Step 5.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have only entered four steps. Step 5 will be writing the single vector as a linear combination of two vectors.\n";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+          if(list.length>=6)
+          {
+            if(stepSix.split(' ').join('').toUpperCase()==MQ.StaticMath(list[5]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly recognized the linear combination as the right hand side of the solution.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your recognition of the linear combination as the right hand side of the solution is either not present, incorrect, or not allowed in Step 6.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have only entered five steps. Step 6 will be recognizing the linear combination as the right hand of the solution.\n";
+            alert(resultString);
+            return;
+          }
+          if(list.length>=7)
+          {
+            if(stepSeven.split(' ').join('').toUpperCase()==MQ.StaticMath(list[6]).latex().split(' ').join('').split('\\').join('').toUpperCase())
+            {
+              resultString+="You have correctly concluded that T is a linear transformation.\n";
+              score++;
+            }
+            else
+            {
+              resultString+="Your conclusion is either not present, incorrect, or not allowed in Step 7.\n";
+            }
+          }
+          else
+          {
+            resultString+="You have only entered six steps. Step 7 will be your conclusion.\n";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+          if(list.length>=8)
+          {
+            resultString+="You have too many steps. You should only need 7 steps.\n";
+            alert(resultString+"Your score is "+score+"\n");
+            return;
+          }
+      }
+
+        function clearEditor(elem) {
+          while ($(elem).children().length > 2)
+            $(elem).children()[2].remove();
+          $(elem).addClass('empty');
+        }
+
         function Add()
         {
            var message = $(document.getElementById("mathTextBox")).mathquill('latex').split(':').join(' ');
+           var temp=message;
+           message=message.replace(lastMessage, "");
+           lastMessage=temp;
            console.log("message"+message);
            var stepNumberPara=document.createElement("p");
            var stepNumberNode=document.createTextNode("Step )");
@@ -72,11 +230,9 @@
                     MQ.StaticMath(list[i]); //second console output
                 }
 
-           $(document.getElementById("mathTextBox")).mathquill('latex','');
+           //$(document.getElementById("mathTextBox")).mathquill('latex','\\ ');
 
-           while ($('.mathquill-editor').children().length > 2)
-              $('.mathquill-editor').children()[2].remove();
-           $('.mathquill-editor').addClass('empty');
+           clearEditor('.mathquill-editor');
            message="";
         }
     </script>
