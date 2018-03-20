@@ -68,6 +68,8 @@
        var B=Math.floor(Math.random() * 20) - 10;
        var C=Math.floor(Math.random() * 20) - 10;
        document.getElementById('functionToGenerate').innerText="y="+A+"x^2+"+B+"x+"+C;
+
+       //Load Intercepts and Zeros
        var importantValues=[];
        for(var x=-100; x<100; x+=.002)
        {
@@ -78,6 +80,17 @@
          }
        }
        importantValues.push(Math.abs(C));
+
+       //Load Vertex
+       if(A!=0)
+       {
+         var vertexX=-B/(2.0*A);
+         importantValues.push(vertexX);
+         console.log(vertexX);
+         console.log(Math.abs(A*vertexX*vertexX+B*vertexX+C));
+         importantValues.push(Math.abs(A*vertexX*vertexX+B*vertexX+C));
+       }
+
        console.log(importantValues);
        var vMax=importantValues.reduce(function(a, b) {
           return Math.max(a, b);
