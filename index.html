@@ -3,6 +3,13 @@
 <head>
 </head>
 <body>
+  <div id="generatedGraph">
+    <p>Random equation to graph with generated graph and solution</p>
+    <p id="functionToGenerate"></p>
+    <canvas id="autoScale" width="600" height="600">  
+    </canvas>
+  </div>
+  <p>Below is testing to get a canvas to draw on </p>
   <canvas id="c" width="600" height="600"></canvas>
   <div style="display: inline-block; margin-left: 10px">
     <button id="drawing-mode" class="btn btn-info">Cancel drawing mode</button><br>
@@ -40,10 +47,8 @@
     </div>
   </div>
   <div>
+    <p> Below is testing to overlay drawn graph on top of generated graph</p>
     <canvas id="sinC" width="600" height="600">
-    </canvas>
-    <p id="functionToGenerate"></p>
-    <canvas id="autoScale" width="600" height="600">  
     </canvas>
   </div>
   <script src="fabric.js"></script>
