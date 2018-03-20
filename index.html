@@ -1,242 +1,465 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Quiz Builder</title>
-    <meta charset="utf-8"/>
-		<link rel="stylesheet" type="text/css" href="Latex/mathquill.css">
-    	<link rel="stylesheet" href="Latex/NewMathQuill/mathquill.css"/>
-    	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
-   	    <script src="Latex/NewMathQuill/mathquill.js"></script>
-	</head>
-	<body>
-		<body style="background-color:lightgrey;">
-    <!-- CHAT MARKUP -->
-    <div id="scroller" style="color:black" class="scroll-pane">
-      <header>
-        <p>Show that if the transformation</p>
-        <span id="problemStatement1">T: \R^{(2x1)}\rightarrow\R^{(2x1)}</span> 
-        <p>is defined by the formula</p> 
-        <span id="problemStatement2">T(\binom{x_1}{x_2})=\binom{5x_1+2x_2}{3x_1-x_2}</span>
-        <p>then T is a linear transformation.</p> 
-      </header>
-      <hr />
-      <hr />
-        <div id="steps">
+<head>
+</head>
+<body>
+  <canvas id="c" width="600" height="600"></canvas>
+  <div style="display: inline-block; margin-left: 10px">
+    <button id="drawing-mode" class="btn btn-info">Cancel drawing mode</button><br>
+    <button id="clear-canvas" class="btn btn-info">Clear</button><br>
+    <p id="results">Move mouse over canvas</p>
+    <div id="drawing-mode-options">
+      <label for="drawing-mode-selector">Mode:</label>
+      <select id="drawing-mode-selector">
+        <option>Pencil</option>
+        <!--<option>Circle</option>
+        <option>Spray</option>
+        <option>Pattern</option>
 
-        </div>
-        <input type="button" value="Clear Steps" id="deleteBtn" onclick="Clear()" />
-       <p><span id="mathTextBox" style="color:black" class="mathquill-editor"></span></p>
+        <option>hline</option>
+        <option>vline</option>
+        <option>square</option>
+        <option>diamond</option>
+        <option>texture</option> -->
+      </select><br>
+
+      <label for="drawing-line-width">Line width:</label>
+      <span class="info">4</span><input type="range" value="4" min="0" max="150" id="drawing-line-width"><br>
+
+      <label for="drawing-color">Line color:</label>
+      <input type="color" value="#000000" id="drawing-color"><br>
+
+      <label for="drawing-shadow-color">Shadow color:</label>
+      <input type="color" value="#000000" id="drawing-shadow-color"><br>
+
+      <label for="drawing-shadow-width">Shadow width:</label>
+      <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-width"><br>
+
+      <label for="drawing-shadow-offset">Shadow offset:</label>
+      <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-offset"><br>
     </div>
-      
-    <script type="text/javascript" src="Latex/mathquill.js"></script>
+  </div>
+  <div>
+    <canvas id="sinC" width="600" height="600">
+    </canvas>
+    <p id="functionToGenerate"></p>
+    <canvas id="autoScale" width="600" height="600">  
+    </canvas>
+  </div>
+  <script src="fabric.js"></script>
+  <script>
 
-     <button onclick="Add()">Add Step</button> 
-     <button onclick="Check()">Check</button>
-
-   </div>
-    <script>
-        var MQ=MathQuill.getInterface(2);
-        MQ.StaticMath(document.getElementById("problemStatement1"));
-        MQ.StaticMath(document.getElementById("problemStatement2"));
-        var lastMessage="";
-
-        function Clear()
+    function GenerateRandomScaling()
+    {
+       heightCanvas=600;
+       widthCanvas=600;
+       r=.1;
+       widthDrawableArea=widthCanvas-2*r*widthCanvas;
+       heightDrawableArea=heightCanvas-2*r*heightCanvas;
+       var canvas=document.getElementById('autoScale');
+       var ctx = canvas.getContext("2d");
+       //Create a function y=Ax^2+Bx+C where A, B, and C are random
+       var A=Math.floor(Math.random() * 20) - 10;
+       var B=Math.floor(Math.random() * 20) - 10;
+       var C=Math.floor(Math.random() * 20) - 10;
+       document.getElementById('functionToGenerate').innerText="y="+A+"x^2+"+B+"x+"+C;
+       var importantValues=[];
+       for(var x=-100; x<100; x+=.002)
+       {
+         if(Math.abs(A*x*x+B*x+C)<0.1)
+         {
+           console.log(x.toFixed(3));
+           importantValues.push(Math.abs(x));
+         }
+       }
+       importantValues.push(Math.abs(C));
+       console.log(importantValues);
+       var vMax=importantValues.reduce(function(a, b) {
+          return Math.max(a, b);
+      });
+       console.log('vMax='+vMax);
+       var wMax=(1+Math.random())*vMax;
+       console.log('wMax='+wMax);
+       var wExtra=.1*wMax;
+       console.log('wExtra='+wExtra);
+       ctx.fillStyle = "rgba("+0+","+0+","+0+","+(255/255)+")";
+      //Draw Grid
+      //Draw Horizontal Axis
+      var x=r*widthCanvas;
+      var xMax=widthDrawableArea+x;
+      var y=heightCanvas/2;
+      console.log('starting at ('+x+','+y+') to '+xMax);
+      for(; x<xMax; x++)
+      {
+        ctx.fillRect( x, y, 1, 1 );
+      }
+      //Draw Vertical axis;
+      x=widthCanvas/2;;
+      y=r*heightCanvas/2;
+      yMax=heightDrawableArea+y;
+      for(; y<yMax; y++)
+      {
+        ctx.fillRect( x, y, 1, 1 );
+      }
+      //Draw Ticks
+      //Draw Horizontal Ticks
+      x=widthCanvas/2;
+      y=heightCanvas/2;
+      while(x<xMax)
+      {
+        x+=widthDrawableArea/(2*(wMax+wExtra));
+        if(x<=xMax)
         {
-          var toDeleteFrom=document.getElementById("steps");
-            while (toDeleteFrom.firstChild) {
-              toDeleteFrom.firstChild.innerHtml="";
-              toDeleteFrom.removeChild(toDeleteFrom.firstChild);
-            }
+          ctx.fillRect( x, y, 1, 5 );
         }
-
-        function Check()
+      }
+      x=widthCanvas/2;
+      y=heightCanvas/2;
+      while(x>r*widthCanvas)
+      {
+        console.log(x);
+        x-=widthDrawableArea/(2*(wMax+wExtra));
+        if(x>=r*widthCanvas)
         {
-          var stepOne= "Let binom{x_1}{x_2}, binom{y_1}{y_2} epsilon R^{(2x1)} and let a epsilon R.";
-          var stepTwo= "T(a binom{x_1}{x_2}+ binom{y_1}{y_2})=T( binom{ax_1+y_1}{ax_2+y_2})";
-          var stepThree="=binom{5(ax_1+y_1)+2(ax_2+y_2)}{3(ax_1+y_1)-(ax_2+y_2)}";
-          var stepFour="=binom{a(5x_1+2x_2)+(5y_1+2y_2)}{3(ax_1+y_1)-(ax_1+y_2)}";
-          var stepFive="=abinom{5x_1+2x_2}{3x_1-x_2}+binom{5y_1+y_2}{3y_1-y_2}";
-          var stepSix="=aT(binom{x_1}{x_2})+T(binom{y_1}{y_2})";
-          var stepSeven="T is a linear transformation";
-          var resultString="";
-          var score=0;
-          var list=document.getElementsByClassName("message");
-          if(list.length>=1)
-          {
-            if(stepOne.split(' ').join('').toUpperCase()==MQ.StaticMath(list[0]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly formed allowed hypothesis.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your hypothesis is either not present, incorrect, or not allowed in Step 1.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have not entered any steps! Try starting with a hypothesis.";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
-          if(list.length>=2)
-          {
-            if(stepTwo.split(' ').join('').toUpperCase()==MQ.StaticMath(list[1]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly formed the left hand side and applied vector arithmetic to the argument of the transformation.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your left hand side and application of vector arithmetic is either not present, incorrect, or not allowed in Step 2.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have only entered one step. Step 2 will be writing the left hand side and applying vector arithmetic to the argument of the transformation.\n";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
-          if(list.length>=3)
-          {
-            if(stepThree.split(' ').join('').toUpperCase()==MQ.StaticMath(list[2]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly applied the transformation to its argument.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your application of the transformation to its argument is either not present, incorrect, or not allowed in Step 3.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have only entered two steps. Step 3 will be applying the transformation to its argument.\n";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
-          if(list.length>=4)
-          {
-            if(stepFour.split(' ').join('').toUpperCase()==MQ.StaticMath(list[3]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly algebraically rearranged the expressions in the entries of the matrix.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your algebraic rearrangement of expressions in the matrix is either not present, incorrect, or not allowed in Step 4.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have only entered three steps. Step 4 will be algebraically rearranging the expressions in the matrix.\n";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
-          if(list.length>=5)
-          {
-            if(stepFive.split(' ').join('').toUpperCase()==MQ.StaticMath(list[4]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly written the single vector as a linear combination of two vectors.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your writing of the single vector as a linear combination of two vectors is either not present, incorrect, or not allowed in Step 5.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have only entered four steps. Step 5 will be writing the single vector as a linear combination of two vectors.\n";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
-          if(list.length>=6)
-          {
-            if(stepSix.split(' ').join('').toUpperCase()==MQ.StaticMath(list[5]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly recognized the linear combination as the right hand side of the solution.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your recognition of the linear combination as the right hand side of the solution is either not present, incorrect, or not allowed in Step 6.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have only entered five steps. Step 6 will be recognizing the linear combination as the right hand of the solution.\n";
-            alert(resultString);
-            return;
-          }
-          if(list.length>=7)
-          {
-            if(stepSeven.split(' ').join('').toUpperCase()==MQ.StaticMath(list[6]).latex().split(' ').join('').split('\\').join('').toUpperCase())
-            {
-              resultString+="You have correctly concluded that T is a linear transformation.\n";
-              score++;
-            }
-            else
-            {
-              resultString+="Your conclusion is either not present, incorrect, or not allowed in Step 7.\n";
-            }
-          }
-          else
-          {
-            resultString+="You have only entered six steps. Step 7 will be your conclusion.\n";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
-          if(list.length>=8)
-          {
-            resultString+="You have too many steps. You should only need 7 steps.\n";
-            alert(resultString+"Your score is "+score+"\n");
-            return;
-          }
+          ctx.fillRect( x, y, 1, 5 );
+        }
+      }
+      //Draw Vertical ticks
+      x=widthCanvas/2;
+      y=heightCanvas/2;
+      while(y<yMax)
+      {
+        y+=heightDrawableArea/(2*(wMax+wExtra));
+        if(y<=yMax)
+        {
+          ctx.fillRect( x, y, 5, 1 );
+        }
+      }
+      while(y>r*heightCanvas)
+      {
+        y-=heightDrawableArea/(2*(wMax+wExtra));
+        if(y>=r*heightCanvas)
+        {
+          ctx.fillRect( x, y, 5, 1 );
+        }
       }
 
-        function clearEditor(elem) {
-          while ($(elem).children().length > 2)
-            $(elem).children()[2].remove();
-          $(elem).addClass('empty');
-        }
-
-        function Add()
+      ctx.fillStyle = "rgba("+0+","+255+","+0+","+(255/255)+")";
+      for(var x=-100; x<100; x+=.002)
+      {
+        y=A*x*x+B*x+C;
+        xToPlot=x*(widthDrawableArea/(2*(wMax+wExtra)))+widthCanvas/2;
+        yToPlot=-y*heightDrawableArea/(2*(wMax+wExtra))+heightCanvas/2;
+        if(xToPlot>=r*widthCanvas && xToPlot<=xMax && yToPlot>=r*heightCanvas && yToPlot<=yMax)
         {
-           var message = $(document.getElementById("mathTextBox")).mathquill('latex').split(':').join(' ');
-           var temp=message;
-           message=message.replace(lastMessage, "");
-           lastMessage=temp;
-           console.log("message"+message);
-           var stepNumberPara=document.createElement("p");
-           var stepNumberNode=document.createTextNode("Step )");
-           stepNumberPara.appendChild(stepNumberNode);
-
-           var paraMessage = document.createElement("span");
-           var nodeMessage = document.createTextNode(message);
-           paraMessage.appendChild(nodeMessage);
-           paraMessage.className="message";
-
-
-           var element = document.getElementById("steps");
-           element.appendChild(stepNumberPara);
-           element.appendChild(paraMessage);
-           var line=document.createElement("HR");
-           element.appendChild(line);
- 
-                //messageList[0].scrollTop = messageList[0].scrollHeight;
-                var list=document.getElementsByClassName("message");
-                for (var i = 0; i < list.length; i++) {
-                    MQ.StaticMath(list[i]); //second console output
-                }
-
-           //$(document.getElementById("mathTextBox")).mathquill('latex','\\ ');
-
-           clearEditor('.mathquill-editor');
-           message="";
+          ctx.fillRect( xToPlot, yToPlot, 3, 3 );
         }
-    </script>
+      }
+    }
 
-		
-	</body>
+    function drawOnSinCanvas()
+    {
+      var canvas=document.getElementById('sinC');
+      var ctx = canvas.getContext("2d");
+      ctx.fillStyle = "rgba("+0+","+0+","+0+","+(255/255)+")";
+      //Draw Grid
+      //Draw Horizontal Axis
+      var x=0;
+      var y=300;
+      for(x=0; x<600; x++)
+      {
+        ctx.fillRect( x, y, 1, 1 );
+      }
+      //Draw Vertical axis;
+      x=300;
+      for(y=0; y<600; y++)
+      {
+        ctx.fillRect( x, y, 1, 1 );
+      }
+
+      //Draw Correct Sin Wave 
+      var i;
+      var counter = 0, x=0,y=300;
+      //100 iterations
+      var increase = 150/300*Math.PI / 15;
+      for(i=0; i<=600; i+=10){
+        ctx.moveTo(x,y);
+        x = i;
+        y =  300 - Math.sin(counter) * 200;
+        counter += increase;
+         
+        ctx.lineTo(x,y);
+        ctx.stroke();
+      }
+
+      //Draw Student Answer
+      var drawnCanvas=document.getElementById('c');
+      var drawnCtx=drawnCanvas.getContext("2d");
+      var allPxArray = drawnCtx.getImageData(0,0,canvas.width,canvas.height).data;
+      for(var counter=0; counter<allPxArray.length; counter++)
+      {
+        if(allPxArray[counter]==255)
+        {
+          //counter=y*width+x;
+          var x=counter/4%600;
+          var y=counter/4/600;
+         // console.log("x y = "+x+" "+y);
+          ctx.fillStyle = "rgba("+255+","+0+","+0+","+(255/255)+")";
+          ctx.fillRect(x, y, 1, 1 );
+          
+        }
+      }
+    }
+
+    (function() {
+      var $ = function(id){return document.getElementById(id)};
+
+      var canvas = this.__canvas = new fabric.Canvas('c', {
+        isDrawingMode: true
+      });
+
+     
+
+      var results = document.getElementById('results');
+      var ctx = canvas.getContext("2d");
+      fabric.Object.prototype.transparentCorners = false;
+
+      drawCoordinatePlane=function() {
+        //Draw Grid
+        //Draw Horizontal axis
+        var x=0;
+        var y=300;
+        for(x=0; x<600; x++)
+        {
+          var rect = new fabric.Rect({
+              width: 1,
+              height: 1,
+              top: y,
+              left: x,
+              fill: 'rgba(0,0,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
+        }
+        //Draw Vertical axis;
+        x=300;
+        for(y=0; y<600; y++)
+        {
+          var rect = new fabric.Rect({
+              width: 1,
+              height: 1,
+              top: y,
+              left: x,
+              fill: 'rgba(0,0,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
+        }
+      }
+      
+      drawCoordinatePlane();
+      GenerateRandomScaling();
+      drawOnSinCanvas();
+
+      var drawingModeEl = $('drawing-mode'),
+      drawingOptionsEl = $('drawing-mode-options'),
+      drawingColorEl = $('drawing-color'),
+      drawingShadowColorEl = $('drawing-shadow-color'),
+      drawingLineWidthEl = $('drawing-line-width'),
+      drawingShadowWidth = $('drawing-shadow-width'),
+      drawingShadowOffset = $('drawing-shadow-offset'),
+      clearEl = $('clear-canvas');
+
+      clearEl.onclick = function() {
+        canvas.clear();
+        setTimeout(drawCoordinatePlane,parseInt(Math.random()*10));
+      };
+
+     drawingModeEl.onclick = function() {
+      canvas.isDrawingMode = !canvas.isDrawingMode;
+      if (canvas.isDrawingMode) {
+        drawingModeEl.innerHTML = 'Cancel drawing mode';
+        drawingOptionsEl.style.display = '';
+        drawOnSinCanvas();
+      }
+      else {
+        drawingModeEl.innerHTML = 'Enter drawing mode';
+        drawingOptionsEl.style.display = 'none';
+      }
+    };
+
+    if (fabric.PatternBrush) {
+      var vLinePatternBrush = new fabric.PatternBrush(canvas);
+      vLinePatternBrush.getPatternSrc = function() {
+
+        var patternCanvas = fabric.document.createElement('canvas');
+        patternCanvas.width = patternCanvas.height = 10;
+        var ctx = patternCanvas.getContext('2d');
+
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(0, 5);
+        ctx.lineTo(10, 5);
+        ctx.closePath();
+        ctx.stroke();
+
+        return patternCanvas;
+      };
+
+      var hLinePatternBrush = new fabric.PatternBrush(canvas);
+      hLinePatternBrush.getPatternSrc = function() {
+
+        var patternCanvas = fabric.document.createElement('canvas');
+        patternCanvas.width = patternCanvas.height = 10;
+        var ctx = patternCanvas.getContext('2d');
+
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(5, 0);
+        ctx.lineTo(5, 10);
+        ctx.closePath();
+        ctx.stroke();
+
+        return patternCanvas;
+      };
+
+      var squarePatternBrush = new fabric.PatternBrush(canvas);
+      squarePatternBrush.getPatternSrc = function() {
+
+        var squareWidth = 10, squareDistance = 2;
+
+        var patternCanvas = fabric.document.createElement('canvas');
+        patternCanvas.width = patternCanvas.height = squareWidth + squareDistance;
+        var ctx = patternCanvas.getContext('2d');
+
+        ctx.fillStyle = this.color;
+        ctx.fillRect(0, 0, squareWidth, squareWidth);
+
+        return patternCanvas;
+      };
+
+      var diamondPatternBrush = new fabric.PatternBrush(canvas);
+      diamondPatternBrush.getPatternSrc = function() {
+
+        var squareWidth = 10, squareDistance = 5;
+        var patternCanvas = fabric.document.createElement('canvas');
+        var rect = new fabric.Rect({
+          width: squareWidth,
+          height: squareWidth,
+          angle: 45,
+          fill: this.color
+        });
+
+        var canvasWidth = rect.getBoundingRect().width;
+
+        patternCanvas.width = patternCanvas.height = canvasWidth + squareDistance;
+        rect.set({ left: canvasWidth / 2, top: canvasWidth / 2 });
+
+        var ctx = patternCanvas.getContext('2d');
+        rect.render(ctx);
+
+        return patternCanvas;
+      };
+
+      //var img = new Image();
+      //img.src = '../assets/honey_im_subtle.png';
+
+      //var texturePatternBrush = new fabric.PatternBrush(canvas);
+      //texturePatternBrush.source = img;
+    }
+
+    $('drawing-mode-selector').onchange = function() {
+
+      if (this.value === 'hline') {
+        canvas.freeDrawingBrush = vLinePatternBrush;
+      }
+      else if (this.value === 'vline') {
+        canvas.freeDrawingBrush = hLinePatternBrush;
+      }
+      else if (this.value === 'square') {
+        canvas.freeDrawingBrush = squarePatternBrush;
+      }
+      else if (this.value === 'diamond') {
+        canvas.freeDrawingBrush = diamondPatternBrush;
+      }
+      else if (this.value === 'texture') {
+        canvas.freeDrawingBrush = texturePatternBrush;
+      }
+      else {
+        canvas.freeDrawingBrush = new fabric[this.value + 'Brush'](canvas);
+      }
+
+      if (canvas.freeDrawingBrush) {
+        canvas.freeDrawingBrush.color = drawingColorEl.value;
+        canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+        canvas.freeDrawingBrush.shadow = new fabric.Shadow({
+          blur: parseInt(drawingShadowWidth.value, 10) || 0,
+          offsetX: 0,
+          offsetY: 0,
+          affectStroke: true,
+          color: drawingShadowColorEl.value,
+        });
+      }
+    };
+
+    drawingColorEl.onchange = function() {
+      canvas.freeDrawingBrush.color = this.value;
+    };
+    drawingShadowColorEl.onchange = function() {
+      canvas.freeDrawingBrush.shadow.color = this.value;
+    };
+    drawingLineWidthEl.onchange = function() {
+      canvas.freeDrawingBrush.width = parseInt(this.value, 10) || 1;
+      this.previousSibling.innerHTML = this.value;
+    };
+    drawingShadowWidth.onchange = function() {
+      canvas.freeDrawingBrush.shadow.blur = parseInt(this.value, 10) || 0;
+      this.previousSibling.innerHTML = this.value;
+    };
+    drawingShadowOffset.onchange = function() {
+      canvas.freeDrawingBrush.shadow.offsetX = parseInt(this.value, 10) || 0;
+      canvas.freeDrawingBrush.shadow.offsetY = parseInt(this.value, 10) || 0;
+      this.previousSibling.innerHTML = this.value;
+    };
+
+    // listen for mouse:move events
+    canvas.on('mouse:move', function(e) {
+
+      // get the current mouse position
+      var mouse = canvas.getPointer(e.e);
+      var x = parseInt(mouse.x);
+      var y = parseInt(mouse.y);
+
+      // get the color array for the pixel under the mouse
+      var px = ctx.getImageData(x, y, 1, 1).data;
+
+      // report that pixel data
+      results.innerHTML = 'At [' + x + ' / ' + y + ']: Red/Green/Blue/Alpha = [' + px[0] + ' / ' + px[1] + ' / ' + px[2] + ' / ' + px[3] + ']';
+
+    });
+
+    if (canvas.freeDrawingBrush) {
+      canvas.freeDrawingBrush.color = drawingColorEl.value;
+      canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+      canvas.freeDrawingBrush.shadow = new fabric.Shadow({
+        blur: parseInt(drawingShadowWidth.value, 10) || 0,
+        offsetX: 0,
+        offsetY: 0,
+        affectStroke: true,
+        color: drawingShadowColorEl.value,
+      });
+    }
+  })();
+</script>
+</body>
 </html>
