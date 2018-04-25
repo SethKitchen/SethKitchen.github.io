@@ -6,14 +6,16 @@
   <div id="generatedGraph">
     <p>Random equation to graph with generated graph and solution</p>
     <p id="functionToGenerate"></p>
+    <p>Below is testing to get a canvas to draw on </p>
+    <p>Metric Value:</p>
+    <p id="metricValue"></p>
     <canvas id="autoScale" width="600" height="600">  
     </canvas>
-  </div>
-  <p>Below is testing to get a canvas to draw on </p>
-  <canvas id="c" width="600" height="600"></canvas>
   <div style="display: inline-block; margin-left: 10px">
     <button id="drawing-mode" class="btn btn-info">Cancel drawing mode</button><br>
     <button id="clear-canvas" class="btn btn-info">Clear</button><br>
+    <button onclick="drawSolution();">Draw Solution</button>
+    <button onclick="doMetric();">Do Insall Metric</button>
     <p id="results">Move mouse over canvas</p>
     <div id="drawing-mode-options">
       <label for="drawing-mode-selector">Mode:</label>
@@ -34,7 +36,7 @@
       <span class="info">4</span><input type="range" value="4" min="0" max="150" id="drawing-line-width"><br>
 
       <label for="drawing-color">Line color:</label>
-      <input type="color" value="#000000" id="drawing-color"><br>
+      <input type="color" value="#0000ff" id="drawing-color"><br>
 
       <label for="drawing-shadow-color">Shadow color:</label>
       <input type="color" value="#000000" id="drawing-shadow-color"><br>
@@ -46,6 +48,7 @@
       <span class="info">0</span><input type="range" value="0" min="0" max="50" id="drawing-shadow-offset"><br>
     </div>
   </div>
+</div>
   <div>
     <p> Below is testing to overlay drawn graph on top of generated graph</p>
     <canvas id="sinC" width="600" height="600">
@@ -54,114 +57,25 @@
   <script src="fabric.js"></script>
   <script>
 
-    function GenerateRandomScaling()
+    //Create a function y=Ax^2+Bx+C where A, B, and C are random
+    var A=Math.floor(Math.random() * 20) - 10;
+    var B=Math.floor(Math.random() * 20) - 10;
+    var C=Math.floor(Math.random() * 20) - 10;
+    document.getElementById('functionToGenerate').innerText="y="+A+"x^2+"+B+"x+"+C;
+    var heightCanvas=600;
+    var widthCanvas=600;
+    var r=.1;
+    var widthDrawableArea=widthCanvas-2*r*widthCanvas;
+    var heightDrawableArea=heightCanvas-2*r*heightCanvas;
+    var wMax;
+    var wExtra;
+    var xMax;
+
+
+    function drawSolution()
     {
-       heightCanvas=600;
-       widthCanvas=600;
-       r=.1;
-       widthDrawableArea=widthCanvas-2*r*widthCanvas;
-       heightDrawableArea=heightCanvas-2*r*heightCanvas;
-       var canvas=document.getElementById('autoScale');
-       var ctx = canvas.getContext("2d");
-       //Create a function y=Ax^2+Bx+C where A, B, and C are random
-       var A=Math.floor(Math.random() * 20) - 10;
-       var B=Math.floor(Math.random() * 20) - 10;
-       var C=Math.floor(Math.random() * 20) - 10;
-       document.getElementById('functionToGenerate').innerText="y="+A+"x^2+"+B+"x+"+C;
-
-       //Load Intercepts and Zeros
-       var importantValues=[];
-       for(var x=-100; x<100; x+=.002)
-       {
-         if(Math.abs(A*x*x+B*x+C)<0.1)
-         {
-           console.log(x.toFixed(3));
-           importantValues.push(Math.abs(x));
-         }
-       }
-       importantValues.push(Math.abs(C));
-
-       //Load Vertex
-       if(A!=0)
-       {
-         var vertexX=-B/(2.0*A);
-         importantValues.push(vertexX);
-         console.log(vertexX);
-         console.log(Math.abs(A*vertexX*vertexX+B*vertexX+C));
-         importantValues.push(Math.abs(A*vertexX*vertexX+B*vertexX+C));
-       }
-
-       console.log(importantValues);
-       var vMax=importantValues.reduce(function(a, b) {
-          return Math.max(a, b);
-      });
-       console.log('vMax='+vMax);
-       var wMax=(1+Math.random())*vMax;
-       console.log('wMax='+wMax);
-       var wExtra=.1*wMax;
-       console.log('wExtra='+wExtra);
-       ctx.fillStyle = "rgba("+0+","+0+","+0+","+(255/255)+")";
-      //Draw Grid
-      //Draw Horizontal Axis
-      var x=r*widthCanvas;
-      var xMax=widthDrawableArea+x;
-      var y=heightCanvas/2;
-      console.log('starting at ('+x+','+y+') to '+xMax);
-      for(; x<xMax; x++)
-      {
-        ctx.fillRect( x, y, 1, 1 );
-      }
-      //Draw Vertical axis;
-      x=widthCanvas/2;;
-      y=r*heightCanvas/2;
-      yMax=heightDrawableArea+y;
-      for(; y<yMax; y++)
-      {
-        ctx.fillRect( x, y, 1, 1 );
-      }
-      //Draw Ticks
-      //Draw Horizontal Ticks
-      x=widthCanvas/2;
-      y=heightCanvas/2;
-      while(x<xMax)
-      {
-        x+=widthDrawableArea/(2*(wMax+wExtra));
-        if(x<=xMax)
-        {
-          ctx.fillRect( x, y, 1, 5 );
-        }
-      }
-      x=widthCanvas/2;
-      y=heightCanvas/2;
-      while(x>r*widthCanvas)
-      {
-        console.log(x);
-        x-=widthDrawableArea/(2*(wMax+wExtra));
-        if(x>=r*widthCanvas)
-        {
-          ctx.fillRect( x, y, 1, 5 );
-        }
-      }
-      //Draw Vertical ticks
-      x=widthCanvas/2;
-      y=heightCanvas/2;
-      while(y<yMax)
-      {
-        y+=heightDrawableArea/(2*(wMax+wExtra));
-        if(y<=yMax)
-        {
-          ctx.fillRect( x, y, 5, 1 );
-        }
-      }
-      while(y>r*heightCanvas)
-      {
-        y-=heightDrawableArea/(2*(wMax+wExtra));
-        if(y>=r*heightCanvas)
-        {
-          ctx.fillRect( x, y, 5, 1 );
-        }
-      }
-
+      var canvas=document.getElementById('autoScale');
+      var ctx = canvas.getContext("2d");
       ctx.fillStyle = "rgba("+0+","+255+","+0+","+(255/255)+")";
       for(var x=-100; x<100; x+=.002)
       {
@@ -173,6 +87,24 @@
           ctx.fillRect( xToPlot, yToPlot, 3, 3 );
         }
       }
+    }
+
+    function doMetric()
+    {
+      var totalDistance=0;
+      for(var x=0; x<widthCanvas; x++)
+      {
+        for(var y=0; y<heightCanvas; y++)
+        {
+          // get the color array for the pixel
+          var px = ctx.getImageData(x, y, 1, 1).data;
+          if(px[0]==0 && px[1]==255 && px[2]==0 && px[3]==255) //If it's green
+          {
+            
+          }
+        }
+      }
+      document.getElementById('metricValue').innerText=0;
     }
 
     function drawOnSinCanvas()
@@ -211,7 +143,7 @@
       }
 
       //Draw Student Answer
-      var drawnCanvas=document.getElementById('c');
+      var drawnCanvas=document.getElementById('autoScale');
       var drawnCtx=drawnCanvas.getContext("2d");
       var allPxArray = drawnCtx.getImageData(0,0,canvas.width,canvas.height).data;
       for(var counter=0; counter<allPxArray.length; counter++)
@@ -232,7 +164,7 @@
     (function() {
       var $ = function(id){return document.getElementById(id)};
 
-      var canvas = this.__canvas = new fabric.Canvas('c', {
+      var canvas = this.__canvas = new fabric.Canvas('autoScale', {
         isDrawingMode: true
       });
 
@@ -243,13 +175,48 @@
       fabric.Object.prototype.transparentCorners = false;
 
       drawCoordinatePlane=function() {
-        //Draw Grid
-        //Draw Horizontal axis
-        var x=0;
-        var y=300;
-        for(x=0; x<600; x++)
-        {
-          var rect = new fabric.Rect({
+        //Load Intercepts and Zeros
+       var importantValues=[];
+       for(var x=-100; x<100; x+=.002)
+       {
+         if(Math.abs(A*x*x+B*x+C)<0.1)
+         {
+           console.log(x.toFixed(3));
+           importantValues.push(Math.abs(x));
+         }
+       }
+       importantValues.push(Math.abs(C));
+
+       //Load Vertex
+       if(A!=0)
+       {
+         var vertexX=-B/(2.0*A);
+         importantValues.push(vertexX);
+         console.log(vertexX);
+         console.log(Math.abs(A*vertexX*vertexX+B*vertexX+C));
+         importantValues.push(Math.abs(A*vertexX*vertexX+B*vertexX+C));
+       }
+
+       console.log(importantValues);
+       var vMax=importantValues.reduce(function(a, b) {
+          return Math.max(a, b);
+      });
+       console.log('vMax='+vMax);
+       wMax=(1+Math.random())*vMax;
+       console.log('wMax='+wMax);
+       wExtra=.1*wMax;
+       console.log('wExtra='+wExtra);
+       ctx.fillStyle = "rgba("+0+","+0+","+0+","+(255/255)+")";
+      
+      //Draw Grid
+      //Draw Horizontal Axis
+      var x=r*widthCanvas;
+      xMax=widthDrawableArea+x;
+      var y=heightCanvas/2;
+      console.log('starting at ('+x+','+y+') to '+xMax);
+      for(; x<xMax; x++)
+      {
+        var rect = new fabric.Rect({
               width: 1,
               height: 1,
               top: y,
@@ -262,13 +229,84 @@
           rect.lockUniScaling = true; 
           rect.lockRotation = true; 
           canvas.add(rect);
-        }
-        //Draw Vertical axis;
-        x=300;
-        for(y=0; y<600; y++)
+      }
+      //Draw Vertical axis;
+      x=widthCanvas/2;;
+      y=r*heightCanvas/2;
+      yMax=heightDrawableArea+y;
+      for(; y<yMax; y++)
+      {
+        var rect = new fabric.Rect({
+              width: 1,
+              height: 1,
+              top: y,
+              left: x,
+              fill: 'rgba(0,0,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
+      }
+      //Draw Ticks
+      //Draw Horizontal Ticks
+      x=widthCanvas/2;
+      y=heightCanvas/2;
+      while(x<xMax)
+      {
+        x+=widthDrawableArea/(2*(wMax+wExtra));
+        if(x<=xMax)
         {
           var rect = new fabric.Rect({
               width: 1,
+              height: 5,
+              top: y,
+              left: x,
+              fill: 'rgba(0,0,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
+        }
+      }
+      x=widthCanvas/2;
+      y=heightCanvas/2;
+      while(x>r*widthCanvas)
+      {
+        console.log(x);
+        x-=widthDrawableArea/(2*(wMax+wExtra));
+        if(x>=r*widthCanvas)
+        {
+          var rect = new fabric.Rect({
+              width: 1,
+              height: 5,
+              top: y,
+              left: x,
+              fill: 'rgba(0,0,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
+        }
+      }
+      //Draw Vertical ticks
+      x=widthCanvas/2;
+      y=heightCanvas/2;
+      while(y<yMax)
+      {
+        y+=heightDrawableArea/(2*(wMax+wExtra));
+        if(y<=yMax)
+        {
+          var rect = new fabric.Rect({
+              width: 5,
               height: 1,
               top: y,
               left: x,
@@ -282,9 +320,29 @@
           canvas.add(rect);
         }
       }
+      while(y>r*heightCanvas)
+      {
+        y-=heightDrawableArea/(2*(wMax+wExtra));
+        if(y>=r*heightCanvas)
+        {
+          var rect = new fabric.Rect({
+              width: 5,
+              height: 1,
+              top: y,
+              left: x,
+              fill: 'rgba(0,0,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
+        }
+      }
+    }
       
       drawCoordinatePlane();
-      GenerateRandomScaling();
       drawOnSinCanvas();
 
       var drawingModeEl = $('drawing-mode'),
