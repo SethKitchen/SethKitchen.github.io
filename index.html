@@ -54,7 +54,7 @@
     <canvas id="sinC" width="600" height="600">
     </canvas>
   </div>
-  <script src="fabric.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js"></script>
   <script>
 
     //Create a function y=Ax^2+Bx+C where A, B, and C are random
@@ -70,13 +70,10 @@
     var wMax;
     var wExtra;
     var xMax;
-
+    var canvas;
 
     function drawSolution()
     {
-      var canvas=document.getElementById('autoScale');
-      var ctx = canvas.getContext("2d");
-      ctx.fillStyle = "rgba("+0+","+255+","+0+","+(255/255)+")";
       for(var x=-100; x<100; x+=.002)
       {
         y=A*x*x+B*x+C;
@@ -84,87 +81,87 @@
         yToPlot=-y*heightDrawableArea/(2*(wMax+wExtra))+heightCanvas/2;
         if(xToPlot>=r*widthCanvas && xToPlot<=xMax && yToPlot>=r*heightCanvas && yToPlot<=yMax)
         {
-          ctx.fillRect( xToPlot, yToPlot, 3, 3 );
+          var rect = new fabric.Rect({
+              width: 3,
+              height: 3,
+              top: yToPlot,
+              left: xToPlot,
+              fill: 'rgba(0,255,0,1)',
+              draggable: false
+          });
+          rect.lockMovementX = true;
+          rect.lockMovementY = true; 
+          rect.lockUniScaling = true; 
+          rect.lockRotation = true; 
+          canvas.add(rect);
         }
       }
+    }
+
+    function getColorIndicesForCoord(x, y, width) {
+      var red = y * (width * 4) + x * 4;
+      return [red, red + 1, red + 2, red + 3];
     }
 
     function doMetric()
     {
-      var totalDistance=0;
-      for(var x=0; x<widthCanvas; x++)
-      {
-        for(var y=0; y<heightCanvas; y++)
-        {
-          // get the color array for the pixel
-          var px = ctx.getImageData(x, y, 1, 1).data;
-          if(px[0]==0 && px[1]==255 && px[2]==0 && px[3]==255) //If it's green
-          {
-            
-          }
-        }
-      }
-      document.getElementById('metricValue').innerText=0;
-    }
-
-    function drawOnSinCanvas()
-    {
-      var canvas=document.getElementById('sinC');
       var ctx = canvas.getContext("2d");
-      ctx.fillStyle = "rgba("+0+","+0+","+0+","+(255/255)+")";
-      //Draw Grid
-      //Draw Horizontal Axis
-      var x=0;
-      var y=300;
-      for(x=0; x<600; x++)
+      var summation=0;
+      var p=1;
+      var imageData = ctx.getImageData(0, 0, 600, 600);
+      for(var x=0; x<widthCanvas; x+=40)
       {
-        ctx.fillRect( x, y, 1, 1 );
-      }
-      //Draw Vertical axis;
-      x=300;
-      for(y=0; y<600; y++)
-      {
-        ctx.fillRect( x, y, 1, 1 );
-      }
-
-      //Draw Correct Sin Wave 
-      var i;
-      var counter = 0, x=0,y=300;
-      //100 iterations
-      var increase = 150/300*Math.PI / 15;
-      for(i=0; i<=600; i+=10){
-        ctx.moveTo(x,y);
-        x = i;
-        y =  300 - Math.sin(counter) * 200;
-        counter += increase;
-         
-        ctx.lineTo(x,y);
-        ctx.stroke();
-      }
-
-      //Draw Student Answer
-      var drawnCanvas=document.getElementById('autoScale');
-      var drawnCtx=drawnCanvas.getContext("2d");
-      var allPxArray = drawnCtx.getImageData(0,0,canvas.width,canvas.height).data;
-      for(var counter=0; counter<allPxArray.length; counter++)
-      {
-        if(allPxArray[counter]==255)
+        console.log('x1 increment to '+x);
+        console.log('summation is '+summation);
+        for(var y=0; y<heightCanvas; y+=40)
         {
-          //counter=y*width+x;
-          var x=counter/4%600;
-          var y=counter/4/600;
-         // console.log("x y = "+x+" "+y);
-          ctx.fillStyle = "rgba("+255+","+0+","+0+","+(255/255)+")";
-          ctx.fillRect(x, y, 1, 1 );
-          
+          var minGreen=Number.MAX_VALUE;
+          var minBlue=Number.MAX_VALUE;
+          for(var x2=0; x2<widthCanvas; x2++)
+          {
+            for(var y2=0; y2<heightCanvas; y2++)
+            {
+              // get the color array for the pixel
+              
+              var colorIndices = getColorIndicesForCoord(x2, y2, 600);
+
+              var redIndex = colorIndices[0];
+              var greenIndex = colorIndices[1];
+              var blueIndex = colorIndices[2];
+              var alphaIndex = colorIndices[3];
+
+              var redForCoord = imageData.data[redIndex];
+              var greenForCoord = imageData.data[greenIndex];
+              var blueForCoord = imageData.data[blueIndex];
+              var alphaForCoord = imageData.data[alphaIndex];
+              if(redForCoord==0 && greenForCoord==255 && blueForCoord==0 && alphaForCoord==255) //If it's green
+              {
+                if(minGreen*minGreen>(x2-x)*(x2-x)+(y2-y)*(y2-y))
+                {
+                  minGreen=(x2-x)*(x2-x)+(y2-y)*(y2-y);
+                }
+              }
+              if(redForCoord==0 && greenForCoord==0 && blueForCoord==255 && alphaForCoord==255) //If it's blue
+              {
+                if(minBlue*minBlue>(x2-x)*(x2-x)+(y2-y)*(y2-y))
+                {
+                  minBlue=(x2-x)*(x2-x)+(y2-y)*(y2-y);
+                }
+              }
+            }
+          }
+          var minTotal=Math.abs(minGreen-minBlue);
+          var minTotalToTheP=Math.pow(minTotal, p);
+          summation+=minTotalToTheP;
         }
       }
+      document.getElementById('metricValue').innerText=Math.pow(summation/(Math.pow(widthCanvas,p+2)*Math.sqrt(2)),1.0/p);
     }
 
     (function() {
       var $ = function(id){return document.getElementById(id)};
 
-      var canvas = this.__canvas = new fabric.Canvas('autoScale', {
+      canvas = this.__canvas = new fabric.Canvas('autoScale', {
         isDrawingMode: true
       });
 
@@ -232,7 +229,7 @@
       }
       //Draw Vertical axis;
       x=widthCanvas/2;;
-      y=r*heightCanvas/2;
+      y=r*heightCanvas;
       yMax=heightDrawableArea+y;
       for(; y<yMax; y++)
       {
@@ -343,7 +340,6 @@
     }
       
       drawCoordinatePlane();
-      drawOnSinCanvas();
 
       var drawingModeEl = $('drawing-mode'),
       drawingOptionsEl = $('drawing-mode-options'),
@@ -508,22 +504,6 @@
       this.previousSibling.innerHTML = this.value;
     };
 
-    // listen for mouse:move events
-    canvas.on('mouse:move', function(e) {
-
-      // get the current mouse position
-      var mouse = canvas.getPointer(e.e);
-      var x = parseInt(mouse.x);
-      var y = parseInt(mouse.y);
-
-      // get the color array for the pixel under the mouse
-      var px = ctx.getImageData(x, y, 1, 1).data;
-
-      // report that pixel data
-      results.innerHTML = 'At [' + x + ' / ' + y + ']: Red/Green/Blue/Alpha = [' + px[0] + ' / ' + px[1] + ' / ' + px[2] + ' / ' + px[3] + ']';
-
-    });
-
     if (canvas.freeDrawingBrush) {
       canvas.freeDrawingBrush.color = drawingColorEl.value;
       canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
@@ -536,6 +516,33 @@
       });
     }
   })();
+
+  // listen for mouse:move events
+  canvas.on('mouse:move', function(e) {
+    var ctx = canvas.getContext("2d");
+    var imageData = ctx.getImageData(0, 0, 600, 600);
+    // get the current mouse position
+    var mouse = canvas.getPointer(e.e);
+    var x = parseInt(mouse.x);
+    var y = parseInt(mouse.y);
+
+    // get the color array for the pixel under the mouse
+    var colorIndices = getColorIndicesForCoord(x, y, 600);
+
+    var redIndex = colorIndices[0];
+    var greenIndex = colorIndices[1];
+    var blueIndex = colorIndices[2];
+    var alphaIndex = colorIndices[3];
+
+    var redForCoord = imageData.data[redIndex];
+    var greenForCoord = imageData.data[greenIndex];
+    var blueForCoord = imageData.data[blueIndex];
+    var alphaForCoord = imageData.data[alphaIndex];
+
+    // report that pixel data
+    results.innerHTML = 'At [' + x + ' / ' + y + ']: Red/Green/Blue/Alpha = [' + redForCoord + ' / ' + greenForCoord + ' / ' + blueForCoord + ' / ' + alphaForCoord + ']';
+
+  });
 </script>
 </body>
 </html>
