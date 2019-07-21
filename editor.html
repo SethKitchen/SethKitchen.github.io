@@ -153,15 +153,6 @@
 	</div>
 
 	<script>
-
-		function isMobileDevice() {
-			return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-		};
-
-		while(!isMobileDevice()) {
-			alert('BUY OUR APP');
-		}
-		
 		function DownloadMix() {
 			var concatenatedAudioDatas = clone(audioDatas);
             for (var i = 0; i < concatenatedAudioDatas.length; i++) {
