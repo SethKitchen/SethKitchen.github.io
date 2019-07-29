@@ -155,7 +155,52 @@
           summation+=minTotalToTheP;
         }
       }
-      document.getElementById('metricValue').innerText=Math.pow(summation/(Math.pow(widthCanvas,p+2)*Math.sqrt(2)),1.0/p);
+      var value=Math.pow(summation/(Math.pow(widthCanvas,p+2)*Math.sqrt(2)),1.0/p);
+      document.getElementById('metricValue').innerText=value;
+      if(value<.001)
+      {
+          alert('This graph received a 100%');
+      }
+      else if(value<.004)
+      {
+          alert('This graph received a 90%');
+      }
+      else if(value<.007)
+      {
+          alert('This graph received an 80%');
+      }
+      else if(value<.009)
+      {
+          alert('This graph received a 70%');
+      }
+      else if(value<.015)
+      {
+          alert('This graph received a 60%');
+      }
+      else if(value<.025)
+      {
+          alert('This graph received a 50%');
+      }
+      else if(value<.05)
+      {
+          alert('This graph received a 40%');
+      }
+      else if(value<.1)
+      {
+          alert('This graph received a 30%');
+      }
+      else if(value<.2)
+      {
+          alert('This graph received a 20%');
+      }
+      else if(value<.4)
+      {
+          alert('This graph received a 10%');
+      }
+      else
+      {
+          alert('This graph received a 0%');
+      }
     }
 
     (function() {
