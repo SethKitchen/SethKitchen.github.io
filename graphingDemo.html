@@ -74,7 +74,7 @@
 
     function drawSolution()
     {
-      for(var x=-100; x<100; x+=.002)
+      for(var x=-100; x<100; x+=.01)
       {
         y=A*x*x+B*x+C;
         xToPlot=x*(widthDrawableArea/(2*(wMax+wExtra)))+widthCanvas/2;
@@ -157,7 +157,7 @@
       }
       var value=Math.pow(summation/(Math.pow(widthCanvas,p+2)*Math.sqrt(2)),1.0/p);
       document.getElementById('metricValue').innerText=value;
-      if(value<.001)
+      if(value<.002)
       {
           alert('This graph received a 100%');
       }
@@ -169,7 +169,7 @@
       {
           alert('This graph received an 80%');
       }
-      else if(value<.009)
+      else if(value<.01)
       {
           alert('This graph received a 70%');
       }
@@ -177,23 +177,23 @@
       {
           alert('This graph received a 60%');
       }
-      else if(value<.025)
+      else if(value<.02)
       {
           alert('This graph received a 50%');
       }
-      else if(value<.05)
+      else if(value<.025)
       {
           alert('This graph received a 40%');
       }
-      else if(value<.1)
+      else if(value<.03)
       {
           alert('This graph received a 30%');
       }
-      else if(value<.2)
+      else if(value<.04)
       {
           alert('This graph received a 20%');
       }
-      else if(value<.4)
+      else if(value<.05)
       {
           alert('This graph received a 10%');
       }
