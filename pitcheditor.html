@@ -1,14 +1,28 @@
 <html>
 
-<body>
-    <script src="assets/js/jquery.min.js"></script>
+<body class="is-preload">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/mainOther.css" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" />
+	</noscript>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3&appId=2358645391015321&autoLogAppEvents=1"></script>
+    <script src="assets/js/wavesurfer.min.js""></script>
+	<script src=" assets/js/wavesurfer.regions.min.js"> </script> <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/collaboaratorsharedmin.js"></script>
+    <script src="assets/js/FileSaver.min.js"></script>
     <div id="dragData" style="display:none">
         <h3>Shift Note: </h3>
         <p>Initial Frequency: <span id="initialFreq"></span> </p>
         <p>Switching To: <input id="switchingTo" /></p>
         <button onclick="shift()">Shift</button>
     </div>
-    <div id="wrapper" style="margin-top:20px;">
+    <!-- <div id="wrapper" style="margin-top:20px;">
         <div style="height:50%; max-width: 100%; display:flex; overflow: scroll;">
             <div id="labels" style="float:left;">
                 <p style="width:100px; font-size:10px; margin-top:20px;">B8 - (7902 Hz)</p>
@@ -133,25 +147,87 @@
             <button style="width:200px; height:50px;" onclick="playPreview()">Play Preview</button>
         </div>
         <div>
-            <h3>Update how many and which notes are displayed. Most likely tempo is calculated when track is loaded.
-                </h2>
                 <p>
-                    Tempo (bpm): <input type="text" style="width:200px;" id="tempo" />
-                </p>
+                        Most Likely Tempo (bpm): <span style="width:200px;" id="tempo"> </span>
+                    </p>
+               
                 <p>
-                    Samples per beat, defaults to 4 (i.e. 16th notes): <input type="text" style="width:200px;"
-                        id="quant" value="4" />
+                    Time Increments (s): <input type="text" style="width:200px;"
+                        id="quant" value=".5" />
                 </p>
                 <button onclick="getPitch()">Update</button>
         </div>
     </div>
-</body>
+</body> -->
+    <div id="wrapperEditor">
+        <div style="display:flex; justify-content: center">
+            <div style="width: 100%; height: 480px; background-color: #201e26;">
+                <div style="float:right; margin-right:30px;">
+                    <div class="slidecontainer">
+                        <img style="float:left;" src="images/Volume.svg" />
+                        <input style="margin-top:10px;" type="range" min="1" max="100" value="50" class="slider"
+                            onchange="ChangeVolume()" id="volumeSlider">
+                    </div>
+                </div>
+                <div style="margin-top:50px;">
+                    <img id="playPauseIcon" src="images/Play.svg" onclick="playPauseEditor()"
+                        style="margin-left:36px; float:left; width:56px; height:56px;" />
+                    <div style="display:none;" class="startAndEndTimeBox">
+                        <div style="display: flex; justify-content: center;">
+                            <input type="text" id="startTime" oninput="ChangeRegionOrCursor()"
+                                style="margin-top:5px; background:transparent; border:none; width: 79px; height: 21px; font-family: Roboto; font-size: 18.3px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; color: #ffffff;"
+                                value="0" />
+                        </div>
+                    </div>
+                    <div style="display:none;" class="startAndEndTimeBox">
+                        <div style="display: flex; justify-content: center;">
+                            <input type="text" id="endTime" oninput="ChangeRegionOrCursor()"
+                                style="margin-top:5px; background:transparent; border:none; width: 79px; height: 21px; font-family: Roboto; font-size: 18.3px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: normal; letter-spacing: normal; color: #ffffff;"
+                                value="0" />
+                        </div>
+                    </div>
+                </div>
+                <canvas id="trackCanvas"
+                    style="clear:both; width:calc(90% - 20px); margin-left:30px; margin-top:60px; height:215px; z-index: 0; position: absolute;"></canvas>
+                <div id="trackList" onscroll="UpdatePausedAt()"
+                    style="margin-left:30px; overflow:scroll; z-index:0; width: 90%; height: 230px; border-radius: 11.4px; border-style: solid; border-width: 1px; border-image-source: linear-gradient(to top, #3b69de, #98b1f2); border-image-slice: 1;">
+                    <div style="display:inline-block">
+                        <div id="secondTicks"></div>
+                    </div>
+                </div>
+                <div style="margin-left:30px; float:left">
+                    <div id="zoomContainer" style="margin-top:16px;" class="slidecontainer">
+                        <img style="margin-top:8px; float:left;" src="images/LittleMount.svg" />
+                        <input id="zoomSlider" style="float:left; margin-left:8px; margin-top:10px;" type="range"
+                            min="1" max="100" value="50" class="slider" onchange="changeZoom()">
+                        <img style="margin-top:5px; margin-left:8px;" src="images/BigMount.svg" />
+                    </div>
+                </div>
+                <div style="margin-top:8px; margin-right:34px; float:right">
+                    <img src="images/PublishBlue.svg" title="Download" onclick="DownloadMix()" />
+                    <img src="images/NewTrack.svg" title="Add A Track" onclick="loadTheTrack()" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:none">
+        <div style="display:none" id="LyricOpener"></div>
+        <div style="display:none" id="lyrics"></div>
+    </div>
+    <div id="loading" style="display:none">
+        <div id="animation" style="display: flex; justify-content: center;">
+            <img src='images/loading.gif' />
+        </div>
+        <span style="display: flex; justify-content: center;">Downloading "MyCreation.wav" to downloads folder...</span>
+    </div>
+    <p>
+            Most Likely Tempo (bpm): <span style="width:200px;" id="tempo"> </span>
+        </p>
 
 </html>
 
 <script>
     var canvas = null;
-    var ctx = null;
     var audioCtx = null;
     var finalBuffer = null;
 
@@ -164,9 +240,8 @@
         17.3, 16.4].reverse();
 
 
-    function exportTrack()
-    {
-        
+    function exportTrack() {
+
     }
 
     function ConvertFrequencyToCoordinate(freq) {
@@ -283,25 +358,41 @@
         }
     }
 
-    function frequencies(detector, float32AudioBuffer, options = {}) {
-
-        const tempo = options.tempo || DEFAULT_TEMPO;
-        const quantization = options.quantization || DEFAULT_QUANTIZATION;
-        const sampleRate = audioCtx.sampleRate || DEFAULT_SAMPLE_RATE;
-
-        const bufferLength = float32AudioBuffer.length;
-        const chunkSize = Math.round((sampleRate * 60) / (quantization * tempo));
-
-        let getPitch;
-        if (Array.isArray(detector)) {
-            getPitch = pitchConsensus.bind(null, detector);
-        } else {
-            getPitch = detector;
+    function copy(region, instance) {
+        console.log(region);
+        var segmentDuration = Math.ceil(region.end - region.start);
+        console.log(segmentDuration);
+        var originalBuffer = instance;
+        console.log(originalBuffer.numberOfChannels);
+        console.log(segmentDuration * originalBuffer.sampleRate);
+        console.log(originalBuffer.sampleRate);
+        var emptySegment = audioCtx.createBuffer(
+            originalBuffer.numberOfChannels,
+            segmentDuration * originalBuffer.sampleRate,
+            originalBuffer.sampleRate
+        );
+        for (var i = 0; i < originalBuffer.numberOfChannels; i++) {
+            var chanData = originalBuffer.getChannelData(i);
+            var emptySegmentData = emptySegment.getChannelData(i);
+            var mid_data = chanData.subarray(region.start * originalBuffer.sampleRate, region.end * originalBuffer.sampleRate);
+            emptySegmentData.set(mid_data);
         }
 
+        return emptySegment
+    }
+
+    function frequencies(detector, timeFrame) {
+
+        let getPitch = detector;
+
         const pitches = [];
-        for (let i = 0, max = bufferLength - chunkSize; i <= max; i += chunkSize) {
-            const chunk = float32AudioBuffer.slice(i, i + chunkSize);
+        console.log(finalBuffer);
+        for (let i = 0; i <= finalBuffer.duration; i += timeFrame) {
+            const timeRegion = {};
+            timeRegion.end = i + timeFrame;
+            timeRegion.start = i;
+            const section = copy(timeRegion, finalBuffer);
+            const chunk = section.getChannelData(0);
             const pitch = getPitch(chunk, audioCtx.sampleRate);
             pitches.push(pitch);
         }
@@ -370,25 +461,84 @@
         var input = document.createElement('input');
         input.type = 'file';
         input.style = "display:none";
+        document.getElementById('trackList').appendChild(input);
+        var waveformDiv = document.createElement('div');
+        waveformDiv.style.backgroundColor = "#9a9797";
+        waveformDiv.style.marginBottom = '10px';
+        var trackList = document.getElementById('trackList');
+        trackList.appendChild(waveformDiv);
+
         input.onchange = function (e) {
+            if (imgTag == null) {
+                imgTag = new Image();
+                imgTag.onload = DrawCursor(0);
+                document.getElementById('zoomContainer').style.marginTop = "4px";
+                imgTag.src = "images/cursorMarker.svg";
+                document.getElementById('startTime').parentElement.parentElement.style.display = "block";
+            }
             var file = e.target.files[0];
-            console.log(file);
+            files.push(file);
+            silences.push([]);
+            delayStartAmount.push(0);
             var reader = new FileReader();
             reader.onload = function () {
-                console.log("decoding audio data with" + this.result);
                 audioCtx.decodeAudioData(this.result, (decodedData) => {
-                    console.log(decodedData);
-                    // note: on older systems, may have to use deprecated noteOn(time);
+                    audioDatas.push(decodedData);
                     finalBuffer = decodedData;
                     getBpm();
-                    getPitch();
                 }, (e) => {
                     alert('Sorry this browser unable to download this file... try Chrome');
                 });
+                /* audioCtx.decodeAudioData(this.result).then(function (decodedData) {
+                     
+                 });*/
             }
             reader.readAsArrayBuffer(file);
+            idIndex++;
+            waveformDiv.id = 'waveform' + idIndex;
+            waveformDiv.onclick = SelectRegion;
+            var wavesurfer = WaveSurfer.create({
+                plugins: [
+                    WaveSurfer.regions.create({})
+                ],
+                container: waveformDiv,
+                // The color can be either a simple CSS color or a Canvas gradient
+                waveColor: linGrad,
+                progressColor: 'hsla(200, 100%, 30%, 0.5)',
+                cursorColor: '#fff',
+                // This parameter makes the waveform look like SoundCloud's player
+                barWidth: 3,
+                interact: false
+            });
+            wavesurfer.on('ready', function (percents) {
+                var duration = wavesurfer.getDuration();
+                if (duration > longestDuration) {
+                    longestDuration = duration;
+                }
+                waveformDiv.innerHTML = "";
+                waveformDiv.style.width = (duration * GetOneTickMarkWidth()) + 'px';
+                waveformDiv.style.height = (GetOneTickMarkHeight()) + 'px';
+                wavesurfer = WaveSurfer.create({
+                    plugins: [
+                        WaveSurfer.regions.create({})
+                    ],
+                    container: waveformDiv,
+                    // The color can be either a simple CSS color or a Canvas gradient
+                    waveColor: linGrad,
+                    progressColor: 'hsla(200, 100%, 30%, 0.5)',
+                    cursorColor: '#fff',
+                    // This parameter makes the waveform look like SoundCloud's player
+                    barWidth: 3,
+                    height: GetOneTickMarkHeight(),
+                    interact: false
+                });
+                wavesurfers.push(wavesurfer);
+                wavesurfer.loadBlob(file);
+                SetTicks();
+            });
+            wavesurfer.loadBlob(file);
         }
-        document.getElementById("wrapper").appendChild(input);
+
         input.click();
     }
 
@@ -609,13 +759,23 @@
         rafID = window.requestAnimationFrame(updatePitch);
     }
 
+    function convertFreqToHalfToTwo(originalFreq, desiredFreq) {
+        var amount = desiredFreq / originalFreq;
+        if (amount > 2) {
+            return 2;
+        }
+        else if (amount < .5) {
+            return .5;
+        }
+        else {
+            return amount;
+        }
+    }
+
     function getPitch() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('overlayDots').innerHTML = "";
         const detectPitch = autoCorrelate; // null if pitch cannot be 
-        const resultFrequencies = frequencies(detectPitch, finalBuffer.getChannelData(0), {
-            tempo: document.getElementById('tempo').value, // in BPM, defaults to 120
-            quantization: document.getElementById('quant').value, // samples per beat, defaults to 4 (i.e. 16th notes)
-        });
+        const resultFrequencies = frequencies(detectPitch, parseFloat(document.getElementById('quant').value));
         console.log(resultFrequencies);
         document.getElementById('staff').width = resultFrequencies.length * 20 + 15;
         document.getElementById('staff').style.width = resultFrequencies.length * 20 + 15 + 'px';
@@ -649,38 +809,83 @@
         document.getElementById('dragData').style.display = "block";
     }
 
+    function Float32Concat(first, second) {
+        var firstLength = first.length,
+            result = new Float32Array(firstLength + second.length);
+
+        result.set(first);
+        result.set(second, firstLength);
+
+        return result;
+    }
+
     function shift() {
+        const timeRegion = {};
+        var timeFrame = parseFloat(document.getElementById('quant').value);
+        var i = parseInt(dotSelected.id) * timeFrame;
+        timeRegion.end = i + timeFrame;
+        timeRegion.start = i;
+
+        const timeBeforeRegion = {};
+        timeBeforeRegion.end = i;
+        timeBeforeRegion.start = 0;
+        var beforeChunk = null;
+        if (timeBeforeRegion.start != timeBeforeRegion.end) {
+            beforeChunk = copy(timeBeforeRegion, finalBuffer).getChannelData(0);
+        }
+
+        const timeAfterRegion = {};
+        timeAfterRegion.end = finalBuffer.duration;
+        timeAfterRegion.start = i + timeFrame;
+        var afterChunk = null;
+        if (timeAfterRegion.start != timeAfterRegion.end) {
+            afterChunk = copy(timeAfterRegion, finalBuffer).getChannelData(0);
+        }
+
+        const section = copy(timeRegion, finalBuffer);
+        var chunk = section.getChannelData(0);
         var float32AudioBuffer = finalBuffer.getChannelData(0);
-        const bufferLength = float32AudioBuffer.length;
-        var sampleRate= audioCtx.sampleRate;
-        var tempo = document.getElementById('tempo').value; // in BPM, defaults to 120
-        var quantization= document.getElementById('quant').value; // samples per beat, defaults to 4 (i.e. 16th notes)
-        const chunkSize = Math.round((sampleRate * 60) / (quantization * tempo));
-        var i = parseInt(dotSelected.id) * chunkSize;
-        var chunk = float32AudioBuffer.slice(i, i + chunkSize);
-        var switchingTo =  parseFloat(document.getElementById("switchingTo").value);
-        pitch=parseFloat(document.getElementById('initialFreq').innerHTML);
-        console.log('starting shift from '+pitch+' to '+switchingTo);
-        while( Math.abs(pitch - switchingTo) > .5)
-        {
-            console.log('difference is '+ Math.abs(pitch - switchingTo));
-            if(pitch>switchingTo)
-            {
+        var switchingTo = parseFloat(document.getElementById("switchingTo").value);
+        pitch = parseFloat(document.getElementById('initialFreq').innerHTML);
+        console.log('starting shift from ' + pitch + ' to ' + switchingTo);
+        var best = [];
+        var bestDifference = 10000;
+        var tries = 0;
+        while (Math.abs(pitch - switchingTo) > 1.5 && tries < 10) {
+            if (pitch > switchingTo) {
                 console.log('pitch is greater than switchingTo');
-                chunk = PitchShift(.99, chunk.length, 1024, 10, audioCtx.sampleRate, chunk);
+                var shiftAmount = convertFreqToHalfToTwo(pitch, switchingTo);
+                console.log('shift amount = ' + shiftAmount);
+                chunk = PitchShift(shiftAmount, chunk.length, 2048, 32, audioCtx.sampleRate, chunk);
             }
-            else
-            {
+            else {
                 console.log('pitch is less than switchingTo');
-                chunk = PitchShift(1.01, chunk.length, 1024, 10, audioCtx.sampleRate, chunk);
+                var shiftAmount = convertFreqToHalfToTwo(pitch, switchingTo);
+                console.log('shift amount = ' + shiftAmount);
+                chunk = PitchShift(shiftAmount, chunk.length, 2048, 32, audioCtx.sampleRate, chunk);
             }
-            pitch=autoCorrelate(chunk, audioCtx.sampleRate);
-            console.log('pitch is now'+ pitch);
+            pitch = autoCorrelate(chunk, audioCtx.sampleRate);
+            var difference = Math.abs(pitch - switchingTo);
+            console.log('difference is ' + difference);
+            if (difference < bestDifference) {
+                console.log('that was better');
+                best = chunk.slice();
+                bestDifference = difference;
+            }
+            console.log('pitch is now' + pitch);
+            tries++;
+            console.log('tries is now: ' + tries);
         }
-        for(var j=0; j<chunkSize; j++)
-        {
-            float32AudioBuffer[i+j]=chunk[j];
+        if (beforeChunk != null) {
+            float32AudioBuffer = Float32Concat(beforeChunk, best);
         }
+        else {
+            float32AudioBuffer = best;
+        }
+        if (afterChunk != null) {
+            float32AudioBuffer = Float32Concat(float32AudioBuffer, afterChunk);
+        }
+
         finalBuffer.copyToChannel(float32AudioBuffer, 0, 0);
         getPitch();
     }
@@ -936,8 +1141,6 @@
 
 
     window.onload = function () {
-        canvas = document.getElementById("staff");
-        ctx = canvas.getContext('2d');
         while (!audioCtx) {
             var AudioContext = window.AudioContext || window.webkitAudioContext;
             audioCtx = new AudioContext();
@@ -1090,7 +1293,7 @@
                 var top = groups.sort(function (intA, intB) {
                     return intB.count - intA.count;
                 }).splice(0, 5);
-                document.getElementById('tempo').value = Math.round(top[0].tempo);
+                document.getElementById('tempo').innerText = Math.round(top[0].tempo);
             }
         }
     }
