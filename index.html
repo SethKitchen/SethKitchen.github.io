@@ -10,8 +10,23 @@
 	<title>Seth Kitchen - Making the World A Better Place</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<script src="assets/js/modernizr-custom.js"></script>
 	<link rel="stylesheet" href="assets/css/main.css" />
-	<script src="assets/js/lazyload.min.js"></script>
+	<style>
+		.webp header {
+			background-image: url('assets/css/images/overlay.webp'), url('images/bg.webp');
+		}
+		.no-webp header {
+			background-image: url('assets/css/images/overlay.png'), url('images/bg.jpg');
+		}
+
+		.webp footer {
+			background-image: url('assets/css/images/overlay.webp'), url('images/bg.webp');
+		}
+		.no-webp footer {
+			background-image: url('assets/css/images/overlay.png'), url('images/bg.jpg');
+		}
+	</style>
 </head>
 
 <body class="is-preload">
@@ -121,7 +136,7 @@
 	</div>
 
 	<!-- Footer -->
-	<footer id="footer">
+	<footer class="footer" id="footer">
 		<div class="inner">
 			<ul class="icons">
 				<li><a href="https://twitter.com/The_Kitchenator" class="icon brands fa-twitter"><span
@@ -147,6 +162,7 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/lazyload.min.js"></script>
 	<script>
 		var lazyLoadInstance = new LazyLoad({
 			elements_selector: ".lazy"
