@@ -13,18 +13,22 @@
 	<script src="assets/js/modernizr-custom.js"></script>
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<style>
-		.webp header {
+		.webp #header {
 			background-image: url('assets/css/images/overlay.webp'), url('images/bg.webp');
 		}
-		.no-webp header {
+
+		.no-webp #header {
 			background-image: url('assets/css/images/overlay.png'), url('images/bg.jpg');
 		}
 
-		.webp footer {
-			background-image: url('assets/css/images/overlay.webp'), url('images/bg.webp');
-		}
-		.no-webp footer {
-			background-image: url('assets/css/images/overlay.png'), url('images/bg.jpg');
+		@media screen and (max-width: 980px) {
+			.webp #footer {
+				background-image: url('assets/css/images/overlay.webp'), url('images/bg.webp');
+			}
+
+			.no-webp #footer {
+				background-image: url('assets/css/images/overlay.png'), url('images/bg.jpg');
+			}
 		}
 	</style>
 </head>
