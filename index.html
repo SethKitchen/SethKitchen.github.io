@@ -21,6 +21,23 @@
 			background-image: url('assets/css/images/overlay.png'), url('images/bg.jpg');
 		}
 
+		.webp .image:before{
+			background: url("assets/css/images/overlay.webp");
+		}
+
+		.webp .image.thumb:hover:before {
+			background: url("assets/css/images/overlay.webp"), url("assets/css/images/overlay.webp");
+			opacity: 1.0;
+		}
+
+		.no-webp .image.thumb:hover:before {
+			background: url("assets/css/images/overlay.png"), url("assets/css/images/overlay.png");
+			opacity: 1.0;
+		}
+		.no-webp .image:before{
+			background: url("assets/css/images/overlay.png");
+		}
+
 		@media screen and (max-width: 980px) {
 			.webp #footer {
 				background-image: url('assets/css/images/overlay.webp'), url('images/bg.webp');
