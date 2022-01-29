@@ -53909,7 +53909,7 @@ A.I3.prototype={
 b1(){var s,r=this
 r.bA()
 r.a.toString
-s=new A.EX("https://sethkitchen.github.io/images/intro.mp4",new A.vd(B.m,B.m,B.dZ,B.hB,!1,!1,!1,1,1,null,B.F,!1),A.ak(0,null,!1,t.Y))
+s=new A.EX("https://seth.kitchen/images/intro.mp4",new A.vd(B.m,B.m,B.dZ,B.hB,!1,!1,!1,1,1,null,B.F,!1),A.ak(0,null,!1,t.Y))
 s.eX(0).aP(0,new A.a1U(r),t.P)
 r.d=s},
 M(a,b){var s,r=null,q=this.d,p=q.a
@@ -53945,7 +53945,7 @@ qY(a){var s=null,r=u.M,q=this.c
 if(a>800){q.toString
 return A.uN(r,A.aN(q).a1.r.da(B.i),s,s)}else{q.toString
 return A.iz(A.uN(r,A.aN(q).a1.r.da(B.i),s,s),s,3*a/5)}},
-HG(a,b){var s="https://sethkitchen.github.io/images/Resume.pdf",r=null,q=t.p
+HG(a,b){var s="https://seth.kitchen/images/Resume.pdf",r=null,q=t.p
 if(a>1000)return A.dr(r,A.mM(A.b([B.mY,A.Ae(A.dr(r,A.aag("Resume",s),B.q,B.mG,r,r,r,r,r,r,r,r,r))],q),B.ar,B.aO),B.q,B.mF,r,r,r,r,r,r,r,r,800)
 else return A.dr(r,A.mM(A.b([B.mY,A.Ae(A.dr(r,A.aag("Resume",s),B.q,B.mG,r,r,r,r,r,r,r,r,r))],q),B.ar,B.aO),B.q,B.mF,r,r,r,r,r,r,r,r,r)},
 M(a,b){var s=t.w,r=b.W(s).f
@@ -53967,7 +53967,7 @@ if(a>800){q.toString
 return A.uN(r,A.aN(q).a1.r.da(B.i),s,s)}else{q.toString
 return A.iz(A.uN(r,A.aN(q).a1.r.da(B.i),s,s),s,3*a/5)}},
 yd(){var s=null,r=t.p
-return new A.Eh(new A.Yw(4),4,4,s,A.b([A.a7I(A.a6h(new A.cP(B.au,A.mM(A.b([A.Ae(A.ab6("https://avatars.githubusercontent.com/u/9014645?s=400&u=87aa1c99ac7e25c5690ed9e8e97cadaecc1a4ca6&v=4")),A.ny(A.AD(s,B.CW,B.as,!1,s,s,s,s,s,s,s,s,s,s,new A.R1(this),s,s,s,s,s),B.dB,s,s,s)],r),B.ar,B.aO),s)),1,1),A.a7I(A.a6h(new A.cP(B.au,A.mM(A.b([A.Ae(A.ab6("https://sethkitchen.github.io/images/kitchentokenwhite.png")),B.CV],r),B.ar,B.aO),s)),1,1),B.F_,A.a7I(A.a6h(new A.cP(B.at,A.mM(A.b([A.Ae(A.dr(s,B.CL,B.q,B.Cv,s,s,s,s,s,s,s,s,s)),new A.fU(B.K,s,s,new A.cP(B.au,A.ny(A.AD(s,B.Ib,B.as,!1,s,s,s,s,s,s,s,s,s,s,new A.R2(),s,s,s,s,s),B.dB,s,s,s),s),s)],r),B.e5,B.aO),s)),4,2)],r),s)},
+return new A.Eh(new A.Yw(4),4,4,s,A.b([A.a7I(A.a6h(new A.cP(B.au,A.mM(A.b([A.Ae(A.ab6("https://avatars.githubusercontent.com/u/9014645?s=400&u=87aa1c99ac7e25c5690ed9e8e97cadaecc1a4ca6&v=4")),A.ny(A.AD(s,B.CW,B.as,!1,s,s,s,s,s,s,s,s,s,s,new A.R1(this),s,s,s,s,s),B.dB,s,s,s)],r),B.ar,B.aO),s)),1,1),A.a7I(A.a6h(new A.cP(B.au,A.mM(A.b([A.Ae(A.ab6("https://seth.kitchen/images/kitchentokenwhite.png")),B.CV],r),B.ar,B.aO),s)),1,1),B.F_,A.a7I(A.a6h(new A.cP(B.at,A.mM(A.b([A.Ae(A.dr(s,B.CL,B.q,B.Cv,s,s,s,s,s,s,s,s,s)),new A.fU(B.K,s,s,new A.cP(B.au,A.ny(A.AD(s,B.Ib,B.as,!1,s,s,s,s,s,s,s,s,s,s,new A.R2(),s,s,s,s,s),B.dB,s,s,s),s),s)],r),B.e5,B.aO),s)),4,2)],r),s)},
 HO(a,b){if(a>1000)return A.iz(this.yd(),null,800)
 else return this.yd()},
 M(a,b){var s=t.w,r=b.W(s).f
@@ -58619,7 +58619,7 @@ B.CG=new A.le(4,"opacity")
 B.CI=new A.te(null,null,null,null,null,null)
 B.ca=new A.Tv(0,"traditional")
 B.CJ=new A.tf(null,null,null,null,null,null,null,null)
-B.CK=new A.li("https://sethkitchen.github.io/images/avatar.jpg",1)
+B.CK=new A.li("https://seth.kitchen/images/avatar.jpg",1)
 B.CL=new A.ti(null)
 B.mU=new A.hi(B.j,B.j)
 B.CN=new A.w(1,0)
