@@ -4,10 +4,11 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "adobe.js": "b37a202d8ae94b7870ef3012343a1605",
-"assets/AssetManifest.json": "b39ab8daf59bf3adf1efc310ce844d63",
+"assets/AssetManifest.json": "c8515d6472a751db9fbeec7ae10e9074",
+"assets/assets/tokens_list.json": "c6261d535c74e3e07a9007cc8db52084",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
-"assets/NOTICES": "bc40024f856c0bd85070fccd33720c5c",
+"assets/NOTICES": "f70d7b09520b2cd812d7c6845584343d",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/packages/flutter_inappwebview/t_rex_runner/t-rex.css": "5a8d0222407e388155d7d1395a75d5b9",
 "assets/packages/flutter_inappwebview/t_rex_runner/t-rex.html": "16911fcc170c8af1c5457940bd0bf055",
@@ -20,9 +21,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "0643a0bb4b8e860e0cb19bc217a59a66",
-"/": "0643a0bb4b8e860e0cb19bc217a59a66",
-"main.dart.js": "044b736cda6f6eacaeb5648d4534f1b2",
+"index.html": "af5bf68138e9a7a4756ab63976c6df04",
+"/": "af5bf68138e9a7a4756ab63976c6df04",
+"main.dart.js": "c1987263464fdf296d16d464534d1e9e",
 "manifest.json": "454d5d4ffdc7f09537a717b39396a4d0",
 "version.json": "fc10d3644575d1bd66e4f5c9866f8a04"
 };
