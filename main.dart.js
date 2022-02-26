@@ -24589,7 +24589,7 @@ m=A.G(g,g)
 J.c_(m,"Accept","application/json")
 J.c_(m,"Access-Control-Allow-Origin","*")
 s=7
-return A.C(A.aUF(A.bb3("http","api.coingecko.com","/api/v3/simple/price",A.aa(["ids",B.d.bv(a,","),"vs_currencies","USD"],g,t.z)),m),$async$aFw)
+return A.C(A.aUF(A.bb3("https","api.coingecko.com","/api/v3/simple/price",A.aa(["ids",B.d.bv(a,","),"vs_currencies","USD"],g,t.z)),m),$async$aFw)
 case 7:l=c
 f=l
 k=t.f.a(B.aC.d0(0,A.aFb(J.ac(A.aDj(f.e).c.a,"charset")).d0(0,f.x)))
