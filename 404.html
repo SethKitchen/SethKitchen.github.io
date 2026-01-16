@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Page Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        sessionStorage.setItem('spa-redirect', window.location.href);
+        window.location.replace('/');
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
