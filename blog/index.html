@@ -1,63 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <script>
-      (function () {
-        const redirect = sessionStorage.getItem('spa-redirect');
-        if (redirect) {
-          sessionStorage.removeItem('spa-redirect');
-          const url = new URL(redirect);
-          history.replaceState(null, '', url.pathname + url.search + url.hash);
-        }
-      })();
-    </script>
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-WVK82B7Q');
-    </script>
-    <!-- End Google Tag Manager -->
-    <!-- Bing UET -->
-    <script>
-      (function (w, d, t, u, o) {
-        w[u] = w[u] || [];
-        o.ts = new Date().getTime();
-        var n = d.createElement(t);
-        n.src =
-          'https://bat.bing.net/bat.js?ti=' +
-          o.ti +
-          (u !== 'uetq' ? '&q=' + u : '');
-        n.async = 1;
-        n.onload = n.onreadystatechange = function () {
-          var s = this.readyState;
-          if (s && s !== 'loaded' && s !== 'complete') return;
-          o.q = w[u];
-          w[u] = new UET(o);
-          w[u].push('pageLoad');
-          n.onload = n.onreadystatechange = null;
-        };
-        var i = d.getElementsByTagName(t)[0];
-        i.parentNode.insertBefore(n, i);
-      })(window, document, 'script', 'uetq', {
-        ti: '187245043',
-        enableAutoSpaTracking: true,
-      });
-    </script>
-    <!-- End Bing UET -->
-    <title>Engineering Notes — Missouri PE Blog</title>
-    <meta
-      name="description"
-      content="Missouri-licensed Professional Engineer providing engineering services, analysis, review, and expert opinion. Engineering drawings, forensic engineering, and expert testimony."
-    />
+    <meta name="description" content="Articles on professional engineering practice, structural review, forensic analysis, permitting, and expert witness matters in Missouri." />
     <base href="/" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -76,8 +20,8 @@
     />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <script type="module" crossorigin src="/assets/index-f9h8TpHT.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DP2mo65M.css">
+    <script type="module" crossorigin src="/assets/index-Dh7mlET-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CI9qQMiZ.css">
     <link rel="canonical" href="https://seth.kitchen/blog/" />
   </head>
   <body>
